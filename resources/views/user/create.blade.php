@@ -27,7 +27,7 @@
 					    <div class="row">
                             <div class="panel">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Tambah Menu</h3>
+                                    <h3 class="panel-title">Tambah User</h3>
                                 </div>
                         
                                 <!--Horizontal Form-->
@@ -508,7 +508,7 @@
 						            <li class="list-header">Navigation</li>
 						
 						            <!--Menu list item-->
-						            <li>
+						            <li class="active-sub">
 						                <a href="#">
 						                    <i class="demo-pli-home"></i>
 						                    <span class="menu-title">Master User</span>
@@ -519,7 +519,7 @@
 						                <ul class="collapse in">
 						                    {{-- <li class="active-link"><a href="/admin/dashboard">Dashboard 1</a></li> --}}
 											<li><a href="{{ route('role') }}">Role</a></li>
-                                            <li><a href="user">User</a></li>
+                                            <li class="active-link"><a href="{{ route('user') }}">User</a></li>
 											{{-- <li><a href="user">User</a></li> --}}
 											{{-- <li><a href="/admin/dashboard3">Dashboard 3</a></li> --}}
 											
@@ -527,7 +527,7 @@
 						            </li>
 						
 						            <!--Menu list item-->
-						            <li class="active-sub">
+						            <li>
 						                <a href="#">
 						                    <i class="demo-pli-split-vertical-2"></i>
 						                    <span class="menu-title">Master Menu</span>
@@ -536,7 +536,7 @@
 						
 						                <!--Submenu-->
 						                <ul class="collapse">
-                                            <li class="active-link"><a href="{{ route('menu') }}">Menu</a></li>
+                                            <li><a href="{{ route('menu') }}">Menu</a></li>
 						                </ul>
 						            </li>
                             </div>

@@ -515,7 +515,7 @@
 						                <ul class="collapse in">
 						                    {{-- <li class="active-link"><a href="/admin/dashboard">Dashboard 1</a></li> --}}
 											<li><a href="{{ route('role') }}">Role</a></li>
-                                            <li><a href="user">User</a></li>
+                                            <li><a href="{{ route('user') }}">User</a></li>
 											{{-- <li><a href="user">User</a></li> --}}
 											{{-- <li><a href="/admin/dashboard3">Dashboard 3</a></li> --}}
 											

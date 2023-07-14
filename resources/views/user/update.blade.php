@@ -26,7 +26,7 @@
 					    <div class="row">
                             <div class="panel">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Edit Role</h3>
+                                    <h3 class="panel-title">Edit User</h3>
                                 </div>
                         
                                 <!--Horizontal Form-->
@@ -516,8 +516,8 @@
 						                <!--Submenu-->
 						                <ul class="collapse in">
 						                    {{-- <li class="active-link"><a href="/admin/dashboard">Dashboard 1</a></li> --}}
-											<li class="active-link"><a href="{{ route('role') }}">Role</a></li>
-                                            <li><a href="user">User</a></li>
+											<li><a href="{{ route('role') }}">Role</a></li>
+                                            <li class="active-link"><a href="{{ route('user') }}">User</a></li>
 											{{-- <li><a href="user">User</a></li> --}}
 											{{-- <li><a href="/admin/dashboard3">Dashboard 3</a></li> --}}
 											
