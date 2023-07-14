@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('user_gender', ['male', 'female']);
             $table->string('user_photo');
             $table->integer('role_id');
-            $table->string('user_token')->nullable();
+            $table->string('user_token');
             $table->timestamps();
         });
     }

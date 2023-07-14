@@ -73,37 +73,38 @@
 														<th>Foto</th>
 														<th>Role Id</th>
 														<th>User Token</th>
+                                                        <th>Action</th>
 					                                </tr>
 					                            </thead>
 					                            <tbody>
 													
 													@foreach ($dataUser as $item)
 					                                <tr>
-					                                    <td>{{ $item->user_name }}</td>
-					                                    <td>{{ $item->user_email }}</td>
-					                                    <td>{{ $item->user_password }}</td>
-					                                    <td>{{ $item->user_gender }}</td>
-					                                    <td>@if($item->user_photo)
-                                                            <img src="{{ asset($item->user_photo) }}" alt="User Photo">
-                                                        @else
-                                                            No Photo
-                                                        @endif
-
-                                                            {{-- @dd(asset($item->user_photo)) --}}
-                                                        </td>
-														<td>{{ $item->role_id }}</td>
-														<td>{{ $item->user_token }}</td>
-														<td class="table-action" style="justify-content:center; display:flex">
-															<a style="margin-right: 10px" href="{{ route( 'user.edit', $item->user_id) }}" class="btn btn-sm btn-warning">Edit</a>
+					                                    <td style="vertical-align: middle;">{{ $item->user_name }}</td>
+					                                    <td style="vertical-align: middle;">{{ $item->user_email }}</td>
+					                                    <td style="vertical-align: middle;">{{ $item->user_password }}</td>
+					                                    <td style="vertical-align: middle;">{{ $item->user_gender }}</td>
+					                                    <td style="vertical-align: middle;">
+                                                            <div style="display: flex; justify-content: center; align-items: flex-center; flex-direction: column;"">
+                                                                @if($item->user_photo)
+                                                                <img style="width: 50px; height: 50px; margin-bottom: 5px;" src="{{ asset('storage/photos/'.basename($item->user_photo)) }}" alt="User Photo">
+                                                            @else
+                                                                No Photo
+                                                            @endif
+                                                            </div>
+                                                            
+                                                        </td>                                                        
+														<td style="vertical-align: middle;">{{ $item->role_id }}</td>
+														<td style="vertical-align: middle;">{{ $item->user_token }}</td>
+														<td class="table-action" style="vertical-align: middle;">
+                                                            <div style="display:flex; align-items:center">
+                                                                <a style="margin-right: 10px;" href="{{ route( 'user.edit', $item->user_id) }}" class="btn btn-sm btn-warning">Edit</a>
 															<form method="POST" action="" id="delete-form-{{ $item->user_id }}">
 																@csrf
                 												@method('DELETE')
-																<a href="/admin/user/destroy/{{ $item->user_id }}" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->user_id }})">Hapus</a>
-																
-																
-															</form>
-															
-																										
+																<a href="/admin/user/destroy/{{ $item->user_id }}" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->user_id }})">Hapus</a>				
+															</form>	
+                                                            </div>													
 														</td>
 					                                </tr>
 													@endforeach

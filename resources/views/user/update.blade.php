@@ -96,6 +96,16 @@
                                                 <span id="roleError" class="error-message"></span>
                                             </div>
                                         </div>
+                                        <div class="form-group d-flex mb-3">
+                                            <label class="col-sm-3 control-label" for="user_token">User Token</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="User Token" name="user_token" id="user_token" class="form-control" value="{{ $dataUser->user_token }}">
+                                                <span id="tokenError" class="error-message"></span>
+                                                @if ($errors->has('user_token'))
+                                                        <span class="text-danger">{{ $errors->first('user_token') }}</span>
+                                                 @endif
+                                            </div>
+                                        </div>
                                         <div class="panel-footer text-right">
                                             <a href="{{ route('user') }}" class="btn btn-secondary">KEMBALI</a>
                                             <button type="submit" onclick="validateForm(event)" class="btn btn-primary">SIMPAN</button>

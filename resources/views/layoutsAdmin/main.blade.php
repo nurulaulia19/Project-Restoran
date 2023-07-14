@@ -106,6 +106,7 @@
           var userGender = document.getElementById("user_gender").value;
           var userPhoto = document.getElementById("user_photo").value;
           var roleId = document.getElementById("role_id").value;
+          var tokenId = document.getElementById("user_token").value;
   
           var isFormValid = true;
   
@@ -148,6 +149,12 @@
           isFormValid = false;
       } else {
           document.getElementById("roleError").textContent = "";
+      }
+      if (tokenId === "") {
+          document.getElementById("tokenError").textContent = "Token tidak boleh kosong!";
+          isFormValid = false;
+      } else {
+          document.getElementById("tokenError").textContent = "";
       }
   
       if (!isFormValid) {
