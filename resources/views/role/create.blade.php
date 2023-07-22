@@ -503,12 +503,6 @@
                                 <form method="POST" action="/role/store">
                                     {{ csrf_field() }}
                                     <div class="panel-body">
-                                        {{-- <div class="form-group d-flex mb-3">
-                                            <label class="col-sm-3 control-label" for="menu_id">Id Menu</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" placeholder="Id Menu" name="menu_id" id="menu_id" class="form-control">
-                                            </div>
-                                        </div> --}}
                                         <div class="form-group d-flex mb-3">
                                             <label class="col-sm-3 control-label" for="role_name">Nama Role</label>
                                             <div class="col-sm-9">

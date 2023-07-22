@@ -564,24 +564,5 @@
     <!-- END OF CONTAINER -->
 @endsection
 
-@section('style')
-<style>
-#hidden_div {
-    display: none ;
-}
-</style>
-@endsection
-
-@section('script')
-<script>
-function showDiv(divId, element)
-{
-    document.getElementById(divId).style.display = element.value == 'sub menu' ? 'block' : 'none';
-}
-</script>
-
-@endsection
-
-
 
 

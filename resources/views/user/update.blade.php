@@ -56,11 +56,19 @@
                                             <label class="col-sm-3 control-label" for="user_password">Password</label>
                                             <div class="col-sm-9">
                                                 <input type="password" placeholder="Password" name="user_password" id="user_password" class="form-control @error('user_password') is-invalid @enderror" value="{{ old('user_password') }}">
-                                                    <span id="passwordError" class="error-message"></span>
-                                                    @if ($errors->has('user_password'))
-                                                        <span class="text-danger">Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.</span>
-                                                    @endif
-                                            </div>
+                                                {{-- <span id="passwordError" class="error-message"></span> --}}
+                                                @if ($errors->has('user_password'))
+                                                    <span class="text-danger">Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.</span>
+                                                @endif
+                                            </div>                                            
+                                                                                       
+                                            {{-- <div class="col-sm-9">
+                                                <input type="password" placeholder="Password" name="user_password" id="user_password" class="form-control @error('user_password') is-invalid @enderror" value="{{ old('user_password', $dataUser->user_password ? null : '') }}">
+                                                <span id="passwordError" class="error-message"></span>
+                                                @if ($errors->has('user_password'))
+                                                    <span class="text-danger">Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.</span>
+                                                @endif
+                                            </div>                                             --}}
                                         </div>
                                         <div class="form-group d-flex mb-3">
                                             <label class="col-sm-3 control-label" for="user_gender">Gender</label>
@@ -77,11 +85,15 @@
                                             <label class="col-sm-3 control-label" for="user_photo">Foto</label>
                                             <div class="col-sm-9">
                                                 <input type="file" name="user_photo" id="user_photo" class="form-control">
-                                                <span id="photoError" class="error-message"></span>
-                                                    @if ($errors->has('user_photo'))
+                                                @if ($dataUser->user_photo)
+                                                    <a href="{{ asset($dataUser->user_photo) }}" target="_blank">
+                                                        <img src="{{ asset('storage/photos/'.basename($dataUser->user_photo)) }}" width="100px" alt="">
+                                                    </a>
+                                                @endif
+                                                @if ($errors->has('user_photo'))
                                                         <span class="text-danger">{{ $errors->first('user_photo') }}</span>
-                                                    @endif
-                                            </div>
+                                                @endif
+                                            </div>                                                   
                                         </div>
                                         <div class="form-group d-flex mb-3">
                                             <label class="col-sm-3 control-label" for="role_id">Role</label>
@@ -593,6 +605,32 @@ function showDiv(divId, element)
 </script>
 
 @endsection --}}
+
+<?php
+$userPhotoUrl = $dataUser->user_photo; // Ganti $dataUser dengan variabel yang sesuai dengan model atau data pengguna Anda
+?>
+
+<!-- Menambahkan nilai awal pada input file saat mengedit -->
+<script>
+    var userPhotoUrl = "<?php echo $userPhotoUrl; ?>";
+    if (userPhotoUrl) {
+        var userPhotoInput = document.getElementById('user_photo');
+        
+        // Buat elemen option baru
+        var option = document.createElement('option');
+        option.value = userPhotoUrl;
+        option.text = 'Existing Photo';
+        option.selected = true; // Tandai sebagai opsi terpilih
+        
+        // Hapus opsi sebelumnya (opsional)
+        while (userPhotoInput.firstChild) {
+            userPhotoInput.firstChild.remove();
+        }
+        
+        // Tambahkan opsi ke input file
+        userPhotoInput.appendChild(option);
+    }
+</script>
 
 
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\DataUser;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -9,6 +11,57 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
+
+    public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'user_name' => 'required',
+        'user_password' => 'required',
+    ]);
+    
+    $user = DataUser::where('user_name', $credentials['user_name'])->first();
+    
+    if ($user && Hash::check($credentials['user_password'], $user->user_password)) {
+        Auth::login($user);
+        return redirect()->intended('admin/home');
+    }
+    
+    return back()->withErrors([
+        'user_name' => 'Invalid credentials.',
+    ]);
+    // $credentials = $request->validate([
+    //     'user_name' => 'required',
+    //     'user_password' => 'required',
+    // ]);
+
+    // $user = DataUser::where('user_name', $credentials['user_name'])->first();
+
+    // if ($user) {
+    //     Auth::login($user);
+    //     return redirect()->intended('admin/home');
+    // }
+
+    // return back()->withErrors([
+    //     'user_name' => 'Invalid credentials.',
+    // ]);
+}
+//     public function login(Request $request)
+// {
+//     $username = $request->input('username');
+//     $password = $request->input('password');
+
+//     if (Auth::attempt(['username' => $username, 'password' => $password])) {
+//         $request->session()->regenerate();
+
+//         return redirect()->intended('/admin.home');
+//     }
+
+//     return back()->withErrors([
+//         'username' => 'Invalid credentials.',
+//     ]);
+// }
+
+    
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -55,6 +108,8 @@ class LoginController extends Controller
     public function showLoginForm() {
         return view('auth.login');
     }
+
+    
 
     
 }

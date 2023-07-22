@@ -96,6 +96,9 @@
     {{-- Menu --}}
     <script src="{{ asset('assets/js/menu.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
     @yield('script')
 
     <script>
@@ -162,6 +165,105 @@
       }
   }
   </script>
+
+<script>
+    function validateForm(event) {
+        var userName = document.getElementById("id_kategori").value;
+        var userEmail = document.getElementById("nama_produk").value;
+        var userPassword = document.getElementById("harga_produk").value;
+        var userGender = document.getElementById("gambar_produk").value;
+        var userPhoto = document.getElementById("diskon_produk").value;
+        var isFormValid = true;
+
+        if (userName.trim() === "") {
+            document.getElementById("kategoriError").textContent = "Silahkan pilih kategori!";
+            isFormValid = false;
+        } else {
+            document.getElementById("kategoriError").textContent = "";
+        }
+
+        if (userEmail.trim() === "") {
+            document.getElementById("produkError").textContent = "Produk tidak boleh kosong!";
+            isFormValid = false;
+        } else {
+            document.getElementById("produkError").textContent = "";
+        }
+
+        if (userPassword.trim() === "") {
+            document.getElementById("hargaError").textContent = "Harga produk tidak boleh kosong!";
+            isFormValid = false;
+        } else {
+            document.getElementById("hargaError").textContent = "";
+        }
+
+        if (userGender === "") {
+            document.getElementById("gambarError").textContent = "Silakan pilih gambar!";
+            isFormValid = false;
+        } else {
+            document.getElementById("gambarError").textContent = "";
+        }
+    if (userPhoto.trim() === "") {
+        document.getElementById("diskonError").textContent = "Silahkan pilih diskon!";
+        isFormValid = false;
+    } else {
+        document.getElementById("diskonError").textContent = "";
+    }
+
+    if (!isFormValid) {
+        event.preventDefault(); // Menghentikan pengiriman form jika ada error
+    }
+}
+</script>
+
+<script>
+    function validateForm(event) {
+        var userName = document.getElementById("nama_kategori").value;
+        var isFormValid = true;
+
+        if (userName.trim() === "") {
+            document.getElementById("nama_kategoriError").textContent = "Nama kategori harus diisi!";
+            isFormValid = false;
+        } else {
+            document.getElementById("nama_kategoriError").textContent = "";
+        }
+
+    if (!isFormValid) {
+        event.preventDefault(); // Menghentikan pengiriman form jika ada error
+    }
+}
+</script>
+
+
+{{-- modal --}}
+<!-- Letakkan script JavaScript di bagian bawah dokumen HTML -->
+<script>
+    // Dapatkan semua elemen gambar
+    const images = document.querySelectorAll('img[data-target^="modal"]');
+  
+    // Tambahkan event listener untuk setiap gambar
+    images.forEach((image) => {
+      image.addEventListener('click', () => {
+        const targetModalId = image.getAttribute('data-target');
+        const modal = document.getElementById(targetModalId);
+  
+        // Tampilkan modal
+        modal.style.display = "block";
+  
+        // Fungsi untuk menutup modal ketika ikon close di klik
+        modal.querySelector('.close').onclick = function () {
+          modal.style.display = "none";
+        }
+  
+        // Fungsi untuk menutup modal ketika area di luar modal di klik
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+      });
+    });
+  </script>
+  
 
     <!--=================================================-->
   </body>

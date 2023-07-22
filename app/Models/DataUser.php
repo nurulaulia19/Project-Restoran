@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DataUser extends Model
+class DataUser extends Authenticatable
 {
     use HasFactory;
-    public $table = "data_user";
+    protected $table = "data_user";
     protected $primaryKey = 'user_id';
     protected $fillable = [
             'user_id',
@@ -20,4 +21,17 @@ class DataUser extends Model
             'role_id',
             'user_token'
     ];
+
+
+    protected $user_name = 'user_name';
+    protected $user_password = 'user_password';
+
+    public function role(){
+        return $this->belongsTo(Role::class, 'role_id', 'role_id');
+    }
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'user_id', 'user_id');
+    }
 }

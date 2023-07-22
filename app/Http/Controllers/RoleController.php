@@ -24,7 +24,6 @@ class RoleController extends Controller
      */
     public function create(){
         $dataRole = Role::all();
-        // $dataRoleMenu = RoleMenu::all();
         $dataMenu = Data_Menu::all();
         return view('role.create', compact('dataMenu','dataRole'));
     }

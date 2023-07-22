@@ -17,4 +17,9 @@ class DashboardController extends Controller
     public function menu() {
         return view('menu');
     }
+
+    public function index()
+    {
+        return view('admin.home');
+    }
 }

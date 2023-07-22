@@ -539,17 +539,22 @@
 						                <!--Submenu-->
 						                <ul class="collapse">
                                             <li><a href="{{ route('menu') }}">Menu</a></li>
-											{{-- <li><a href="/admin/layouts-offcanvas-navigation">Off-Canvas Navigation</a></li>
-											<li><a href="/admin/layouts-offcanvas-slide-in-navigation">Slide-in Navigation</a></li>
-											<li><a href="/admin/layouts-offcanvas-revealing-navigation">Revealing Navigation</a></li>
-											<li class="list-divider"></li>
-											<li><a href="/admin/layouts-aside-right-side">Aside on the right side</a></li>
-											<li><a href="/admin/layouts-aside-left-side">Aside on the left side</a></li>
-											<li><a href="/admin/layouts-aside-dark-theme">Dark version of aside</a></li>
-											<li class="list-divider"></li>
-											<li><a href="/admin/layouts-fixed-navbar">Fixed Navbar</a></li>
-											<li><a href="/admin/layouts-fixed-footer">Fixed Footer</a></li> --}}
 											
+						                </ul>
+						            </li>
+									<li>
+						                <a href="#">
+						                    <i class="demo-pli-split-vertical-2"></i>
+						                    <span class="menu-title">Restoran</span>
+											<i class="arrow"></i>
+						                </a>
+						
+						                <!--Submenu-->
+						                <ul class="collapse">
+                                            <li><a href="transaksi">Transaksi</a></li>
+											<li><a href="produk">Produk</a></li>
+											<li><a href="kategori">Kategori</a></li>
+											<li><a href="aditional">Aditional</a></li>
 						                </ul>
 						            </li>
 						

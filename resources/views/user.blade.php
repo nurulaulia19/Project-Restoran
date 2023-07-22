@@ -68,10 +68,10 @@
 					                                    {{-- <th>Id User</th> --}}
 					                                    <th>Username</th>
 					                                    <th>Email</th>
-					                                    <th>Password</th>
+					                                    {{-- <th>Password</th> --}}
 					                                    <th>Gender</th>
 														<th>Foto</th>
-														<th>Role Id</th>
+														<th>Role</th>
 														<th>User Token</th>
                                                         <th>Action</th>
 					                                </tr>
@@ -82,10 +82,10 @@
 					                                <tr>
 					                                    <td style="vertical-align: middle;">{{ $item->user_name }}</td>
 					                                    <td style="vertical-align: middle;">{{ $item->user_email }}</td>
-					                                    <td style="vertical-align: middle;">{{ $item->user_password }}</td>
+					                                    {{-- <td style="vertical-align: middle;">{{ $item->user_password }}</td> --}}
 					                                    <td style="vertical-align: middle;">{{ $item->user_gender }}</td>
 					                                    <td style="vertical-align: middle;">
-                                                            <div style="display: flex; justify-content: center; align-items: flex-center; flex-direction: column;"">
+                                                            <div style="display: flex; justify-content: center; align-items: flex-center; flex-direction: column;">
                                                                 @if($item->user_photo)
                                                                 <img style="width: 50px; height: 50px; margin-bottom: 5px;" src="{{ asset('storage/photos/'.basename($item->user_photo)) }}" alt="User Photo">
                                                             @else
@@ -94,7 +94,7 @@
                                                             </div>
                                                             
                                                         </td>                                                        
-														<td style="vertical-align: middle;">{{ $item->role_id }}</td>
+														<td style="vertical-align: middle;">{{ $item->role->role_name }}</td>
 														<td style="vertical-align: middle;">{{ $item->user_token }}</td>
 														<td class="table-action" style="vertical-align: middle;">
                                                             <div style="display:flex; align-items:center">
@@ -571,6 +571,22 @@
 						                <ul class="collapse">
                                             <li><a href="menu">Menu</a></li>
 											
+						                </ul>
+						            </li>
+
+                                    <li>
+						                <a href="#">
+						                    <i class="demo-pli-split-vertical-2"></i>
+						                    <span class="menu-title">Restoran</span>
+											<i class="arrow"></i>
+						                </a>
+						
+						                <!--Submenu-->
+						                <ul class="collapse">
+                                            <li><a href="transaksi">Transaksi</a></li>
+                                            <li><a href="produk">Produk</a></li>
+                                            <li><a href="kategori">Kategori</a></li>
+                                            <li><a href="aditional">Aditional</a></li>
 						                </ul>
 						            </li>
 						

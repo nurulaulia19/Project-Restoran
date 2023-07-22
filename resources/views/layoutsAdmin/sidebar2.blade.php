@@ -98,40 +98,62 @@
 						<li class="list-header">Navigation</li>
 			
 						<!--Menu list item-->
-						<li class="active-sub">
-							<a href="#">
-								<i class="demo-pli-home"></i>
-								<span class="menu-title">Master User</span>
-								<i class="arrow"></i>
-							</a>
-			
-							<!--Submenu-->
-							<ul class="collapse in">
-								<li class="active-link"><a href="{{ route('role') }}">Role</a></li>
-								<li><a href="{{ route('user') }}">User</a></li>
-								
-								
-							</ul>
-						</li>
-			
-						<!--Menu list item-->
-						<li>
-							<a href="#">
-								<i class="demo-pli-split-vertical-2"></i>
-								<span class="menu-title">Master Menu</span>
-								<i class="arrow"></i>
-							</a>
-			
-							<!--Submenu-->
-							<ul class="collapse">
-								<li><a href="{{ route('menu') }}">Menu</a></li>
-							</ul>
-						</li>
+							<li class="{{ Request::is('role', 'user') ? 'active' : '' }}">
+								<a href="#">
+									<i class="demo-pli-home"></i>
+									<span class="menu-title">Master User</span>
+									<i class="arrow"></i>
+								</a>
+
+								<!--Submenu-->
+								<ul class="collapse in">
+									<li><a href="{{ route('role') }}">Role</a></li>
+									<li><a href="{{ route('user') }}">User</a></li>
+								</ul>
+							</li>
+
+							<!--Menu list item-->
+							<li class="{{ Request::is('menu') ? 'active' : '' }}">
+								<a href="#">
+									<i class="demo-pli-split-vertical-2"></i>
+									<span class="menu-title">Master Menu</span>
+									<i class="arrow"></i>
+								</a>
+
+								<!--Submenu-->
+								<ul class="collapse">
+									<li><a href="{{ route('menu') }}">Menu</a></li>
+								</ul>
+							</li>
+
+							<li class="{{ Request::is('menu') ? 'active' : '' }}">
+								<a href="#">
+									<i class="demo-pli-split-vertical-2"></i>
+									<span class="menu-title">Restoran</span>
+									<i class="arrow"></i>
+								</a>
+
+								<!--Submenu-->
+								<ul class="collapse">
+									<li class="{{ Request::is('transaksi') ? 'active' : '' }}"><a href="transaksi">Transaksi</a></li>
+									<li class="{{ Request::is('produk') ? 'active' : '' }}"><a href="produk">Produk</a></li>
+									<li class="{{ Request::is('kategori') ? 'active' : '' }}"><a href="kategori">Kategori</a></li>
+									<li class="{{ Request::is('aditional') ? 'active' : '' }}"><a href="aditional">Aditional</a></li>
+								</ul>
+							</li>
+
 				</div>
 			</div>
 		</div>
 		<!--================================-->
 		<!--End menu-->
-
+		
 	</div>
 </nav>
+
+<style>
+	/* CSS untuk menu aktif */
+	#mainnav-menu-wrap .list-group-item.active > a > .menu-title {
+		color: #25476A; /* Ubah warna teks menjadi merah (nyala) */
+	}
+</style>

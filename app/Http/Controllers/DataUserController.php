@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use App\Models\DataUser;
 use Illuminate\Http\Request;
@@ -20,14 +21,7 @@ class DataUserController extends Controller
     public function index()
     {
         // $dataUser = DataUser::all();
-        // $dataUser->each(function ($user) {
-        //     $user->user_photo = asset('storage/photos/'.$user->user_photo);
-        // });
-        // return view('user', compact('dataUser'));
-        $dataUser = DataUser::all();
-        // $dataUser->each(function ($user) {
-        //     $user->user_password = Hash::make($user->user_password); // Hash the password
-        // });
+        $dataUser = DataUser::with('role')->get();
         return view('user', compact('dataUser'));
     }
 
@@ -110,6 +104,7 @@ class DataUserController extends Controller
     public function edit($user_id)
     {
         $dataRole = Role::all();
+        // $dataUser = DataUser::all();
         $dataUser = DataUser::where('user_id', $user_id)->first();
         return view('user.update', compact('dataUser','dataRole'));
     }
@@ -119,20 +114,35 @@ class DataUserController extends Controller
      */
     public function update(Request $request, $user_id)
 {
+    
     $validator = Validator::make($request->all(), [
         'user_password' => [
-            'required',
+            'nullable',
             'string',
             'min:6',
-            'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\#?!@$%^&*-]).{6,}$/'
+            'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\#?!@$%^&*-]).{6,}$/',
         ],
         'user_photo' => 'file|mimes:jpeg,jpg,png'
         // Tambahkan aturan validasi lainnya sesuai kebutuhan
     ]);
+    
+    if ($request->filled('user_password')) {
+        $validator->sometimes('user_password', 'required', function ($input) {
+            return $input->user_password !== null;
+        });
+    }
 
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
     }
+
+    // $user = User::find($user_id);
+    
+    // if (!$user) {
+    // }
+    // if ($request->filled('user_password')) {
+    //     $user->password = bcrypt($request->input('user_password'));
+    // }
 
     $hashedPassword = Hash::make($request->user_password);
 

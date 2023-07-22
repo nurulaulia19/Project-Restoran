@@ -571,6 +571,21 @@
 											
 						                </ul>
 						            </li>
+                                    <li>
+						                <a href="#">
+						                    <i class="demo-pli-split-vertical-2"></i>
+						                    <span class="menu-title">Restoran</span>
+											<i class="arrow"></i>
+						                </a>
+						
+						                <!--Submenu-->
+						                <ul class="collapse">
+                                            <li><a href="transaksi">Transaksi</a></li>
+											<li><a href="produk">Produk</a></li>
+                                            <li><a href="kategori">Kategori</a></li>
+                                            <li><a href="aditional">Aditional</a></li>
+						                </ul>
+						            </li>
 						
 						           
                             </div>
