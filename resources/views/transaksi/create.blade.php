@@ -92,7 +92,7 @@
                                                 <p class="card-text">{{ $item->nama_produk }}</p>
                                                 <p class="card-text">{{ $item->harga_produk }}</p>
                                                 @if($item->diskon_produk != 0)
-                                                  <p class="card-text">diskon {{ $item->diskon_produk }}</p>
+                                                  <p class="card-text">diskon {{ $item->diskon_produk }} %</p>
                                                 @endif
                                               </div>
                                             </div>

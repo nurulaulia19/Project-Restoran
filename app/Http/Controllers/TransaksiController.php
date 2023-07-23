@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 // namespace App\Http\Controllers\DataProduk;
 
-use App\Models\AditionalProduk;
-use App\Models\DataProduk;
 use App\Models\DataUser;
 use App\Models\Transaksi;
+use App\Models\DataProduk;
 use Illuminate\Http\Request;
+use App\Models\AditionalProduk;
+use App\Models\TransaksiDetail;
 
 class TransaksiController extends Controller
 {
@@ -29,6 +30,7 @@ class TransaksiController extends Controller
         $dataAditional = AditionalProduk::all();
         // dd($dataProduk);
         $dataUser = DataUser::all();
+        // $dataTransaksiDetail = TransaksiDetail::with('produk')->get();
         return view('transaksi.create', compact('dataTransaksi','dataUser', 'dataProduk', 'dataAditional'));
     }
 
