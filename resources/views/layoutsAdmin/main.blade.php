@@ -343,8 +343,7 @@ jumlahProdukInputs.forEach((input) => {
 
 // Calculate the initial overall total harga
 updateOverallTotal();
-
-    </script>
+</script>
          
 
 

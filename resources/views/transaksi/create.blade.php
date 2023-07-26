@@ -95,7 +95,7 @@
                                           <div class="col-xs-2" style="margin: 20px; height: 250px;">
                                             <div class="card" >
                                                 <a href="#" data-toggle="modal" data-target="#modal{{ $item->id_produk }}">
-                                                    <img src="{{ asset('storage/photos/'.basename($item->gambar_produk)) }}" class="card-img-top" alt="..." style="height: 160px; cursor: pointer;">
+                                                    <img src="{{ asset('storage/photos/'.basename($item->gambar_produk)) }}" class="card-img-top" alt="..." style="height: 160px; width: 100px; cursor: pointer;">
                                                 </a>
                                               {{-- <img src="{{ asset('storage/photos/'.basename($item->gambar_produk)) }}" class="card-img-top" alt="..." style="height: 160px; cursor: pointer;" data-target="modal{{ $item->id_produk }}"> --}}
                                               <div class="card-body" style="height: 92px; overflow: hidden;">
@@ -161,11 +161,16 @@
                                                                 </div>
                                                                 
                                                             </td> 
+                                                            
                                                             <td style="text-align: center;">
-                                                                <input type="number" name="jumlah_produk[]" value="{{ $item->jumlah_produk }}" min="1" class="jumlah-produk" onchange="updateTotalPrice(this)">
-                                                            </td>                                                            
-                                                            {{-- <td style="text-align: right;">{{ $item->jumlah_produk }}</td> --}}
-                                                            {{-- <td style="text-align: right;">{{ $item->produk->diskon_produk }}%</td> --}}
+                                                                <form action="{{ route('transaksidetail.update', ['id' => $item->id_transaksi_detail]) }}" method="POST">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <input type="hidden" name="id_produk" value="{{ $item->id_produk }}">
+                                                                    <input type="number" name="jumlah_produk" value="{{ $item->jumlah_produk }}" min="1" class="jumlah-produk" onchange="updateTotalPrice(this)">
+                                                                    <button class="btn btn-sm btn-primary" type="submit">Ubah</button>
+                                                                </form>
+                                                            </td>                                                      
                                                             <td style="text-align: right;" class="diskon-produk">
                                                                 {{ $item->produk->diskon_produk }}%
                                                             </td>
@@ -203,6 +208,7 @@
                                                                     {{-- <a href="/admin/produk/destroy/{{ $item->id_produk }}" --}}
                                                                     <a href="/admin/transaksidetail/destroy/{{ $item->id_transaksi_detail  }}" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->id_transaksi_detail }})">Hapus</a>				
                                                                 </form>	
+        
                                                             </td>
                                                         </tr>
                                                         @php
@@ -242,6 +248,20 @@
                                                     <label class="col-sm-3 control-label" for="diskon_transaksi">Diskon</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" placeholder="Diskon" name="diskon_transaksi" id="diskon_transaksi" class="form-control">
+                                                        <span id="diskon_transaksi_error" class="error-message"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex mb-3">
+                                                    <label class="col-sm-3 control-label" for="total_bayar">Total Harga</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" placeholder="Total Harga" name="total_harga" id="total_harga_input" class="form-control" value="{{ number_format($totalSemuaHarga, 0, ',', '.') }}">
+                                                        <span id="total_harga_error" class="error-message"></span>
+                                                    </div>
+                                                </div>
+                                                {{-- <div class="form-group d-flex mb-3">
+                                                    <label class="col-sm-3 control-label" for="diskon_transaksi">Diskon</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" placeholder="Diskon" name="diskon_transaksi" id="diskon_transaksi" class="form-control">
                                                         <span id="diskon_transaksi" class="error-message"></span>
                                                     </div>
                                                 </div>
@@ -251,16 +271,29 @@
                                                       <input type="text" placeholder="Total Harga" name="total_harga" id="total_harga_input" class="form-control" value="{{ number_format($totalSemuaHarga, 0, ',', '.') }}">
                                                       <span id="total_harga" class="error-message"></span>
                                                     </div>
-                                                  </div>
-                                                  
-                                                {{-- <div class="form-group d-flex mb-3">
-                                                    <label class="col-sm-3 control-label" for="total_bayar">Total Harga</label>
+                                                </div> --}}
+                                                <div class="form-group d-flex mb-3">
+                                                    <label class="col-sm-3 control-label" for="total_bayar">Total Bayar</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" placeholder="Total Harga" name="total_harga" id="total_harga" class="form-control" value="{{ number_format($totalSemuaHarga, 0, ',', '.') }}">
-                                                        <span id="total_harga" class="error-message"></span>
+                                                        <input type="text" placeholder="Total Bayar" name="total_bayar" id="total_bayar_input" class="form-control">
+                                                        <span id="total_bayar_error" class="error-message"></span>
+                                                    </div>
+                                                </div>
+                                                {{-- <div class="form-group d-flex mb-3">
+                                                    <label class="col-sm-3 control-label" for="total_bayar">Total Bayar</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" placeholder="Total Bayar" name="total_bayar" id="total_bayar_input" class="form-control">
+                                                        <span id="total_bayar_error" class="error-message"></span>
                                                     </div>
                                                 </div> --}}
                                                 <div class="form-group d-flex mb-3">
+                                                    <label class="col-sm-3 control-label" for="total_kembalian">Total Kembalian</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" placeholder="Total Kembalian" name="total_kembalian" id="total_kembalian_input" class="form-control">
+                                                        <span id="total_kembalian_error" class="error-message"></span>
+                                                    </div>
+                                                </div>
+                                                {{-- <div class="form-group d-flex mb-3">
                                                     <label class="col-sm-3 control-label" for="total_bayar">Total Bayar</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" placeholder="Total Bayar" name="total_bayar" id="total_bayar" class="form-control">
@@ -273,7 +306,7 @@
                                                         <input type="text" placeholder="Total Kembalian" name="total_kembalian" id="total_kembalian" class="form-control">
                                                         <span id="total_kembalian" class="error-message"></span>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="panel-footer text-right">
                                                 <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">KEMBALI</a>
@@ -598,12 +631,84 @@
 
 
 @section('script')
+
 <script>
-function showDiv(divId, element)
-{
-    document.getElementById(divId).style.display = element.value == 'sub menu' ? 'block' : 'none';
-}
+    // Function to calculate and update total harga based on diskon
+    function updateTotalHarga() {
+        const diskonInput = document.getElementById('diskon_transaksi');
+        const totalHargaInput = document.getElementById('total_harga_input');
+
+        const totalSemuaHarga = {{ $totalSemuaHarga }};
+        const diskonValue = diskonInput.value.trim() === '' ? 0 : parseFloat(diskonInput.value);
+
+        if (isNaN(diskonValue) || diskonValue < 0 || diskonValue > 100) {
+            document.getElementById('diskon_transaksi_error').textContent = 'Diskon harus berada antara 0 dan 100.';
+            totalHargaInput.value = '';
+        } else {
+            document.getElementById('diskon_transaksi_error').textContent = '';
+            const totalHargaSetelahDiskon = totalSemuaHarga * (1 - diskonValue / 100);
+            totalHargaInput.value = formatNumber(totalHargaSetelahDiskon);
+        }
+    }
+
+    // Add event listener to diskon_transaksi input for real-time updates
+    const diskonInput = document.getElementById('diskon_transaksi');
+    diskonInput.addEventListener('input', updateTotalHarga);
+
+    // Function to format number with thousand separators
+    function formatNumber(number) {
+        return new Intl.NumberFormat('id-ID', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(number);
+    }
 </script>
+
+<script>
+    // Function to calculate and update total kembalian based on total bayar
+    function updateTotalKembalian() {
+        const totalBayarInput = document.getElementById('total_bayar_input');
+        const totalKembalianInput = document.getElementById('total_kembalian_input');
+
+        const totalSemuaHarga = parseFloat(document.getElementById('total_harga_input').value.replace(/\./g, '').replace(',', '.'));
+        const totalBayarValue = parseFloat(totalBayarInput.value.trim());
+
+        if (isNaN(totalBayarValue) || totalBayarValue < 0) {
+            document.getElementById('total_bayar_error').textContent = 'Total Bayar harus angka positif.';
+            totalKembalianInput.value = '';
+        } else {
+            document.getElementById('total_bayar_error').textContent = '';
+            const totalKembalian = totalBayarValue - totalSemuaHarga;
+            totalKembalianInput.value = formatNumber(totalKembalian);
+        }
+    }
+
+    // Add event listener to total_bayar input for real-time updates
+    const totalBayarInput = document.getElementById('total_bayar_input');
+    totalBayarInput.addEventListener('input', updateTotalKembalian);
+
+    // Function to format number with thousand separators
+    function formatNumber(number) {
+        return new Intl.NumberFormat('id-ID', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(number);
+    }
+
+</script>
+
+<script>
+    function numberWithCommas(x) {
+        var parts = x.toString().split(".");
+        parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,".");
+        return parts.join(",");
+        }
+
+        var total_bayar_input = 1231739216.34367;
+
+        document.getElementById("total_bayar_input").innerHTML = numberWithCommas((total_bayar_input).toFixed(2))
+</script>
+         
 
 @endsection
 

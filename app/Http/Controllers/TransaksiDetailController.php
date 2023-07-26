@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataProduk;
 use App\Models\TransaksiDetailAditional;
 use App\Models\TransaksiDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class TransaksiDetailController extends Controller
 {
@@ -43,17 +46,24 @@ class TransaksiDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id_transaksi_detail)
     {
-        //
+        $dataProduk = DataProduk::all();
+        $dataTransaksiDetail = TransaksiDetail::where('id_transaksi_detail', $id_transaksi_detail)->first();
+        return view('user.update', compact('dataTransaksiDetail','dataProduk'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id_transaksi_detail)
     {
-        //
+        DB::table('transaksi_detail')->where('id_transaksi_detail', $id_transaksi_detail)->update([
+            'jumlah_produk' => $request->jumlah_produk,
+            'created_at' => now(),
+            'updated_at' => now()
+    ]);
+    return redirect()->route('transaksi.create')->with('success', 'Transaksi Detail edited successfully');
     }
 
     /**

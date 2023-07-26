@@ -129,3 +129,5 @@ Route::get('/admin/aditional/destroy/{id}', [AditionalProdukController::class,'d
 
 // Route::post('/save-transaction-details', [TransaksiDetailController::class, 'saveTransactionDetails']);
 Route::get('/admin/transaksidetail/destroy/{id}', [TransaksiDetailController::class,'destroy'])->name('transaksidetail.destroy');
+Route::put('/admin/transaksidetail/update/{id}', [TransaksiDetailController::class, 'update'])->name('transaksidetail.update');
+Route::get('/admin/transaksidetail/edit/{id}', [TransaksiDetailController::class, 'edit'])->name('transaksidetail.edit');
