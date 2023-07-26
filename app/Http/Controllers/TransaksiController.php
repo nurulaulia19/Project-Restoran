@@ -90,6 +90,19 @@ public function store(Request $request)
 } else {
     return response()->json(['message' => 'Produk tidak ditemukan'], 404);
 }
+
+        $dataTransaksi = new Transaksi();
+        $dataTransaksi->user_id = $request->user_id;
+        $dataTransaksi->tanggal_transaksi = $request->tanggal_transaksi;
+        $dataTransaksi->no_meja = $request->no_meja;
+        $dataTransaksi->total_harga = $request->total_harga;
+        $dataTransaksi->total_bayar = $request->total_bayar;
+        $dataTransaksi->total_kembalian = $request->total_kembalian;
+        $dataTransaksi->ket_makanan = $request->ket_makanan;
+        $dataTransaksi->diskon_transaksi = $request->diskon_transaksi;
+        $dataTransaksi->save();
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi inserted successfully');
     }
 
 

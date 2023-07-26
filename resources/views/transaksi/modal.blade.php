@@ -17,6 +17,7 @@
                          <div class="radio-container" style="display: flex; flex-direction: column;">
                                 @foreach ($item->aditionalProduk as $items)
                                 <div class="row">
+
 					                      <div class="col-xs-6">
                                     <input class="form-check-input" name="id_aditional[]" type="radio" value="{{ $items->id_aditional }}">
                                     <label class="form-check-label">{{ $items->nama_aditional }}</label>

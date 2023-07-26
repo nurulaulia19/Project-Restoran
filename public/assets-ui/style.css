@@ -87,7 +87,7 @@
 .discount-badge {
   position: absolute; /* Menggunakan posisi absolut untuk menempatkan elemen ini di pojok atas kanan */
   top: 0px; /* Sesuaikan dengan jarak vertikal dari atas */
-  right: 6px; /* Sesuaikan dengan jarak horizontal dari kanan */
+  right: 9px; /* Sesuaikan dengan jarak horizontal dari kanan */
   background-color: #FE0000; /* Atur warna latar belakang sesuai keinginan Anda */
   color: white; /* Atur warna teks sesuai keinginan Anda */
   padding: 5px 10px; /* Sesuaikan dengan ukuran padding yang diinginkan */

@@ -25,7 +25,7 @@
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
-
+{{-- 
 					    <div class="row">
                             <div class="panel">
                                 <div class="panel-heading">
@@ -77,18 +77,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                        
-                                    {{-- <div class="panel-footer text-right">
-                                        <a href="{{ route('role') }}" class="btn btn-secondary">KEMBALI</a>
-                                        <button type="submit" class="btn btn-primary">SIMPAN</button>
-                                    </div> --}}
                                 </form>
                                 <!--===================================================-->
                                 <!--End Horizontal Form-->   
 
-                            </div>
+                            </div> --}}
                             
                             <div class="row">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Tambah Transaksi</h3>
+                                    </div>
+
+
                                 <div class="col-xs-6 scroll-container">
                                     <div class="row">
                                         @foreach ($dataProduk as $index => $item)
@@ -104,17 +105,10 @@
                                                     <p class="product-price">{{ 'Rp ' . number_format($item->harga_produk, 0, ',', '.') }}</p>
                                                     @if($item->diskon_produk != 0)
                                                     <div class="discount-badge">
-                                                        <p class="discount-text">diskon {{ $item->diskon_produk }}%</p>
+                                                        <p class="discount-text">Diskon {{ $item->diskon_produk }}%</p>
                                                     </div>
                                                     @endif
                                                 </div>
-                                                {{-- <p class="card-text">{{ $item->nama_produk }}</p>
-                                                <p class="card-text">{{ number_format($item->harga_produk, 0, ',', '.') }}</p> --}}
-                                                    
-                                                
-                                                {{-- @if($item->diskon_produk != 0)
-                                                  <p class="card-text">diskon {{ $item->diskon_produk }} %</p>
-                                                @endif --}}
                                               </div>
                                             </div>
                                           </div>
@@ -150,10 +144,17 @@
                                                             <td>{{ $loop->iteration }}</td>
                                                             <td>{{ $item->produk->nama_produk }} 
                                                                 <div style="color:blue">
+                                                                    @php
+                                                                         $hargaAditional = 0; 
+                                                                    @endphp
+                                                                  
                                                                     @if ($item->transaksiDetailAditional)
-                                                                
+                                                                    
                                                                     @foreach ($item->transaksiDetailAditional as $items)
-                                                                        {{ $items->dataAditional->nama_aditional }}
+                                                                        {{ $items->dataAditional->nama_aditional }} 
+                                                                        @php
+                                                                            $hargaAditional = $hargaAditional + $items->dataAditional->harga_aditional;
+                                                                        @endphp
                                                                     @endforeach
                                                                 @else
                                                                     N/A 
@@ -178,27 +179,31 @@
                                                             <td style="text-align: right;" class="harga-produk">
                                                                 {{ number_format($item->produk->harga_produk, 0, ',', '.') }}
                                                             </td>
-                                                           
                                                             <td style="text-align: right;" class="total-harga-setelah-diskon">
                                                                 @php
                                                                 $hargaProduk = $item->produk->harga_produk;
-                                                                $diskonPersen = $item->produk->diskon_produk / 100; // Ubah diskon menjadi persen
+                                                                $diskonProduk = $item->produk->diskon_produk; // Diskon produk dalam persen
                                                                 $jumlahProduk = $item->jumlah_produk;
                                                                 $totalHargaSebelumDiskon = $hargaProduk * $jumlahProduk;
-
+                                                            
                                                                 // Hitung total harga additional
                                                                 $totalHargaAdditional = 0;
-                                                                if ($item->additional) {
-                                                                    $totalHargaAdditional = $item->additional->sum('harga_aditional');
+                                                                if ($item->transaksiDetailAditional) {
+                                                                    foreach ($item->transaksiDetailAditional as $items) {
+                                                                        $hargaAditional = $items->dataAditional->harga_aditional;
+                                                                        $diskonAditional = $items->dataAditional->diskon_aditional; // Diskon aditional dalam persen
+                                                                        $totalHargaAdditional += $hargaAditional * $jumlahProduk * (1 - $diskonAditional / 100);
+                                                                    }
                                                                 }
-
-                                                                // Hitung besaran diskon dalam bentuk nominal jika ada diskon
-                                                                $diskonNominal = $totalHargaSebelumDiskon * $diskonPersen;
-
-                                                                // Hitung total harga setelah diskon
-                                                                $totalHargaSetelahDiskon = $totalHargaSebelumDiskon + $totalHargaAdditional - $diskonNominal;
+                                                            
+                                                                // Hitung besaran diskon dalam bentuk nominal untuk produk dan aditional jika ada diskon
+                                                                $diskonNominalProduk = $totalHargaSebelumDiskon * $diskonProduk / 100;
+                                                                $diskonNominalAditional = $totalHargaAdditional * $diskonProduk / 100;
+                                                            
+                                                                // Hitung total harga setelah diskon, termasuk diskon untuk produk dan aditional
+                                                                $totalHargaSetelahDiskon = $totalHargaSebelumDiskon - $diskonNominalProduk + $totalHargaAdditional - $diskonNominalAditional;
                                                                 @endphp
-
+                                                            
                                                                 {{ number_format($totalHargaSetelahDiskon, 0, ',', '.') }}
                                                             </td>
                                                             <td>
@@ -224,24 +229,18 @@
                                                               {{ number_format($totalSemuaHarga, 0, ',', '.') }}
                                                             </td>
                                                           </tr>
-                                                        {{-- <tr>
-                                                            <td colspan="6" style="text-align: right;">Total Harga</td>
-                                                            <td style="text-align: right;" class="overall-total">
-                                                                {{ number_format($totalSemuaHarga, 0, ',', '.') }}
-                                                            </td>
-                                                        </tr> --}}
                                                     </tfoot>
-                                                    
-                                                    {{-- <tfoot>
-                                                        <tr>
-                                                            <td colspan="5" style="text-align: right;">Total Harga</td>
-                                                            <td style="text-align: right;">{{ number_format($totalSemuaHarga, 0, ',', '.') }}</td>
-                                                        </tr>
-                                                    </tfoot> --}}
+
+                                                   
                                                 </table>
+                                                <div class="panel-footer text-right">
+                                                    <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">KEMBALI</a>
+                                                    <button type="button" data-toggle="modal" data-target="#modalBayar" class="btn btn-primary">SIMPAN</button>
+                                                </div>
                                             </div>
+                                            @include('transaksi.modalBayar')
                                         </div>
-                                        <form method="POST" action="/transaksi/store" enctype="multipart/form-data">
+                                        {{-- <form method="POST" action="/transaksi/store" enctype="multipart/form-data">
                                             {{ csrf_field() }}
                                             <div class="panel-body">
                                                 <div class="form-group d-flex mb-3">
@@ -258,20 +257,6 @@
                                                         <span id="total_harga_error" class="error-message"></span>
                                                     </div>
                                                 </div>
-                                                {{-- <div class="form-group d-flex mb-3">
-                                                    <label class="col-sm-3 control-label" for="diskon_transaksi">Diskon</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" placeholder="Diskon" name="diskon_transaksi" id="diskon_transaksi" class="form-control">
-                                                        <span id="diskon_transaksi" class="error-message"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group d-flex mb-3">
-                                                    <label class="col-sm-3 control-label" for="total_bayar">Total Harga</label>
-                                                    <div class="col-sm-9">
-                                                      <input type="text" placeholder="Total Harga" name="total_harga" id="total_harga_input" class="form-control" value="{{ number_format($totalSemuaHarga, 0, ',', '.') }}">
-                                                      <span id="total_harga" class="error-message"></span>
-                                                    </div>
-                                                </div> --}}
                                                 <div class="form-group d-flex mb-3">
                                                     <label class="col-sm-3 control-label" for="total_bayar">Total Bayar</label>
                                                     <div class="col-sm-9">
@@ -279,13 +264,6 @@
                                                         <span id="total_bayar_error" class="error-message"></span>
                                                     </div>
                                                 </div>
-                                                {{-- <div class="form-group d-flex mb-3">
-                                                    <label class="col-sm-3 control-label" for="total_bayar">Total Bayar</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" placeholder="Total Bayar" name="total_bayar" id="total_bayar_input" class="form-control">
-                                                        <span id="total_bayar_error" class="error-message"></span>
-                                                    </div>
-                                                </div> --}}
                                                 <div class="form-group d-flex mb-3">
                                                     <label class="col-sm-3 control-label" for="total_kembalian">Total Kembalian</label>
                                                     <div class="col-sm-9">
@@ -293,35 +271,20 @@
                                                         <span id="total_kembalian_error" class="error-message"></span>
                                                     </div>
                                                 </div>
-                                                {{-- <div class="form-group d-flex mb-3">
-                                                    <label class="col-sm-3 control-label" for="total_bayar">Total Bayar</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" placeholder="Total Bayar" name="total_bayar" id="total_bayar" class="form-control">
-                                                        <span id="total_bayar" class="error-message"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group d-flex mb-3">
-                                                    <label class="col-sm-3 control-label" for="total_kembalian">Total Kembalian</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" placeholder="Total Kembalian" name="total_kembalian" id="total_kembalian" class="form-control">
-                                                        <span id="total_kembalian" class="error-message"></span>
-                                                    </div>
-                                                </div> --}}
+                                                
                                             </div>
                                             <div class="panel-footer text-right">
                                                 <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">KEMBALI</a>
                                                 <button type="submit" onclick="validateForm(event)" class="btn btn-primary">SIMPAN</button>
                                             </div>
-                                        </form>
+                                        </form> --}}
                                         
                                     </div>
                                 </div>
                             </div>
                         </div>
 					
-                       
-					    
-                </div>
+                    
                 <!--===================================================-->
                 <!--End page content-->
 
@@ -698,16 +661,21 @@
 </script>
 
 <script>
-    function numberWithCommas(x) {
-        var parts = x.toString().split(".");
-        parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,".");
-        return parts.join(",");
-        }
-
-        var total_bayar_input = 1231739216.34367;
-
-        document.getElementById("total_bayar_input").innerHTML = numberWithCommas((total_bayar_input).toFixed(2))
-</script>
+    // Function to handle form validation and show the modal
+    function validateForm(event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+  
+      // Add your form validation logic here if needed
+      // ...
+  
+      // Show the modal
+      const modalBayar = document.getElementById('modalBayar');
+      modalBayar.style.display = 'block';
+  
+      // You might need additional logic here, depending on how your modal works (e.g., handling close button or backdrop click)
+    }
+  </script>
+  
          
 
 @endsection

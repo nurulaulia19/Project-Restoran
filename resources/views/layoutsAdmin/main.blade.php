@@ -277,7 +277,7 @@
 
 <!-- Add this within your HTML file, e.g., in the <head> section -->
     <script>
-       function updateTotalPrice(inputElement) {
+function updateTotalPrice(inputElement) {
   const jumlahProduk = parseInt(inputElement.value);
   const hargaProdukElement = inputElement.closest('tr').querySelector('.harga-produk');
   const diskonProdukElement = inputElement.closest('tr').querySelector('.diskon-produk');
