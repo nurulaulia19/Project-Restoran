@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\TransaksiDetailAditional;
 use App\Models\TransaksiDetail;
-use App\Models\DataProduk;
+use Illuminate\Http\Request;
 
 class TransaksiDetailController extends Controller
 {
@@ -21,29 +21,15 @@ class TransaksiDetailController extends Controller
      */
     public function create()
     {
-        // $dataProduk = DataProduk::all();
-        // $dataTransaskiDetail = TransaksiDetail::all();
-        // return view('transaksi.create', compact('dataProduk', 'dataTransaskiDetail'));
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
-        $result = TransaksiDetail::insert([
-            // 'id_transaksi_detail' => $request->id_transaksi_detail,
-            // 'id_transaksi' => $request->id_transaksi,
-            'id_produk' => $request->id_produk,
-            'jumlah_produk' => $request->jumlah_produk,
-            'harga_produk' => $request->harga_produk,
-            'diskon_produk' => $request->diskon_produk
-        ]);
-        if($result){
-            return redirect()->route('transaksi.create')->with('success', 'Transaksi detail insert successfully');
-        }else{
-            return $this->create();
-        }
+        //
     }
 
     /**
@@ -73,8 +59,12 @@ class TransaksiDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id_transaksi_detail)
     {
-        //
+        $dataTransaksiDetail = TransaksiDetail::where('id_transaksi_detail', $id_transaksi_detail);
+        $dataTransaksiDetail->delete();
+        $tda = TransaksiDetailAditional::where('id_transaksi_detail', $id_transaksi_detail);
+        $tda->delete();
+        return redirect()->route('transaksi.create')->with('success', 'Terdelet');
     }
 }

@@ -65,7 +65,7 @@
 					                        <table class="table table-striped">
 					                            <thead>
 					                                <tr>
-					                                    <th>Id Produk</th>
+					                                    <th>No</th>
 					                                    <th>Kategori</th>
                                                         <th>Nama Produk</th>
                                                         <th>Harga Produk</th>
@@ -77,10 +77,10 @@
 													
 													@foreach ($dataProduk as $item)
 					                                <tr>
-					                                    <td style="vertical-align: middle;">{{ $item->id_produk }}</td>
+					                                    <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
 					                                    <td style="vertical-align: middle;">{{ $item->kategori->nama_kategori }}</td>
                                                         <td style="vertical-align: middle;">{{ $item->nama_produk }}</td>
-                                                        <td style="vertical-align: middle;">{{ $item->harga_produk }}</td>
+                                                        <td style="vertical-align: middle;">{{ number_format($item->harga_produk, 0, ',', '.') }}</td>
                                                         {{-- <td style="vertical-align: middle;">{{ $item->gambar_produk }}</td> --}}
                                                         <td style="vertical-align: middle;">
                                                             <div style="display: flex; justify-content: center; align-items: flex-center; flex-direction: column;">
@@ -92,7 +92,7 @@
                                                             </div>
                                                             
                                                         </td> 
-                                                        <td style="vertical-align: middle;">{{ $item->diskon_produk }}</td>
+                                                        <td style="vertical-align: middle;">{{ $item->diskon_produk }} %</td>
 														<td class="table-action" style="vertical-align: middle;">
                                                             <div style="display:flex; align-items:center">
                                                                 <a style="margin-right: 10px;" href="{{ route( 'produk.edit', $item->id_produk) }}" class="btn btn-sm btn-warning">Edit</a>

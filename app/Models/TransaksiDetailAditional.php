@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class TransaksiDetailAditional extends Model
 {
     use HasFactory;
-    public $table = "transaksi_detail_aditional";
+    protected $table = "transaksi_detail_aditional";
     protected $fillable = [
             'id_tda',
             'id_transaksi_detail',
             'id_produk',
             'id_aditional',
             'harga_aditional',
+
+            
     ];
 
     public function transaksiDetail()
@@ -26,4 +28,12 @@ class TransaksiDetailAditional extends Model
     {
         return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');
     }
+
+    public function dataAditional()
+    {
+        return $this->belongsTo(AditionalProduk::class, 'id_aditional', 'id_aditional');
+    }
+
+    
+    
 }

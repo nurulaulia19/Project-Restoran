@@ -65,7 +65,7 @@
 					                        <table class="table table-striped">
 					                            <thead>
 					                                <tr>
-					                                    <th>Id Kategori</th>
+					                                    <th>No</th>
 					                                    <th>Nama Kategori</th>
 					                                </tr>
 					                            </thead>
@@ -73,7 +73,7 @@
 													
 													@foreach ($dataKategori as $item)
 					                                <tr>
-					                                    <td style="vertical-align: middle;">{{ $item->id_kategori }}</td>
+					                                    <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
 					                                    <td style="vertical-align: middle;">{{ $item->nama_kategori }}</td>
 														<td class="table-action" style="vertical-align: middle;">
                                                             <div style="display:flex; align-items:center">
@@ -562,9 +562,9 @@
 						
 						                <!--Submenu-->
 						                <ul class="collapse">
-                                            <li class="active-link"><a href="transaksi">Transaksi</a></li>
+                                            <li><a href="transaksi">Transaksi</a></li>
 											<li><a href="produk">Produk</a></li>
-                                            <li><a href="kategori">Kategori</a></li>
+                                            <li class="active-link"><a href="kategori">Kategori</a></li>
                                             <li><a href="aditional">Aditional</a></li>
 						                </ul>
 						            </li>

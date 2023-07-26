@@ -27,6 +27,16 @@ class AditionalProduk extends Model
         return $this->belongsTo(AditionalProduk::class, 'id_produk', 'id_produk');
     }
 
+    // public function roleMenus()
+    // {
+    //     return $this->hasMany(RoleMenu::class, 'menu_id', 'menu_id');
+    // }
+
+    public function transaksiDetailAditional()
+    {
+        return $this->hasMany(TransaksiDetailAditional::class, 'id_aditional', 'id_aditional');
+    }
+
     // public function transaksi()
     // {
     //     return $this->belongsTo(Tr::class, 'id_produk', 'id_produk');

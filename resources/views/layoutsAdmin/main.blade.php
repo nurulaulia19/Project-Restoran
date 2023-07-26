@@ -10,7 +10,7 @@
     {{-- <link rel="stylesheet" type="text/css" href="{{url('assets/css/style.css')}}"/>  --}}
 
     
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{{url('assets/bootstrap/css/bootstrap.min.css')}}"/> 
     <link rel="stylesheet" type="text/css" href="{{url('assets/css/bootstrap.min.css')}}"/> 
        <!--STYLESHEET-->
@@ -263,7 +263,91 @@
       });
     });
   </script>
-  
+<script>
+    function confirmDelete() {
+        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+            // If the user clicks "OK" in the confirmation dialog, proceed with the deletion
+            // The default link behavior will be triggered, and the delete action will be performed
+        } else {
+            // If the user clicks "Cancel" in the confirmation dialog, do nothing
+            event.preventDefault(); // Prevent the default link behavior
+        }
+    }
+</script>
+
+<!-- Add this within your HTML file, e.g., in the <head> section -->
+    <script>
+       function updateTotalPrice(inputElement) {
+  const jumlahProduk = parseInt(inputElement.value);
+  const hargaProdukElement = inputElement.closest('tr').querySelector('.harga-produk');
+  const diskonProdukElement = inputElement.closest('tr').querySelector('.diskon-produk');
+  const totalHargaSetelahDiskonElement = inputElement.closest('tr').querySelector('.total-harga-setelah-diskon');
+
+  const hargaProdukText = hargaProdukElement.textContent.replace(/\./g, '').replace(',', '.');
+  const hargaProduk = parseFloat(hargaProdukText);
+
+  const diskonPersen = parseFloat(diskonProdukElement.textContent);
+
+  const totalHargaSebelumDiskon = hargaProduk * jumlahProduk;
+  const totalHargaAdditional = 0; // You can update this logic to calculate the additional price if needed
+
+  const diskonNominal = totalHargaSebelumDiskon * (diskonPersen / 100);
+  const totalHargaSetelahDiskon = totalHargaSebelumDiskon + totalHargaAdditional - diskonNominal;
+
+  // Update the total harga setelah diskon for this row
+  totalHargaSetelahDiskonElement.textContent = formatNumber(totalHargaSetelahDiskon);
+
+  // Recalculate the overall total harga
+  updateOverallTotal();
+}
+
+// Update the overall total harga element on the page
+function updateOverallTotal() {
+  const totalHargaElements = document.querySelectorAll('.total-harga-setelah-diskon');
+  let totalSemuaHarga = 0;
+
+  totalHargaElements.forEach((element) => {
+    const totalHargaText = element.textContent.replace(/\./g, '').replace(',', '.');
+    const totalHarga = parseFloat(totalHargaText);
+    totalSemuaHarga += totalHarga;
+  });
+
+  const overallTotalElement = document.querySelector('.overall-total');
+  overallTotalElement.textContent = formatNumber(totalSemuaHarga);
+
+  // Update the value of the input field with the latest overall total harga
+  const totalHargaInput = document.getElementById('total_harga_input');
+  totalHargaInput.value = formatNumber(totalSemuaHarga);
+}
+
+// Rest of the JavaScript code (updateTotalPrice and formatNumber functions)
+
+// Calculate the initial overall total harga and set the value of the input field
+updateOverallTotal();
+
+
+function formatNumber(number) {
+  return new Intl.NumberFormat('id-ID', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(number);
+}
+
+// Add event listeners for input elements with class "jumlah-produk"
+const jumlahProdukInputs = document.querySelectorAll('.jumlah-produk');
+jumlahProdukInputs.forEach((input) => {
+  input.addEventListener('input', function () {
+    updateTotalPrice(input);
+  });
+});
+
+// Calculate the initial overall total harga
+updateOverallTotal();
+
+    </script>
+         
+
+
 
     <!--=================================================-->
   </body>

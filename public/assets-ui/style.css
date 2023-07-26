@@ -1,93 +1,12 @@
-/* body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-} */
 
-/* .bg-color {
-  background-color: #91D8E4;
-} */
-/* .category-section {
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-  margin-top: 50px;
-  margin-bottom: 50px;
-  margin-left: 75px;
-} */
-
-/* .category-item {
-  width: 50px;
-  height: 50px;
-  background-color: #91D8E4;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  margin-right: 75px;
-} */
-
-
-
-
-
-
-
-
-
-
-/* .item-mobile {
-  border: 1px solid #E1E1E1;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 20px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
-} */
-
-.item-mobile {
-  border: solid 2px #00B9D8;
-  border-radius: 15px;
-  padding: 10px;
-  width: 160px;
-  height: auto;
-  margin-top: 0px;
-  margin-bottom: 20px;
-  background-color: green;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  margin-left: 70px;
-  background-color: #fff;
-  
-}
-
-.item-image-container {
-  width: 80%;
-  margin: 0 auto;
-  /* padding: 10px; */
-}
-
-.item-image-container img {
-  max-width: 100%;
-  height: auto;
-}
-
-
-.category-item-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
 
 
 .col-xs-6.scroll-container {
   /* Pastikan konten di dalam elemen dapat di-scroll jika melebihi ukuran elemen */
   overflow: auto;
   
-  /* Nonaktifkan scroll horizontal */
-  /* overflow-x: hidden; */
 }
 
-/* CSS untuk mengatur tata letak card */
 .card {
   display: flex;
   flex-direction: column;
@@ -97,6 +16,10 @@
   width: 12rem;
   height: 8rem;
   margin: 5px;
+  position: relative; 
+  border-radius: 50px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
 /* CSS untuk mengatur tata letak gambar */
@@ -106,22 +29,6 @@
   height: 100%;
 }
 
-/* .container {
-  width: 100%;
-} */
-
-/* .row {
-  display: inline-block; 
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: auto;
-} */
-
-/* .row .col-md-3 {
-  margin-right: -25px;
-  margin-left: -18px;
-} */
 
 .item-name-m{
   height: 35px;
@@ -142,6 +49,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
   /* justify-content: center; */
 }
 
@@ -154,18 +63,6 @@
   font-family: 'Courier New', Courier, monospace;
 }
 
-.container .slide{
-  width: auto;
-  height: auto;
-  border-radius: 15px;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-}
-
-.carousel-inner img {
-  height: 100%;
-}
 .container-item {
   /* border: 1px solid #1bb965; */
   padding: 5px;
@@ -174,72 +71,104 @@
   border-radius: 10px 10px 0px 0px;
 }
 
-.next-product-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
 
-/* .next-product-button {
-  padding: 10px;
-  background-color: #00B9D8;
-  margin: 10px 10px 0px 10px;
-  border-radius: 10px;
-  color: #fff;
-  border: none;
-  transition: all 0.3s ease;
-} */
-
-.next-product-button:hover {
-  background-color: #fff;
-  color: #00B9D8;
-  border: 2px solid #00B9D8;
-}
-
-/* .social-media {
-  padding-top: 50px;
-} */
-
-/* .app-store {
-    display: flex;
-    justify-content: center;
-}
-
-.app-store img {
-    width: 120px;
-    height: 45px;
-}
-
-
-.social-media-icons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
-/* .social-media-icons a {
-  display: block;
-  margin: 0 10px;
-  color: #555;
-  font-size: 24px;
-}
-
-.social-media-icons a:hover {
-  color: #3b5998;
-} */
-
-.item-mobile:hover {
+.card:hover {
   transform: scale(1.1); /* menambahkan efek scaling saat hover */
   transition: all 0.2s ease-in-out; /* menambahkan efek transisi selama 0.2 detik */
 }
-
-/* .container-item .item-image-wrapper-m {
-  background-color: #a71313;
-} */
 
 .scroll-container {
   height: 600px; /* Tentukan tinggi maksimum kontainer */
   overflow-y: auto; /* Tambahkan efek scroll ke bawah */
   border: 1px solid #ccc; /* Untuk tampilan yang lebih baik */
   padding: 10px; /* Untuk tampilan yang lebih baik */
+}
+
+.discount-badge {
+  position: absolute; /* Menggunakan posisi absolut untuk menempatkan elemen ini di pojok atas kanan */
+  top: 0px; /* Sesuaikan dengan jarak vertikal dari atas */
+  right: 6px; /* Sesuaikan dengan jarak horizontal dari kanan */
+  background-color: #FE0000; /* Atur warna latar belakang sesuai keinginan Anda */
+  color: white; /* Atur warna teks sesuai keinginan Anda */
+  padding: 5px 10px; /* Sesuaikan dengan ukuran padding yang diinginkan */
+  border-radius: 0 0 50% 0; /* Atur radius sudut untuk membuatnya lebih berbentuk oval */
+  font-size: 12px; /* Sesuaikan ukuran teks sesuai keinginan Anda */
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; 
+  height: 100%;
+  padding: 8px 12px;
+  margin-top: 0px;
+}
+
+.product-name {
+  color: black;
+  font-family: 'Sans-serif';
+  /* font-weight: bold;  */
+  background-color: #9BE8D8;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-bottom: 5px; /* Beri jarak antara nama produk dan harga */
+  white-space: nowrap; /* Teks tidak diperbolehkan pindah ke baris baru */
+  overflow: hidden; /* Potong teks yang melebihi lebar kontainer */
+  text-overflow: ellipsis;
+  
+  display: flex;
+  align-items: center; /* Mengatur teks berada di tengah vertikal */
+  justify-content: center; /* Mengatur teks berada di tengah horizontal */
+}
+
+.product-price {
+  margin: 0;
+  color: #F86F03;
+  font-family: 'Sans-serif';
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 10px;
+  white-space: nowrap; /* Teks tidak diperbolehkan pindah ke baris baru */
+  overflow: hidden; /* Potong teks yang melebihi lebar kontainer */
+  text-overflow: ellipsis; /* Tambahkan titik elipsis (...) untuk menandakan teks dipotong */
+}
+
+.product-name {
+  font-size: 14px;
+}
+
+.product-price {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.card img {
+  display: block;
+  height: 160px;
+  width: 100%;
+  object-fit: cover;
+  margin-top: 5px;
+  border: 2px solid #ccc; /* Atur tebal dan warna border sesuai keinginan Anda */
+  border-radius: 10px; /* Sesuaikan radius sudut agar sesuai dengan kartu */
+}
+
+.input-cell {
+  text-align: center;
+  position: relative;
+}
+
+.jumlah-produk {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.jumlah-produk:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
 }

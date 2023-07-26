@@ -126,7 +126,7 @@
 								</ul>
 							</li>
 
-							<li class="{{ Request::is('menu') ? 'active' : '' }}">
+							<li class="{{ Request::is('transaksi', 'produk', 'kategori', 'aditional') ? 'active' : '' }}">
 								<a href="#">
 									<i class="demo-pli-split-vertical-2"></i>
 									<span class="menu-title">Restoran</span>
@@ -135,10 +135,10 @@
 
 								<!--Submenu-->
 								<ul class="collapse">
-									<li class="{{ Request::is('transaksi') ? 'active' : '' }}"><a href="transaksi">Transaksi</a></li>
-									<li class="{{ Request::is('produk') ? 'active' : '' }}"><a href="produk">Produk</a></li>
-									<li class="{{ Request::is('kategori') ? 'active' : '' }}"><a href="kategori">Kategori</a></li>
-									<li class="{{ Request::is('aditional') ? 'active' : '' }}"><a href="aditional">Aditional</a></li>
+									<li><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
+									<li><a href="{{ route('produk.index') }}">Produk</a></li>
+									<li><a href="{{ route('kategori.index') }}">Kategori</a></li>
+									<li><a href="{{ route('aditional.index') }}">Aditional</a></li>
 								</ul>
 							</li>
 

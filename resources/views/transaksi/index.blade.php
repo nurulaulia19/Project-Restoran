@@ -548,8 +548,8 @@
 						
 						                <!--Submenu-->
 						                <ul class="collapse in">
-											<li><a href="role">Role</a></li>
-                                            <li><a href="user">User</a></li>
+											<li><a href="{{ route('role') }}">Role</a></li>
+                                            <li><a href="{{ route('user') }}">User</a></li>
 											
 						                </ul>
 						            </li>
@@ -564,7 +564,7 @@
 						
 						                <!--Submenu-->
 						                <ul class="collapse">
-                                            <li><a href="menu">Menu</a></li>
+                                            <li><a href="{{ route('menu') }}">Menu</a></li>
 											
 						                </ul>
 						            </li>
@@ -578,9 +578,10 @@
 						
 						                <!--Submenu-->
 						                <ul class="collapse">
-                                            <li class="active-link"><a href="transaksi">Transaksi</a></li>
-											<li><a href="produk">Produk</a></li>
-                                            <li><a href="kategori">Kategori</a></li>
+                                            <li class="active-link"><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
+											<li><a href="{{ route('produk.index') }}">Produk</a></li>
+                                            <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
+                                            <li><a href="{{ route('aditional.index') }}">Aditional</a></li>
 						                </ul>
 						            </li>
 						           

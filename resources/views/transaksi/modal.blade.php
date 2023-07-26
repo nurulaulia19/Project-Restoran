@@ -1,4 +1,5 @@
- @foreach ($dataProduk as $item)
+
+@foreach ($dataProduk as $item)
   <!-- ... Kode lainnya ... -->
   <div class="modal" id="modal{{ $item->id_produk }}">
     <div class="modal-dialog">
@@ -8,6 +9,9 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
+          <form method="POST" action="{{ route('transaksi.store') }}">
+            <input type="hidden" name="id_produk" value="{{ $item->id_produk }}">
+            {{ csrf_field() }}
             <div class="form-group d-flex">
                     <div class="col-sm-12">
                          <div class="radio-container" style="display: flex; flex-direction: column;">
@@ -27,7 +31,7 @@
                               align-items: center;">
                                 <label class="col-sm-3 control-label" style="margin-right: 10px;" for="jumlah_produk">Jumlah</label>
                                 <div class="col-xs-6 counter-container">
-                                  <input type="number" class="form-control" name="jumlah_produk[]" value="1" min="1">
+                                  <input type="number" class="form-control" name="jumlah_produk" value="1" min="1">
                                 </div>
                               </div>
                             </div>  
@@ -36,9 +40,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary save-changes-btn" productId="{{ $item->id_produk }}">Save changes</button>
         </div>
+      </form>
+      
       </div>
     </div>
   </div>

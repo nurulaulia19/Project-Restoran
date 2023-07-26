@@ -73,7 +73,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group d-flex mb-3">
-                                            <label class="col-sm-3 control-label" for="diskon_produk">Diskon</label>
+                                            <label class="col-sm-3 control-label" for="diskon_produk">Diskon (%)</label>
                                             <div class="col-sm-9">
                                                 <input type="number" name="diskon_produk" id="diskon_produk" class="form-control @error('diskon_produk') is-invalid @enderror" value="0" min="0" step="1">
                                                 <span id="diskonError" class="error-message"></span>
@@ -490,37 +490,49 @@
 						            <li class="list-header">Navigation</li>
 						
 						            <!--Menu list item-->
-						            <li class="active-sub">
-						                <a href="#">
-						                    <i class="demo-pli-home"></i>
-						                    <span class="menu-title">Master User</span>
-											<i class="arrow"></i>
-						                </a>
-						
-						                <!--Submenu-->
-						                <ul class="collapse in">
-						                    {{-- <li class="active-link"><a href="/admin/dashboard">Dashboard 1</a></li> --}}
-											<li><a href="{{ route('role') }}">Role</a></li>
-                                            <li class="active-link"><a href="{{ route('user') }}">User</a></li>
-											{{-- <li><a href="user">User</a></li> --}}
-											{{-- <li><a href="/admin/dashboard3">Dashboard 3</a></li> --}}
-											
-						                </ul>
-						            </li>
-						
-						            <!--Menu list item-->
-						            <li>
-						                <a href="#">
-						                    <i class="demo-pli-split-vertical-2"></i>
-						                    <span class="menu-title">Master Menu</span>
-											<i class="arrow"></i>
-						                </a>
-						
-						                <!--Submenu-->
-						                <ul class="collapse">
+						            <li class="{{ Request::is('role', 'user') ? 'active' : '' }}">
+                                        <a href="#">
+                                            <i class="demo-pli-home"></i>
+                                            <span class="menu-title">Master User</span>
+                                            <i class="arrow"></i>
+                                        </a>
+        
+                                        <!--Submenu-->
+                                        <ul class="collapse in">
+                                            <li><a href="{{ route('role') }}">Role</a></li>
+                                            <li><a href="{{ route('user') }}">User</a></li>
+                                        </ul>
+                                    </li>
+        
+                                    <!--Menu list item-->
+                                    <li class="{{ Request::is('menu') ? 'active' : '' }}">
+                                        <a href="#">
+                                            <i class="demo-pli-split-vertical-2"></i>
+                                            <span class="menu-title">Master Menu</span>
+                                            <i class="arrow"></i>
+                                        </a>
+        
+                                        <!--Submenu-->
+                                        <ul class="collapse">
                                             <li><a href="{{ route('menu') }}">Menu</a></li>
-						                </ul>
-						            </li>
+                                        </ul>
+                                    </li>
+        
+                                    <li class="{{ Request::is('transaksi', 'produk', 'kategori', 'aditional') ? 'active' : '' }}">
+                                        <a href="#">
+                                            <i class="demo-pli-split-vertical-2"></i>
+                                            <span class="menu-title">Restoran</span>
+                                            <i class="arrow"></i>
+                                        </a>
+        
+                                        <!--Submenu-->
+                                        <ul class="collapse">
+                                            <li><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
+                                            <li><a href="{{ route('produk.index') }}">Produk</a></li>
+                                            <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
+                                            <li><a href="{{ route('aditional.index') }}">Aditional</a></li>
+                                        </ul>
+                                    </li>
                             </div>
                         </div>
                     </div>

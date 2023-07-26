@@ -71,7 +71,7 @@
 					                        <table class="table table-striped">
 					                            <thead>
 					                                <tr>
-					                                    <th>Id Menu</th>
+					                                    <th>No</th>
 					                                    <th>Nama Menu</th>
 					                                    <th>Link Menu</th>
 					                                    <th>Category Menu</th>
@@ -83,7 +83,7 @@
 													
 													@foreach ($dataMenu as $item)
 					                                <tr>
-														<td>{{ $item->menu_id }}</td>
+														<td>{{ $loop->iteration }}</td>
 					                                    <td>{{ $item->menu_name }}</td>
 					                                    <td>{{ $item->menu_link }}</td>
 					                                    <td>{{ $item->menu_category }}</td>

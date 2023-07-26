@@ -7,6 +7,7 @@ use App\Models\DataUser;
 use App\Models\Transaksi;
 use App\Models\DataProduk;
 use Illuminate\Http\Request;
+use App\Models\TransaksiDetailAditional;
 use App\Models\AditionalProduk;
 use App\Models\TransaksiDetail;
 
@@ -25,13 +26,16 @@ class TransaksiController extends Controller
      */
     public function create()
     {
+        // $roles = Role::with('roleMenus')->get();
         $dataTransaksi = Transaksi::with('produk')->get();
         $dataProduk = DataProduk::with('kategori', 'aditionalProduk')->get();
         $dataAditional = AditionalProduk::all();
+        $dataTransaksiDetail = TransaksiDetail::with('transaksiDetailAditional', 'AditionalProduk')->get();
+        // dd($dataTransaksiDetail);
         // dd($dataProduk);
         $dataUser = DataUser::all();
         // $dataTransaksiDetail = TransaksiDetail::with('produk')->get();
-        return view('transaksi.create', compact('dataTransaksi','dataUser', 'dataProduk', 'dataAditional'));
+        return view('transaksi.create', compact('dataTransaksi','dataUser', 'dataProduk', 'dataAditional','dataTransaksiDetail'));
     }
 
     /**
@@ -42,47 +46,51 @@ class TransaksiController extends Controller
  */
 public function store(Request $request)
 {
-    // Validasi data dari form sebelum menyimpan ke database
-    $request->validate([
-        'user_id' => 'required|exists:data_user,id_user',
-        'produk_id' => 'required|exists:data_produk,id_produk',
-        'aditional_ids' => 'required|array',
-        // Berikan validasi sesuai dengan kebutuhan data yang dibutuhkan
-    ]);
+    $produk = DataProduk::find($request->id_produk);
 
-    // Ambil data produk dari tabel data_produk
-    $produk = DataProduk::findOrFail($request->produk_id);
+    // Mengecek apakah data produk berhasil ditemukan
+    if ($produk) {
+        // Buat TransaksiDetail dan gunakan nilai harga_produk dan diskon_produk dari produk tersebut
+        $transaksiDetail = TransaksiDetail::create([
+            'id_produk' => $request->id_produk,
+            'jumlah_produk' => $request->jumlah_produk,
+            'harga_produk' => $produk->harga_produk,
+            'diskon_produk' => $produk->diskon_produk
+        ]);
 
-    // Hitung total harga berdasarkan data produk dan jumlah yang diinginkan
-    $jumlah_produk = 1; // Anda dapat mengganti nilainya berdasarkan input dari form
-    $total_harga = $produk->harga_produk * $jumlah_produk;
+    // Cek apakah ada aditional yang dipilih dalam request
+    if ($request->has('id_aditional')) {
+        // Ambil data aditional dari request
+        $id_aditionals = $request->id_aditional;
 
-    // Simpan data transaksi ke dalam tabel transaksi
-    $transaksi = new Transaksi;
-    $transaksi->user_id = $request->user_id;
-    $transaksi->produk_id = $request->produk_id;
-    $transaksi->jumlah_produk = $jumlah_produk;
-    $transaksi->total_harga = $total_harga;
+        // Loop melalui data aditional dan simpan ke tabel TransaksiAditionalDetail
+        foreach ($id_aditionals as $id_aditional) {
+            // Mendapatkan data aditional berdasarkan id_aditional dari request
+            $aditional = AditionalProduk::where('id_aditional', $id_aditional)->first();
 
-    // Anda juga dapat mengisi kolom-kolom lain sesuai dengan kolom yang telah ditentukan dalam tabel
-    $transaksi->tanggal_transaksi = date('Y-m-d H:i:s'); // Contoh pengisian tanggal_transaksi dengan waktu saat ini
-    $transaksi->no_meja = 'Nomor Meja XYZ'; // Contoh pengisian nomor meja
-    $transaksi->total_bayar = 0; // Default total_bayar awalnya 0
-    $transaksi->total_kembalian = 0; // Default total_kembalian awalnya 0
-    $transaksi->ket_makanan = $request->keterangan; // Isi dengan keterangan dari form jika ada
-    $transaksi->diskon_transaksi = 0; // Default diskon_transaksi awalnya 0
-
-    $transaksi->save();
-
-    // Jika ada opsi tambahan yang dipilih, simpan juga data opsi tambahan
-    if ($request->has('aditional_ids')) {
-        $aditionals = AditionalProduk::whereIn('id_aditional', $request->aditional_ids)->get();
-        $transaksi->aditionals()->attach($aditionals);
+            // Mengecek apakah data aditional berhasil ditemukan
+            if ($aditional) {
+                // Buat TransaksiAditionalDetail dan gunakan nilai yang sesuai
+                TransaksiDetailAditional::create([
+                    
+                    'id_transaksi_detail' => $transaksiDetail->id,
+                    'id_produk' => $request->id_produk,
+                    'id_aditional' => $id_aditional,
+                    'harga_aditional' => $aditional->harga_aditional,
+                    // tambahkan atribut lainnya jika diperlukan
+                ]);
+            } else {
+                return response()->json(['message' => 'Aditional tidak ditemukan'], 404);
+            }
+        }
     }
 
-    // Setelah data tersimpan, Anda bisa melakukan redirect atau memberikan pesan sukses
-    return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil disimpan!');
+    // Berhasil menyimpan data
+    return redirect()->route('transaksi.create')->with('success', 'Transaksi berhasil disimpan.');
+} else {
+    return response()->json(['message' => 'Produk tidak ditemukan'], 404);
 }
+    }
 
 
     /**

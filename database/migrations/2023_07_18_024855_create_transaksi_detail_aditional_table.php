@@ -18,6 +18,9 @@ return new class extends Migration
             $table->integer('id_aditional');
             $table->integer('harga_aditional');
             $table->timestamps();
+
+
+            
         });
     }
 

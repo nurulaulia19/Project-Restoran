@@ -66,7 +66,7 @@
 					                        <table class="table table-striped">
 					                            <thead>
 					                                <tr>
-					                                    <th>Id Role</th>
+					                                    <th>No</th>
 					                                    <th>Nama Role</th>
 														<th>Menu</th>
 					                                    {{-- <th>Aksi</th> --}}
@@ -78,7 +78,7 @@
 													
 													@foreach ($roles as $item)
 					                                <tr>
-														<td>{{ $item->role_id }}</td>
+														<td>{{ $loop->iteration }}</td>
 					                                    <td>{{ $item->role_name }}</td>
 														<td>
 														@foreach ($item->roleMenus as $roleMenu)

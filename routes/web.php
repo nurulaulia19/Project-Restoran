@@ -15,7 +15,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TransaksiDetailAditional;
+use App\Http\Controllers\TransaksiDetailController;
 use App\Http\Controllers\AditionalProdukController;
+use App\Models\TransaksiDetail;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,8 +102,8 @@ Route::put('/admin/transaksi/update/{id}', [TransaksiController::class, 'update'
 Route::get('/admin/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
 Route::get('/admin/transaksi', [TransaksiController::class,'index'])->name('transaksi.index');
 Route::get('/admin/transaksi/edit/{id}', [TransaksiController::class, 'edit'])->name('transaksi.edit');
-Route::post('/transaksi/store', [TransaksiController::class, 'store']);
-Route::get('/admin/transaksi/destroy/{id}', [TransaksiController::class,'destroy'])->name('transaksi.destroy');
+Route::post('/transaksi/store', [TransaksiController::class, 'store'])->name('transaksi.store');
+// Route::get('/admin/transaksi/destroy/{id}', [TransaksiController::class,'destroy'])->name('transaksi.destroy');
 
 Route::put('/admin/produk/update/{id}', [DataProdukController::class, 'update'])->name('produk.update');
 Route::get('/admin/produk/create', [DataProdukController::class, 'create'])->name('produk.create');
@@ -123,3 +125,7 @@ Route::get('/admin/aditional', [AditionalProdukController::class,'index'])->name
 Route::get('/admin/aditional/edit/{id}', [AditionalProdukController::class, 'edit'])->name('aditional.edit');
 Route::post('/aditional/store', [AditionalProdukController::class, 'store']);
 Route::get('/admin/aditional/destroy/{id}', [AditionalProdukController::class,'destroy'])->name('aditional.destroy');
+
+
+// Route::post('/save-transaction-details', [TransaksiDetailController::class, 'saveTransactionDetails']);
+Route::get('/admin/transaksidetail/destroy/{id}', [TransaksiDetailController::class,'destroy'])->name('transaksidetail.destroy');

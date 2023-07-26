@@ -113,6 +113,8 @@ class RoleController extends Controller
     public function destroy($role_id){
         $menu = Role::where('role_id', $role_id);
         $menu->delete();
+        $dataRoleMenu = RoleMenu::where('role_id', $role_id);
+        $dataRoleMenu->delete();
         return redirect()->route('role')->with('success', 'Terdelet');
     }
 }

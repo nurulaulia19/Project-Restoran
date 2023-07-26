@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TransaksiDetail extends Model
 {
     use HasFactory;
-    public $table = "transaksi_detail";
+    protected $table = "transaksi_detail";
     protected $fillable = [
             'id_transaksi_detail',
             'id_transaksi',
@@ -30,6 +30,17 @@ class TransaksiDetail extends Model
 
     public function transaksiDetailAditional()
     {
-        return $this->hasMany(TransaksiDetailAditional::class, 'id_transaksi_detail', 'id_transaksi_detail');
+        return $this->hasMany(TransaksiDetailAditional::class, 'id_transaksi_detail', 'id_transaksi_detail')->with('dataAditional');
     }
+
+    public function AditionalProduk()
+    {
+        return $this->hasMany(AditionalProduk::class, 'id_aditional', 'id_aditional');
+    }
+
+    
+    // public function roleMenus()
+    // {
+    //     return $this->hasMany(RoleMenu::class, 'role_id', 'role_id')->with('dataMenu');
+    // }
 }

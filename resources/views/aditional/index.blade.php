@@ -65,7 +65,7 @@
 					                        <table class="table table-striped">
 					                            <thead>
 					                                <tr>
-					                                    <th>Id Aditional</th>
+					                                    <th>No</th>
 					                                    <th>Produk</th>
                                                         <th>Nama Aditional</th>
                                                         <th>Harga Aditional</th>
@@ -75,10 +75,10 @@
 													
 													@foreach ($dataAditional as $item)
 					                                <tr>
-                                                        <td style="vertical-align: middle;">{{ $item->id_aditional }}</td>
+                                                        <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
 					                                    <td style="vertical-align: middle;">{{ $item->produk->nama_produk }}</td>
 					                                    <td style="vertical-align: middle;">{{ $item->nama_aditional }}</td>
-                                                        <td style="vertical-align: middle;">{{ $item->harga_aditional }}</td>
+                                                        <td style="vertical-align: middle;">{{ number_format($item->harga_aditional, 0, ',', '.') }}</td>
 														<td class="table-action" style="vertical-align: middle;">
                                                             <div style="display:flex; align-items:center">
                                                                 <a style="margin-right: 10px;" href="{{ route( 'aditional.edit', $item->id_aditional) }}" class="btn btn-sm btn-warning">Edit</a>
