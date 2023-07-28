@@ -81,12 +81,17 @@
 														<td>{{ $loop->iteration }}</td>
 					                                    <td>{{ $item->role_name }}</td>
 														<td>
-														@foreach ($item->roleMenus as $roleMenu)
-															{{ $roleMenu->dataMenu->menu_name }}
-															@if (!$loop->last)
-																,
-															@endif
-														@endforeach
+															@if ($item->dataMenu)
+																@foreach ($item->roleMenus as $roleMenu)
+																{{ $roleMenu->dataMenu->menu_name }}
+																@if (!$loop->last)
+																	,
+																@endif
+																@endforeach
+															@else
+																Menu not assigned
+															@endif 
+														
 														</td>
 														
 														<td class="table-action" style="justify-content:center; display:flex;">

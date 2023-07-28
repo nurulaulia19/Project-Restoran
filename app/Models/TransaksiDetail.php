@@ -9,6 +9,7 @@ class TransaksiDetail extends Model
 {
     use HasFactory;
     protected $table = "transaksi_detail";
+    protected $primaryKey = 'id_transaksi_detail';
     protected $fillable = [
             'id_transaksi_detail',
             'id_transaksi',
@@ -36,6 +37,12 @@ class TransaksiDetail extends Model
     public function AditionalProduk()
     {
         return $this->hasMany(AditionalProduk::class, 'id_aditional', 'id_aditional');
+    }
+
+
+    public function setIdTransaksiAttribute($value)
+    {
+        $this->attributes['id_transaksi'] = $value ?: null;
     }
 
     

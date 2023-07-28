@@ -50,7 +50,7 @@ class TransaksiDetailController extends Controller
     {
         $dataProduk = DataProduk::all();
         $dataTransaksiDetail = TransaksiDetail::where('id_transaksi_detail', $id_transaksi_detail)->first();
-        return view('user.update', compact('dataTransaksiDetail','dataProduk'));
+        return view('transaksi.update', compact('dataTransaksiDetail','dataProduk'));
     }
 
     /**

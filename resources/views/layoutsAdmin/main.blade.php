@@ -277,25 +277,31 @@
 
 <!-- Add this within your HTML file, e.g., in the <head> section -->
     <script>
-function updateTotalPrice(inputElement) {
+function updateTotalPrice(inputElement, hargaAditional) {
   const jumlahProduk = parseInt(inputElement.value);
   const hargaProdukElement = inputElement.closest('tr').querySelector('.harga-produk');
   const diskonProdukElement = inputElement.closest('tr').querySelector('.diskon-produk');
   const totalHargaSetelahDiskonElement = inputElement.closest('tr').querySelector('.total-harga-setelah-diskon');
 
+ 
   const hargaProdukText = hargaProdukElement.textContent.replace(/\./g, '').replace(',', '.');
   const hargaProduk = parseFloat(hargaProdukText);
 
   const diskonPersen = parseFloat(diskonProdukElement.textContent);
 
+  const totalHargaAdditional =  hargaAditional * jumlahProduk ;
+//   console.log("Harga Aditional:", hargaAditional);
   const totalHargaSebelumDiskon = hargaProduk * jumlahProduk;
-  const totalHargaAdditional = 0; // You can update this logic to calculate the additional price if needed
-
-  const diskonNominal = totalHargaSebelumDiskon * (diskonPersen / 100);
+//   const totalHargaAdditional = inputElement.closest('tr').querySelector('.harga-aditional'); // You can update this logic to calculate the additional price if needed
+//   console.log(totalHargaAdditional);
+  const diskonNominal = (totalHargaSebelumDiskon + totalHargaAdditional) * (diskonPersen / 100);
   const totalHargaSetelahDiskon = totalHargaSebelumDiskon + totalHargaAdditional - diskonNominal;
+  
 
   // Update the total harga setelah diskon for this row
-  totalHargaSetelahDiskonElement.textContent = formatNumber(totalHargaSetelahDiskon);
+totalHargaSetelahDiskonElement.textContent = formatNumber(totalHargaSetelahDiskon);
+
+  
 
   // Recalculate the overall total harga
   updateOverallTotal();
@@ -344,7 +350,8 @@ jumlahProdukInputs.forEach((input) => {
 // Calculate the initial overall total harga
 updateOverallTotal();
 </script>
-         
+
+  
 
 
 

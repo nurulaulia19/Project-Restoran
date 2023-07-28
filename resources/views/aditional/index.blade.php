@@ -76,7 +76,14 @@
 													@foreach ($dataAditional as $item)
 					                                <tr>
                                                         <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
-					                                    <td style="vertical-align: middle;">{{ $item->produk->nama_produk }}</td>
+					                                    <td style="vertical-align: middle;">
+                                                            @if ($item->produk)
+                                                                {{ $item->produk->nama_produk }}
+                                                            @else
+                                                                Produk not assigned
+                                                            @endif 
+                                                            
+                                                        </td>
 					                                    <td style="vertical-align: middle;">{{ $item->nama_aditional }}</td>
                                                         <td style="vertical-align: middle;">{{ number_format($item->harga_aditional, 0, ',', '.') }}</td>
 														<td class="table-action" style="vertical-align: middle;">

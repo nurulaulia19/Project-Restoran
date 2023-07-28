@@ -65,40 +65,44 @@
 					                        <table class="table table-striped">
 					                            <thead>
 					                                <tr>
-					                                    <th>No Transaksi</th>
+					                                    <th>No</th>
 					                                    <th>Tanggal</th>
-					                                    <th>Id Customer</th>
+					                                    <th>Nama Kasir</th>
 														<th>No Meja</th>
+                                                        <th>Status</th>
+                                                        <th>Diskon</th>
 														<th>Total Harga</th>
 														<th>Total Bayar</th>
                                                         <th>Total Kembalian</th>
-                                                        <th>Status</th>
+                                                        
 					                                </tr>
 					                            </thead>
 					                            <tbody>
 													
 													@foreach ($dataTransaksi as $item)
 					                                <tr>
-					                                    <td style="vertical-align: middle;">{{ $item->id_transaksi }}</td>
+					                                    <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
 					                                    <td style="vertical-align: middle;">{{ $item->tanggal_transaksi }}</td>
 					                                    {{-- <td style="vertical-align: middle;">{{ $item->user_password }}</td> --}}
-					                                    <td style="vertical-align: middle;">{{ $item->user->user_id }}</td>                                                      
-														<td style="vertical-align: middle;">{{ $item->no_meja }}</td>
-														<td style="vertical-align: middle;">{{ $item->user_token }}</td>
-                                                        <td style="vertical-align: middle;">{{ $item->total_harga }}</td>
-                                                        <td style="vertical-align: middle;">{{ $item->user_token }}</td>
-                                                        <td style="vertical-align: middle;">{{ $item->total_bayar }}</td>
-                                                        <td style="vertical-align: middle;">{{ $item->total_kembalian }}</td>
+					                                    <td style="vertical-align: middle;">{{ $item->user->user_name }}</td>                                                      
+														<td style="vertical-align: middle; text-align: center;">{{ $item->no_meja }}</td>
                                                         <td style="vertical-align: middle;">{{ $item->ket_makanan }}</td>
-                                                        <td style="vertical-align: middle;">{{ $item->diskon_transaksi }}</td>
+                                                        <td style="vertical-align: middle; text-align: center;">{{ $item->diskon_transaksi }} %</td>
+														<td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                                                        <td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_bayar, 0, ',', '.') }}</td>
+                                                        <td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_kembalian, 0, ',', '.') }}</td>
 														<td class="table-action" style="vertical-align: middle;">
                                                             <div style="display:flex; align-items:center">
-                                                                <a style="margin-right: 10px;" href="{{ route( 'user.edit', $item->user_id) }}" class="btn btn-sm btn-warning">Edit</a>
-															<form method="POST" action="" id="delete-form-{{ $item->user_id }}">
+                                                                <a style="margin-right: 10px;" href="{{ route( 'transaksi.edit', $item->id_transaksi) }}" class="btn btn-sm btn-warning">Edit</a>
+															<form method="POST" action="" id="delete-form-{{ $item->id_transaksi }}">
 																@csrf
                 												@method('DELETE')
-																<a href="/admin/user/destroy/{{ $item->user_id }}" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->user_id }})">Hapus</a>				
+																<a href="/admin/transaksi/destroy/{{ $item->id_transaksi }}" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->id_transaksi }})">Hapus</a>				
 															</form>	
+                                                                
+                                                                <button style="margin-left: 10px; font-size:13px" class="btn btn-sm btn-success"><i class="demo-pli-printer"></i></button>
+                                                              
+                                                                
                                                             </div>													
 														</td>
 					                                </tr>

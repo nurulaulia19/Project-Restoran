@@ -89,12 +89,33 @@
                                         <h3 class="panel-title">Tambah Transaksi</h3>
                                     </div>
 
-
+                                    
                                 <div class="col-xs-6 scroll-container">
                                     <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                            <label for="filterKategori">Filter Kategori:</label>
+                                            <select class="form-control" id="filterKategori" name="filterKategori">
+                                                <option disabled selected>Pilih Kategori</option>
+                                                @foreach ($dataKategori as $item)
+                                                    <option value="{{ $item->id_kategori }}">{{ $item->nama_kategori }}</option>
+                                                @endforeach
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="searchInput">Search:</label>
+                                                <input type="text" class="form-control" id="searchInput" placeholder="Cari produk...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        
                                         @foreach ($dataProduk as $index => $item)
                                           <div class="col-xs-2" style="margin: 20px; height: 250px;">
                                             <div class="card" >
+                                               
                                                 <a href="#" data-toggle="modal" data-target="#modal{{ $item->id_produk }}">
                                                     <img src="{{ asset('storage/photos/'.basename($item->gambar_produk)) }}" class="card-img-top" alt="..." style="height: 160px; width: 100px; cursor: pointer;">
                                                 </a>
@@ -168,7 +189,7 @@
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <input type="hidden" name="id_produk" value="{{ $item->id_produk }}">
-                                                                    <input type="number" name="jumlah_produk" value="{{ $item->jumlah_produk }}" min="1" class="jumlah-produk" onchange="updateTotalPrice(this)">
+                                                                    <input type="number" name="jumlah_produk" value="{{ $item->jumlah_produk }}" min="1" step="1" class="jumlah-produk" onchange="updateTotalPrice(this, {{ $hargaAditional }})">
                                                                     <button class="btn btn-sm btn-primary" type="submit">Ubah</button>
                                                                 </form>
                                                             </td>                                                      
@@ -676,7 +697,24 @@
     }
   </script>
   
-         
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Listen to changes in the filterKategori and searchInput
+    $('#filterKategori, #searchInput').on('change input', function () {
+        var selectedCategoryId = $('#filterKategori').val();
+        var searchValue = $('#searchInput').val().toLowerCase();
+
+        $('.produk-item').each(function () {
+            var itemKategori = $(this).data('kategori');
+            var itemText = $(this).text().toLowerCase();
+            var isCategoryMatch = selectedCategoryId === '' || selectedCategoryId == itemKategori;
+            var isSearchMatch = itemText.includes(searchValue);
+
+            // Show the product if it matches the selected category and search input, hide otherwise
+            $(this).toggle(isCategoryMatch && isSearchMatch);
+        });
+    });
+</script>
 
 @endsection
 

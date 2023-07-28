@@ -94,7 +94,13 @@
                                                             </div>
                                                             
                                                         </td>                                                        
-														<td style="vertical-align: middle;">{{ $item->role->role_name }}</td>
+														<td style="vertical-align: middle;">
+                                                            @if ($item->role)
+                                                                {{ $item->role->role_name }}
+                                                            @else
+                                                                Role not assigned
+                                                            @endif 
+                                                        </td>
 														<td style="vertical-align: middle;">{{ $item->user_token }}</td>
 														<td class="table-action" style="vertical-align: middle;">
                                                             <div style="display:flex; align-items:center">

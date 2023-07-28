@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Transaksi extends Model
 {
     use HasFactory;
-    public $table = "transaksi";
+    protected $table = "transaksi";
+    protected $primaryKey = "id_transaksi";
     protected $fillable = [
             'id_transaksi',
             'user_id',
@@ -34,5 +35,10 @@ class Transaksi extends Model
     public function produk()
     {
         return $this->belongsTo(DataProduk::class, 'id_produk', 'id_produk');
+    }
+
+    public function transaksiDetailAditional()
+    {
+        return $this->hasMany(TransaksiDetailAditional::class, 'id_transaksi_detail', 'id_transaksi_detail');
     }
 }

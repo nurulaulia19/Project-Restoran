@@ -98,11 +98,14 @@ Route::get('/admin/user/edit/{id}', [DataUserController::class, 'edit'])->name('
 Route::post('/user/store', [DataUserController::class, 'store']);
 Route::get('/admin/user/destroy/{id}', [DataUserController::class,'destroy'])->name('user.destroy');
 
-Route::put('/admin/transaksi/update/{id}', [TransaksiController::class, 'update'])->name('transaksi.update');
+// Route::post('admin/transaksi/update', [TransaksiController::class, 'update'])->name('transaksi.update');
+Route::post('/admin/transaksi/update/{id_transaksi}', [TransaksiController::class, 'update'])->name('transaksi.update');
 Route::get('/admin/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
 Route::get('/admin/transaksi', [TransaksiController::class,'index'])->name('transaksi.index');
 Route::get('/admin/transaksi/edit/{id}', [TransaksiController::class, 'edit'])->name('transaksi.edit');
 Route::post('/transaksi/store', [TransaksiController::class, 'store'])->name('transaksi.store');
+Route::post('/transaksi/storeTransaksi', [TransaksiController::class, 'storeTransaksi'])->name('transaksi.storeTransaksi');
+Route::get('/admin/transaksi/destroy/{id}', [TransaksiController::class,'destroy'])->name('transaksi.destroy');
 // Route::get('/admin/transaksi/destroy/{id}', [TransaksiController::class,'destroy'])->name('transaksi.destroy');
 
 Route::put('/admin/produk/update/{id}', [DataProdukController::class, 'update'])->name('produk.update');
@@ -131,3 +134,6 @@ Route::get('/admin/aditional/destroy/{id}', [AditionalProdukController::class,'d
 Route::get('/admin/transaksidetail/destroy/{id}', [TransaksiDetailController::class,'destroy'])->name('transaksidetail.destroy');
 Route::put('/admin/transaksidetail/update/{id}', [TransaksiDetailController::class, 'update'])->name('transaksidetail.update');
 Route::get('/admin/transaksidetail/edit/{id}', [TransaksiDetailController::class, 'edit'])->name('transaksidetail.edit');
+
+
+
