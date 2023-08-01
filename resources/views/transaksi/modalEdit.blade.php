@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('transaksi.update', ['id_transaksi' => $dataTransaksi->id_transaksi]) }}">
+                <form method="POST" action="{{ route('transaksi.updateTransaksi', ['id_transaksi' => $dataTransaksi->id_transaksi]) }}">
                     {{ csrf_field() }}
                     <div class="panel-body">
                         <div class="row">

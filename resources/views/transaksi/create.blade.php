@@ -24,65 +24,7 @@
                     </div>  
                 <!--Page content-->
                 <!--===================================================-->
-                <div id="page-content">
-{{-- 
-					    <div class="row">
-                            <div class="panel">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Tambah Transaksi</h3>
-                                </div>
-                        
-                                <!--Horizontal Form-->
-                                <!--===================================================-->
-                                <form method="POST" action="/transaksi/store">
-                                    {{ csrf_field() }}
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-					                            <div class="form-group">
-					                                <label class="control-label">No Transaksi</label>
-                                                    <input type="text" placeholder="No Transaksi" name="id_transaksi" id="id_transaksi" class="form-control">
-					                            </div> 
-					                        </div>
-                                            <div class="col-sm-6">
-					                            <div class="form-group">
-					                                <label class="control-label">Tanggal</label>
-                                                    <input type="date" placeholder="Tanggal" name="tanggal_transaksi" id="tanggal_transaksi" class="form-control">
-					                            </div>
-					                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Id Customer</label>
-                                                <input type="text" placeholder="Nama Customer" name="user_id" id="user_id" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="control-label">No Meja</label>
-                                                <input type="text" placeholder="No Meja" name="no_meja" id="no_meja" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Status</label>
-                                                <select class="form-control" name="ket_makanan" id="ket_makanan">
-                                                    <option disabled selected>Pilih Status</option>
-                                                    <option value="dine in">Dine In</option>
-                                                    <option value="take away">Take Away</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <!--===================================================-->
-                                <!--End Horizontal Form-->   
-
-                            </div> --}}
-                            
+                <div id="page-content">  
                             <div class="row">
                                 <div class="panel">
                                     <div class="panel-heading">
@@ -93,27 +35,36 @@
                                 <div class="col-xs-6 scroll-container">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <div class="form-group">
-                                            <label for="filterKategori">Filter Kategori:</label>
-                                            <select class="form-control" id="filterKategori" name="filterKategori">
-                                                <option disabled selected>Pilih Kategori</option>
-                                                @foreach ($dataKategori as $item)
-                                                    <option value="{{ $item->id_kategori }}">{{ $item->nama_kategori }}</option>
-                                                @endforeach
-                                            </select>
-                                            </div>
-                                        </div>
+                                            <form action="{{ route('transaksi.create') }}" method="GET">
+                                                <div class="form-group">
+                                                    <label for="filterKategori">Filter Kategori:</label>
+                                                    <select class="form-control" id="filterKategori" name="selectedKategori" onchange="this.form.submit()">
+                                                        <option value="">Semua Kategori</option>
+                                                        @foreach ($dataKategori as $item)
+                                                            <option value="{{ $item->id_kategori }}" {{ $item->id_kategori == $selectedKategoriId ? 'selected' : '' }}>
+                                                                {{ $item->nama_kategori }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div> 
                                         <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="searchInput">Search:</label>
-                                                <input type="text" class="form-control" id="searchInput" placeholder="Cari produk...">
-                                            </div>
+                                            <form action="{{ route('produk.search') }}" method="POST" class="form-inline">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="searchInput">Cari produk berdasarkan nama:</label>
+                                                    <input type="text" class="form-control" id="searchInput" name="keyword" placeholder="Masukkan nama produk...">
+                                                    <button type="submit" class="btn btn-primary ml-2">Cari</button>
+                                                </div>
+                                                <input type="hidden" name="selectedKategori" value="{{ $selectedKategoriId }}">
+                                            </form>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" id="produkContainer">
                                         
                                         @foreach ($dataProduk as $index => $item)
-                                          <div class="col-xs-2" style="margin: 20px; height: 250px;">
+                                          <div class="col-xs-2" style="margin: 20px; height: 250px;" data-nama="{{ strtolower($item->nama_produk) }}" data-kategori="{{ $item->id_kategori }}">
                                             <div class="card" >
                                                
                                                 <a href="#" data-toggle="modal" data-target="#modal{{ $item->id_produk }}">
@@ -177,9 +128,9 @@
                                                                             $hargaAditional = $hargaAditional + $items->dataAditional->harga_aditional;
                                                                         @endphp
                                                                     @endforeach
-                                                                @else
-                                                                    N/A 
-                                                                @endif
+                                                                    @else
+                                                                        N/A 
+                                                                    @endif
                                                                 </div>
                                                                 
                                                             </td> 
@@ -681,6 +632,7 @@
 
 </script>
 
+
 <script>
     // Function to handle form validation and show the modal
     function validateForm(event) {
@@ -698,7 +650,7 @@
   </script>
   
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+{{-- <script>
     // Listen to changes in the filterKategori and searchInput
     $('#filterKategori, #searchInput').on('change input', function () {
         var selectedCategoryId = $('#filterKategori').val();
@@ -714,7 +666,104 @@
             $(this).toggle(isCategoryMatch && isSearchMatch);
         });
     });
+</script> --}}
+
+
+
+<script>
+    function searchProducts() {
+        // Ambil nilai kata kunci dari input pencarian
+        var keyword = document.getElementById('searchInput').value.toLowerCase();
+        
+        // Ambil semua produk yang ditampilkan
+        var produkContainer = document.getElementById('produkContainer');
+        var produkItems = produkContainer.getElementsByClassName('produk-item');
+
+        // Loop melalui setiap produk dan sembunyikan/munculkan sesuai dengan kata kunci
+        for (var i = 0; i < produkItems.length; i++) {
+            var namaProduk = produkItems[i].getAttribute('data-nama').toLowerCase();
+
+            // Jika kata kunci ditemukan dalam nama produk, tampilkan; jika tidak, sembunyikan
+            if (namaProduk.includes(keyword)) {
+                produkItems[i].style.display = "block";
+            } else {
+                produkItems[i].style.display = "none";
+            }
+        }
+    }
 </script>
+
+
+{{-- Edit --}}
+
+<script>
+    function searchProductsEdit() {
+        // Ambil nilai kata kunci dari input pencarian
+        var keyword = document.getElementById('searchInput').value.toLowerCase();
+        
+        // Ambil semua produk yang ditampilkan
+        var produkContainer = document.getElementById('produkContainer');
+        var produkItems = produkContainer.getElementsByClassName('produk-item');
+
+        // Loop melalui setiap produk dan sembunyikan/munculkan sesuai dengan kata kunci
+        for (var i = 0; i < produkItems.length; i++) {
+            var namaProduk = produkItems[i].getAttribute('data-nama').toLowerCase();
+
+            // Jika kata kunci ditemukan dalam nama produk, tampilkan; jika tidak, sembunyikan
+            if (namaProduk.includes(keyword)) {
+                produkItems[i].style.display = "block";
+            } else {
+                produkItems[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+
+<script>
+    function filterByCategory() {
+        var selectedKategoriId = document.getElementById('filterKategori').value;
+        var produkContainer = document.getElementById('produkContainer');
+        var produkItems = produkContainer.getElementsByClassName('produk-item');
+
+        for (var i = 0; i < produkItems.length; i++) {
+            var produkKategoriId = produkItems[i].getAttribute('data-kategori');
+
+            if (selectedKategoriId === '' || produkKategoriId === selectedKategoriId) {
+                produkItems[i].style.display = "block";
+            } else {
+                produkItems[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+<script>
+    function submitForm() {
+        const filterKategori = document.getElementById('filterKategori');
+        const selectedKategoriId = filterKategori.value;
+        const form = filterKategori.closest('form');
+
+        // Remove any existing hidden input for filterKategori (if present)
+        const existingInput = document.querySelector('input[name="filterKategori"]');
+        if (existingInput) {
+            existingInput.remove();
+        }
+
+        // Append the selected category ID as a hidden input to the form
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'filterKategori';
+        hiddenInput.value = selectedKategoriId;
+        form.appendChild(hiddenInput);
+
+        // Submit the form
+        form.submit();
+    }
+</script>
+
+
+
 
 @endsection
 

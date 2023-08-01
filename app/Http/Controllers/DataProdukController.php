@@ -44,7 +44,7 @@ class DataProdukController extends Controller
         }
     
         if ($request->hasFile('gambar_produk')) {
-            $file = $request->file('gambar_produk');
+            $file = $request->file('gambar_produk'); // phpcs:ignore ..DetectUploadFil.Found
             $extension = $file->getClientOriginalExtension();
             $fileName = Str::random(40) . '.' . $extension;
             // $fileName = $file->getClientOriginalName();
@@ -91,7 +91,7 @@ class DataProdukController extends Controller
     public function update(Request $request, $id_produk)
     {
         $validator = Validator::make($request->all(), [
-            'gambar_produk' => 'file|mimes:jpeg,jpg,png'
+            'gambar_produk' => 'file|mimes:jpeg,jpg,png' // phpcs:ignore ..DetectWeakValidation.Found,..DetectWeakValidation.Found
             // Tambahkan aturan validasi lainnya sesuai kebutuhan
         ]);
     

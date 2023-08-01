@@ -31,32 +31,40 @@
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Edit Transaksi</h3>
                                     </div>
-
-
                                     <div class="col-xs-6 scroll-container">
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <div class="form-group">
-                                                <label for="filterKategori">Filter Kategori:</label>
-                                                <select class="form-control" id="filterKategori">
-                                                    <option disabled selected>Pilih Kategori</option>
-                                                    @foreach ($dataKategori as $item)
-                                                        <option value="{{ $item->id_kategori }}">{{ $item->nama_kategori }}</option>
-                                                    @endforeach
-                                                </select>
-                                                </div>
-                                            </div>
+                                                <form action="{{ route('transaksi.filter', ['id_transaksi' => $dataTransaksi->id_transaksi]) }}" method="POST">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label for="filterKategori">Filter Kategori:</label>
+                                                        <select class="form-control" id="filterKategori" name="selectedKategori" onchange="this.form.submit()">
+                                                            <option value="">Semua Kategori</option>
+                                                            @foreach ($dataKategori as $item)
+                                                                <option value="{{ $item->id_kategori }}" {{ $item->id_kategori == $selectedKategoriId ? 'selected' : '' }}>
+                                                                    {{ $item->nama_kategori }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </form>
+                                            </div> 
                                             <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label for="searchInput">Search:</label>
-                                                    <input type="text" class="form-control" id="searchInput" placeholder="Cari produk...">
-                                                </div>
+                                                <form action="{{ route('produk.searchEdit', ['id_transaksi' => $dataTransaksi->id_transaksi]) }}" method="POST" class="form-inline">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label for="searchInput">Cari produk berdasarkan nama:</label>
+                                                        <input type="text" class="form-control" id="searchInput" name="keyword" placeholder="Masukkan nama produk...">
+                                                        <button type="submit" class="btn btn-primary ml-2">Cari</button>
+                                                    </div>
+                                                    <input type="hidden" name="selectedKategori" value="{{ $selectedKategoriId }}">
+                                                </form>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" id="produkContainer">
                                             
                                             @foreach ($dataProduk as $index => $item)
-                                              <div class="col-xs-2" style="margin: 20px; height: 250px;">
+                                              <div class="col-xs-2" style="margin: 20px; height: 250px;" data-nama="{{ strtolower($item->nama_produk) }}" data-kategori="{{ $item->id_kategori }}">
                                                 <div class="card" >
                                                    
                                                     <a href="#" data-toggle="modal" data-target="#modal{{ $item->id_produk }}">
@@ -79,7 +87,7 @@
                                               @if (($index + 1) % 4 === 0)
                                                 <div class="w-100"></div> <!-- Gunakan class 'w-100' untuk membuat baris baru -->
                                             @endif
-                                            @include('transaksi.modal')
+                                            @include('transaksi.modalBayarEdit')
                                             @endforeach
     
                                           </div>
@@ -602,7 +610,70 @@
     }
   </script>
   
-         
+  <script>
+    function searchProducts() {
+        // Ambil nilai kata kunci dari input pencarian
+        var keyword = document.getElementById('searchInput').value.toLowerCase();
+        
+        // Ambil semua produk yang ditampilkan
+        var produkContainer = document.getElementById('produkContainer');
+        var produkItems = produkContainer.getElementsByClassName('produk-item');
+
+        // Loop melalui setiap produk dan sembunyikan/munculkan sesuai dengan kata kunci
+        for (var i = 0; i < produkItems.length; i++) {
+            var namaProduk = produkItems[i].getAttribute('data-nama').toLowerCase();
+
+            // Jika kata kunci ditemukan dalam nama produk, tampilkan; jika tidak, sembunyikan
+            if (namaProduk.includes(keyword)) {
+                produkItems[i].style.display = "block";
+            } else {
+                produkItems[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+<script>
+    function filterByCategory() {
+        var selectedKategoriId = document.getElementById('filterKategori').value;
+        var produkContainer = document.getElementById('produkContainer');
+        var produkItems = produkContainer.getElementsByClassName('produk-item');
+
+        for (var i = 0; i < produkItems.length; i++) {
+            var produkKategoriId = produkItems[i].getAttribute('data-kategori');
+
+            if (selectedKategoriId === '' || produkKategoriId === selectedKategoriId) {
+                produkItems[i].style.display = "block";
+            } else {
+                produkItems[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+<script>
+    function submitForm() {
+        const filterKategori = document.getElementById('filterKategori');
+        const selectedKategoriId = filterKategori.value;
+        const form = filterKategori.closest('form');
+
+        // Remove any existing hidden input for filterKategori (if present)
+        const existingInput = document.querySelector('input[name="filterKategori"]');
+        if (existingInput) {
+            existingInput.remove();
+        }
+
+        // Append the selected category ID as a hidden input to the form
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'filterKategori';
+        hiddenInput.value = selectedKategoriId;
+        form.appendChild(hiddenInput);
+
+        // Submit the form
+        form.submit();
+    }
+</script>   
 
 @endsection
 

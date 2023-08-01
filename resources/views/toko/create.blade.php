@@ -1,3 +1,5 @@
+
+
 {{-- bener --}}
 
 @extends('layoutsAdmin.main')
@@ -21,135 +23,70 @@
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
+					
 					    <div class="row">
-					        <div class="col-xs-12">
-					            <div class="panel">
-					                <div class="panel-heading">
-					                    <h3 class="panel-title">Data Transaksi</h3>
-					                </div>
-					
-					                <!--Data Table-->
-					                <!--===================================================-->
-					                <div class="panel-body">
-					                    <div class="pad-btm form-inline">
-					                        <div class="row">
-					                            <div class="col-sm-6 table-toolbar-left">
-													<a href="{{ route('transaksi.create') }}" class="btn btn-purple">
-														<i class="demo-pli-add icon-fw"></i>Add
-													</a>
-													
-					                            </div>
-					                            <div class="col-sm-6 table-toolbar-right">
-					                                <div class="form-group">
-					                                    <input type="text" autocomplete="off" class="form-control" placeholder="Search" id="demo-input-search2">
-					                                </div>
-					                                <div class="btn-group">
-					                                    <button class="btn btn-default"><i class="demo-pli-download-from-cloud icon-lg"></i></button>
-					                                    <div class="btn-group dropdown">
-					                                        <button class="btn btn-default btn-active-primary dropdown-toggle" data-toggle="dropdown">
-					                                        <i class="demo-pli-dot-vertical icon-lg"></i>
-					                                    </button>
-					                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-					                                            <li><a href="#">Action</a></li>
-					                                            <li><a href="#">Another action</a></li>
-					                                            <li><a href="#">Something else here</a></li>
-					                                            <li class="divider"></li>
-					                                            <li><a href="#">Separated link</a></li>
-					                                        </ul>
-					                                    </div>
-					                                </div>
-					                            </div>
-					                        </div>
-					                    </div>
-					                    <div class="table-responsive">
-					                        <table class="table table-striped">
-					                            <thead>
-					                                <tr>
-					                                    <th>No</th>
-					                                    <th>Tanggal</th>
-					                                    <th>Nama Kasir</th>
-														<th>No Meja</th>
-                                                        <th>Status</th>
-                                                        <th>Diskon</th>
-														<th>Total Harga</th>
-														<th>Total Bayar</th>
-                                                        <th>Total Kembalian</th>
-                                                        
-					                                </tr>
-					                            </thead>
-					                            <tbody>
-													
-													@foreach ($dataTransaksi as $item)
-					                                <tr style="font-size:15px;">
-					                                    <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
-					                                    <td style="vertical-align: middle;">{{ $item->tanggal_transaksi }}</td>
-					                                    {{-- <td style="vertical-align: middle;">{{ $item->user_password }}</td> --}}
-					                                    <td style="vertical-align: middle;">{{ $item->user->user_name }}</td>                                                      
-														<td style="vertical-align: middle; text-align: center;">{{ $item->no_meja }}</td>
-                                                        <td style="vertical-align: middle;">{{ $item->ket_makanan }}</td>
-                                                        <td style="vertical-align: middle; text-align: center;">{{ $item->diskon_transaksi }} %</td>
-														<td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_harga, 0, ',', '.') }}</td>
-                                                        <td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_bayar, 0, ',', '.') }}</td>
-                                                        <td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_kembalian, 0, ',', '.') }}</td>
-														<td class="table-action" style="vertical-align: middle;">
-                                                            <div style="display:flex; align-items:center; justify-content:">
-                                                                <a style="margin-right: 10px;" href="{{ route( 'transaksi.edit', $item->id_transaksi) }}" class="btn btn-sm btn-warning">Edit</a>
-															<form method="POST" action="" id="delete-form-{{ $item->id_transaksi }}" >
-																@csrf
-                												@method('DELETE')
-																<a href="/admin/transaksi/destroy/{{ $item->id_transaksi }}" style="justify-content: center" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->id_transaksi }})">Hapus</a>				
-															</form>	
-                                                            <div class="resi-container">
-                                                                <button onclick="printContent()" style="margin-left: 10px; font-size:13px" class="btn btn-sm btn-success"><i class="demo-pli-printer"></i></button>
-                                                                {{-- <a href="{{ route('transaksi.resi', $item->id_transaksi) }}" target="_blank">View Receipt</a> --}}
-
-                                                                {{-- <a href="{{ route('transaksi.resi', $item->id_transaksi) }}" style="justify-content: center" class="btn btn-sm btn-success" onclick="printContent()">Print</a> --}}
-                                                                {{-- <button onclick="printContentAndRedirect()" style="margin-left: 10px; font-size: 13px" class="btn btn-sm btn-success">
-                                                                    <i class="demo-pli-printer"></i> Print and Redirect
-                                                                </button> --}}
-                                                            </div> 
-                                                            </div>													
-														</td>
-					                                </tr>
-													@endforeach
-													
-									
-					                            </tbody>
-					                        </table>
-					                    </div>
-					                    <hr class="new-section-xs">
-					                    {{-- <div class="pull-right">
-					                        <ul class="pagination text-nowrap mar-no">
-					                            <li class="page-pre disabled">
-					                                <a href="#">&lt;</a>
-					                            </li>
-					                            <li class="page-number active">
-					                                <span>1</span>
-					                            </li>
-					                            <li class="page-number">
-					                                <a href="#">2</a>
-					                            </li>
-					                            <li class="page-number">
-					                                <a href="#">3</a>
-					                            </li>
-					                            <li>
-					                                <span>...</span>
-					                            </li>
-					                            <li class="page-number">
-					                                <a href="#">9</a>
-					                            </li>
-					                            <li class="page-next">
-					                                <a href="#">&gt;</a>
-					                            </li>
-					                        </ul>
-					                    </div> --}}
-					                </div>
-					                <!--===================================================-->
-					                <!--End Data Table-->
-					
-					            </div>
-					        </div>
-					    </div>
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Tambah Data Toko</h3>
+                                </div>
+                        
+                                <!--Horizontal Form-->
+                                <!--===================================================-->
+                               
+                                <form method="POST" action="{{ route('toko.store') }}" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <div class="panel-body">
+                                        <div class="form-group d-flex mb-3">
+                                            <label class="col-sm-3 control-label" for="nama_toko">Nama Toko</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="Nama Toko" name="nama_toko" id="nama_toko" class="form-control">
+                                                <span id="produkError" class="error-message"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex mb-3">
+                                            <label class="col-sm-3 control-label" for="logo">Logo</label>
+                                            <div class="col-sm-9">
+                                                <input type="file" name="logo" id="logo" class="form-control">
+                                                <span id="logoError" class="error-message"></span>
+                                                    @if ($errors->has('logo'))
+                                                        <span class="text-danger">{{ $errors->first('logo') }}</span>
+                                                    @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex mb-3">
+                                            <label class="col-sm-3 control-label" for="no_hp">No HP</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="No HP" name="no_hp" id="no_hp" class="form-control @error('no_hp') is-invalid @enderror">
+                                                <span id="diskonError" class="error-message"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex mb-3">
+                                            <label class="col-sm-3 control-label" for="email">Email</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="Email" name="email" id="email" class="form-control @error('email') is-invalid @enderror">
+                                                <span id="diskonError" class="error-message"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex mb-3">
+                                            <label class="col-sm-3 control-label" for="alamat">Alamat</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" placeholder="Alamat" name="alamat" id="alamat" class="form-control @error('alamat') is-invalid @enderror">
+                                                <span id="diskonError" class="error-message"></span>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="panel-footer text-right">
+                                        <a href="{{ route('toko.index') }}" class="btn btn-secondary">KEMBALI</a>
+                                        <button type="submit" onclick="validateForm(event)" class="btn btn-primary">SIMPAN</button>
+                                    </div>
+                                </form>
+                               
+                                <!--===================================================-->
+                                <!--End Horizontal Form-->
+                        
+                            </div>
+                        </div>
 					
 					
 					    
@@ -542,52 +479,49 @@
 						            <li class="list-header">Navigation</li>
 						
 						            <!--Menu list item-->
-						            <li>
-						                <a href="#">
-						                    <i class="demo-pli-home"></i>
-						                    <span class="menu-title">Master User</span>
-											<i class="arrow"></i>
-						                </a>
-						
-						                <!--Submenu-->
-						                <ul class="collapse in">
-											<li><a href="{{ route('role') }}">Role</a></li>
+						            <li class="{{ Request::is('role', 'user') ? 'active' : '' }}">
+                                        <a href="#">
+                                            <i class="demo-pli-home"></i>
+                                            <span class="menu-title">Master User</span>
+                                            <i class="arrow"></i>
+                                        </a>
+        
+                                        <!--Submenu-->
+                                        <ul class="collapse in">
+                                            <li><a href="{{ route('role') }}">Role</a></li>
                                             <li><a href="{{ route('user') }}">User</a></li>
-											
-						                </ul>
-						            </li>
-						
-						            <!--Menu list item-->
-						            <li>
-						                <a href="#">
-						                    <i class="demo-pli-split-vertical-2"></i>
-						                    <span class="menu-title">Master Menu</span>
-											<i class="arrow"></i>
-						                </a>
-						
-						                <!--Submenu-->
-						                <ul class="collapse">
+                                        </ul>
+                                    </li>
+        
+                                    <!--Menu list item-->
+                                    <li class="{{ Request::is('menu') ? 'active' : '' }}">
+                                        <a href="#">
+                                            <i class="demo-pli-split-vertical-2"></i>
+                                            <span class="menu-title">Master Menu</span>
+                                            <i class="arrow"></i>
+                                        </a>
+        
+                                        <!--Submenu-->
+                                        <ul class="collapse">
                                             <li><a href="{{ route('menu') }}">Menu</a></li>
-											
-						                </ul>
-						            </li>
-                                    
-                                    <li class="active-sub">
-						                <a href="#">
-						                    <i class="demo-pli-split-vertical-2"></i>
-						                    <span class="menu-title">Restoran</span>
-											<i class="arrow"></i>
-						                </a>
-						
-						                <!--Submenu-->
-						                <ul class="collapse">
-                                            <li class="active-link"><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
-											<li><a href="{{ route('produk.index') }}">Produk</a></li>
+                                        </ul>
+                                    </li>
+        
+                                    <li class="{{ Request::is('transaksi', 'produk', 'kategori', 'aditional') ? 'active' : '' }}">
+                                        <a href="#">
+                                            <i class="demo-pli-split-vertical-2"></i>
+                                            <span class="menu-title">Restoran</span>
+                                            <i class="arrow"></i>
+                                        </a>
+        
+                                        <!--Submenu-->
+                                        <ul class="collapse">
+                                            <li><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
+                                            <li><a href="{{ route('produk.index') }}">Produk</a></li>
                                             <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
                                             <li><a href="{{ route('aditional.index') }}">Aditional</a></li>
-						                </ul>
-						            </li>
-						           
+                                        </ul>
+                                    </li>
                             </div>
                         </div>
                     </div>
@@ -613,20 +547,24 @@
     <!-- END OF CONTAINER -->
 @endsection
 
+@section('style')
+<style>
+#hidden_div {
+    display: none ;
+}
+</style>
+@endsection
+
+@section('script')
 <script>
-    function confirmDelete(menuId) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            document.getElementById('delete-form-' + menuId).submit();
-        }
-    }
+function showDiv(divId, element)
+{
+    document.getElementById(divId).style.display = element.value == 'sub menu' ? 'block' : 'none';
+}
 </script>
 
-<script>
-    function printContent() {
-        var printWindow = window.open('{{ route('transaksi.resi', $item->id_transaksi) }}', '_blank');
+@endsection
 
-        printWindow.onload = function() {
-            printWindow.print();
-        };
-    }
-</script>
+
+
+

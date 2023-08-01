@@ -17,6 +17,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TransaksiDetailAditional;
 use App\Http\Controllers\TransaksiDetailController;
 use App\Http\Controllers\AditionalProdukController;
+use App\Http\Controllers\DataTokoController;
+use App\Http\Controllers\PrintController;
 use App\Models\TransaksiDetail;
 
 /*
@@ -98,15 +100,41 @@ Route::get('/admin/user/edit/{id}', [DataUserController::class, 'edit'])->name('
 Route::post('/user/store', [DataUserController::class, 'store']);
 Route::get('/admin/user/destroy/{id}', [DataUserController::class,'destroy'])->name('user.destroy');
 
+
+// Route::post('/admin/transaksi/update/{id_transaksi}', [TransaksiController::class, 'updateTransaksiDetail'])->name('transaksi.update');
+
 // Route::post('admin/transaksi/update', [TransaksiController::class, 'update'])->name('transaksi.update');
-Route::post('/admin/transaksi/update/{id_transaksi}', [TransaksiController::class, 'update'])->name('transaksi.update');
+Route::post('/admin/transaksi/update', [TransaksiController::class, 'update'])->name('transaksi.update');
 Route::get('/admin/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
 Route::get('/admin/transaksi', [TransaksiController::class,'index'])->name('transaksi.index');
 Route::get('/admin/transaksi/edit/{id}', [TransaksiController::class, 'edit'])->name('transaksi.edit');
 Route::post('/transaksi/store', [TransaksiController::class, 'store'])->name('transaksi.store');
 Route::post('/transaksi/storeTransaksi', [TransaksiController::class, 'storeTransaksi'])->name('transaksi.storeTransaksi');
+
+
+Route::post('/transaksi/updateTransaksi', [TransaksiController::class, 'updateTransaksi'])->name('transaksi.updateTransaksi');
+
+
 Route::get('/admin/transaksi/destroy/{id}', [TransaksiController::class,'destroy'])->name('transaksi.destroy');
 // Route::get('/admin/transaksi/destroy/{id}', [TransaksiController::class,'destroy'])->name('transaksi.destroy');
+
+Route::post('/produk/search', [TransaksiController::class,'searchProducts'])->name('produk.search');
+Route::post('/produk/search/{id_transaksi}', [TransaksiController::class,'search'])->name('produk.searchEdit');
+// Route::post('/produk/search', [TransaksiController::class,'searchProductsEdit'])->name('produk.searchEdit');
+Route::get('/produk/filter', [TransaksiController::class,'filter'])->name('produk.filter');
+Route::post('/produk/filter/{id_transaksi}', [TransaksiController::class,'filterProducts'])->name('transaksi.filter');
+
+
+// Route::get('/print/{id_transaksi?}', [PrintController::class,'print'])->name('print');
+Route::get('/admin/transaksi/{id_transaksi}/resi', [TransaksiController::class, 'showReceipt'])->name('transaksi.resi');
+
+
+Route::get('/admin/toko', [DataTokoController::class,'index'])->name('toko.index');
+Route::put('/admin/toko/update/{id}', [DataTokoController::class, 'update'])->name('toko.update');
+Route::get('/admin/toko/create', [DataTokoController::class, 'create'])->name('toko.create');
+Route::post('/toko/store', [DataTokoController::class, 'store'])->name('toko.store');
+Route::get('/admin/toko/edit/{id}', [DataTokoController::class, 'edit'])->name('toko.edit');
+Route::get('/admin/toko/destroy/{id}', [DataTokoController::class,'destroy'])->name('toko.destroy');
 
 Route::put('/admin/produk/update/{id}', [DataProdukController::class, 'update'])->name('produk.update');
 Route::get('/admin/produk/create', [DataProdukController::class, 'create'])->name('produk.create');

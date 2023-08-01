@@ -25,7 +25,7 @@
 					        <div class="col-xs-12">
 					            <div class="panel">
 					                <div class="panel-heading">
-					                    <h3 class="panel-title">Data Transaksi</h3>
+					                    <h3 class="panel-title">Data Toko</h3>
 					                </div>
 					
 					                <!--Data Table-->
@@ -34,7 +34,7 @@
 					                    <div class="pad-btm form-inline">
 					                        <div class="row">
 					                            <div class="col-sm-6 table-toolbar-left">
-													<a href="{{ route('transaksi.create') }}" class="btn btn-purple">
+													<a href="{{ route('toko.create') }}" class="btn btn-purple">
 														<i class="demo-pli-add icon-fw"></i>Add
 													</a>
 													
@@ -66,53 +66,52 @@
 					                            <thead>
 					                                <tr>
 					                                    <th>No</th>
-					                                    <th>Tanggal</th>
-					                                    <th>Nama Kasir</th>
-														<th>No Meja</th>
-                                                        <th>Status</th>
-                                                        <th>Diskon</th>
-														<th>Total Harga</th>
-														<th>Total Bayar</th>
-                                                        <th>Total Kembalian</th>
-                                                        
+					                                    <th>Logo</th>
+                                                        <th>Nama Toko</th>
+                                                        <th>No Hp</th>
+                                                        <th>Email</th>
+                                                        <th>Alamat</th>
 					                                </tr>
 					                            </thead>
 					                            <tbody>
 													
-													@foreach ($dataTransaksi as $item)
-					                                <tr style="font-size:15px;">
+													@foreach ($dataToko as $item)
+					                                <tr>
 					                                    <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
-					                                    <td style="vertical-align: middle;">{{ $item->tanggal_transaksi }}</td>
-					                                    {{-- <td style="vertical-align: middle;">{{ $item->user_password }}</td> --}}
-					                                    <td style="vertical-align: middle;">{{ $item->user->user_name }}</td>                                                      
-														<td style="vertical-align: middle; text-align: center;">{{ $item->no_meja }}</td>
-                                                        <td style="vertical-align: middle;">{{ $item->ket_makanan }}</td>
-                                                        <td style="vertical-align: middle; text-align: center;">{{ $item->diskon_transaksi }} %</td>
-														<td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_harga, 0, ',', '.') }}</td>
-                                                        <td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_bayar, 0, ',', '.') }}</td>
-                                                        <td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_kembalian, 0, ',', '.') }}</td>
+                                                        {{-- <td style="vertical-align: middle;">{{ $item->gambar_produk }}</td> --}}
+                                                        <td style="vertical-align: middle;">
+                                                            <div style="display: flex; justify-content: center; align-items: flex-center; flex-direction: column;">
+                                                                @if($item->logo)
+                                                                <img style="width: 50px; height: 50px; margin-bottom: 5px;" src="{{ asset('storage/photos/'.basename($item->logo)) }}" alt="Logo Toko">
+                                                            @else
+                                                                No Photo
+                                                            @endif
+                                                            </div>
+                                                            
+                                                        </td> 
+                                                        <td style="vertical-align: middle;">{{ $item->nama_toko }}</td>
+                                                        <td style="vertical-align: middle;">{{ $item->no_hp }}</td>
+                                                        <td style="vertical-align: middle;">{{ $item->email }}</td>
+                                                        <td style="vertical-align: middle;">{{ $item->alamat }}</td>
 														<td class="table-action" style="vertical-align: middle;">
-                                                            <div style="display:flex; align-items:center; justify-content:">
-                                                                <a style="margin-right: 10px;" href="{{ route( 'transaksi.edit', $item->id_transaksi) }}" class="btn btn-sm btn-warning">Edit</a>
-															<form method="POST" action="" id="delete-form-{{ $item->id_transaksi }}" >
+                                                            <div style="display:flex; align-items:center">
+                                                                <a style="margin-right: 10px;" href="{{ route( 'toko.edit', $item->id_toko) }}" class="btn btn-sm btn-warning">Edit</a>
+															<form method="POST" action="" id="delete-form-{{ $item->id_toko }}">
 																@csrf
                 												@method('DELETE')
-																<a href="/admin/transaksi/destroy/{{ $item->id_transaksi }}" style="justify-content: center" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->id_transaksi }})">Hapus</a>				
+																<a href="/admin/toko/destroy/{{ $item->id_toko }}" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->id_toko }})">Hapus</a>				
 															</form>	
-                                                            <div class="resi-container">
-                                                                <button onclick="printContent()" style="margin-left: 10px; font-size:13px" class="btn btn-sm btn-success"><i class="demo-pli-printer"></i></button>
-                                                                {{-- <a href="{{ route('transaksi.resi', $item->id_transaksi) }}" target="_blank">View Receipt</a> --}}
-
-                                                                {{-- <a href="{{ route('transaksi.resi', $item->id_transaksi) }}" style="justify-content: center" class="btn btn-sm btn-success" onclick="printContent()">Print</a> --}}
-                                                                {{-- <button onclick="printContentAndRedirect()" style="margin-left: 10px; font-size: 13px" class="btn btn-sm btn-success">
-                                                                    <i class="demo-pli-printer"></i> Print and Redirect
-                                                                </button> --}}
-                                                            </div> 
                                                             </div>													
 														</td>
 					                                </tr>
 													@endforeach
-													
+													<script>
+														function confirmDelete(tokoId) {
+															if (confirm('Are you sure you want to delete this item?')) {
+																document.getElementById('delete-form-' + tokoId).submit();
+															}
+														}
+													</script>
 									
 					                            </tbody>
 					                        </table>
@@ -551,8 +550,8 @@
 						
 						                <!--Submenu-->
 						                <ul class="collapse in">
-											<li><a href="{{ route('role') }}">Role</a></li>
-                                            <li><a href="{{ route('user') }}">User</a></li>
+											<li><a href="role">Role</a></li>
+                                            <li><a href="user">User</a></li>
 											
 						                </ul>
 						            </li>
@@ -567,7 +566,7 @@
 						
 						                <!--Submenu-->
 						                <ul class="collapse">
-                                            <li><a href="{{ route('menu') }}">Menu</a></li>
+                                            <li><a href="menu">Menu</a></li>
 											
 						                </ul>
 						            </li>
@@ -581,10 +580,11 @@
 						
 						                <!--Submenu-->
 						                <ul class="collapse">
-                                            <li class="active-link"><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
-											<li><a href="{{ route('produk.index') }}">Produk</a></li>
-                                            <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
-                                            <li><a href="{{ route('aditional.index') }}">Aditional</a></li>
+                                            <li><a href="transaksi">Transaksi</a></li>
+											<li><a href="produk">Produk</a></li>
+                                            <li><a href="kategori">Kategori</a></li>
+                                            <li><a href="aditional">Aditional</a></li>
+                                            <li class="active-link"><a href="{{ route('toko.index') }}">Toko</a></li>
 						                </ul>
 						            </li>
 						           
@@ -612,21 +612,3 @@
     <!--===================================================-->
     <!-- END OF CONTAINER -->
 @endsection
-
-<script>
-    function confirmDelete(menuId) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            document.getElementById('delete-form-' + menuId).submit();
-        }
-    }
-</script>
-
-<script>
-    function printContent() {
-        var printWindow = window.open('{{ route('transaksi.resi', $item->id_transaksi) }}', '_blank');
-
-        printWindow.onload = function() {
-            printWindow.print();
-        };
-    }
-</script>

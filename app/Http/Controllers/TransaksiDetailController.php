@@ -63,7 +63,10 @@ class TransaksiDetailController extends Controller
             'created_at' => now(),
             'updated_at' => now()
     ]);
-    return redirect()->route('transaksi.create')->with('success', 'Transaksi Detail edited successfully');
+
+    return back()->with('success', 'Transaksi Detail edited successfully');
+
+    // return redirect()->route('transaksi.create')->with('success', 'Transaksi Detail edited successfully');
     }
 
     /**
@@ -75,6 +78,6 @@ class TransaksiDetailController extends Controller
         $dataTransaksiDetail->delete();
         $tda = TransaksiDetailAditional::where('id_transaksi_detail', $id_transaksi_detail);
         $tda->delete();
-        return redirect()->route('transaksi.create')->with('success', 'Terdelet');
+        return back()->with('success', 'Transaction updated successfully.');
     }
 }
