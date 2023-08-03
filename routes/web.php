@@ -163,5 +163,7 @@ Route::get('/admin/transaksidetail/destroy/{id}', [TransaksiDetailController::cl
 Route::put('/admin/transaksidetail/update/{id}', [TransaksiDetailController::class, 'update'])->name('transaksidetail.update');
 Route::get('/admin/transaksidetail/edit/{id}', [TransaksiDetailController::class, 'edit'])->name('transaksidetail.edit');
 
+// routes/web.php
+Route::get('/transactions', [TransaksiController::class, 'showTransactions']);
 
 

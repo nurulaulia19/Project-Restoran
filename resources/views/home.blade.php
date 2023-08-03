@@ -1087,6 +1087,7 @@
 											<li><a href="produk">Produk</a></li>
 											<li><a href="kategori">Kategori</a></li>
 											<li><a href="aditional">Aditional</a></li>
+											<li><a href="toko">Toko</a></li>
 						                </ul>
 						            </li>
 						            

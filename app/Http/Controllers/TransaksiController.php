@@ -7,6 +7,8 @@ use App\Models\DataUser;
 use App\Models\Kategori;
 use App\Models\Transaksi;
 use App\Models\DataProduk;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use App\Models\AditionalProduk;
 use App\Models\DataToko;
@@ -92,7 +94,7 @@ public function storeTransaksi(Request $request){
         'total_bayar' => $totalBayarInput,
         'total_kembalian' => $totalKembalianInput,
         'ket_makanan' => $request->ket_makanan,
-        'diskon_transaksi' => $request->diskon_transaksi,
+        'diskon_transaksi' => empty($request->diskon_transaksi) ? 0 : $request->diskon_transaksi,
     ]);
 
     foreach ($existingTransaksiDetails as $existingTransaksiDetail) {
@@ -473,19 +475,35 @@ public function filterProducts(Request $request, $id_transaksi)
 
 public function showReceipt(Request $request)
 {
-    // Retrieve the transaction data by ID
-    // $dataTransaksi = DataProduk::find($request->id_transaksi);
-    // $dataTransaksi = Transaksi::with('toko')->get();
+
     $dataToko = DataToko::all();
     $dataTransaksi = Transaksi::with('toko','produk','transaksiDetail','transaksiDetailAditional')->where('id_transaksi', $request->id_transaksi)->get();
-
-// dd($dataTransaksi);
-
-    // if (!$dataTransaksi) {
-    //     return back()->with('error', 'Transaction not found.');
-    // }
     return view('transaksi.resi' , compact('dataTransaksi','dataToko'));
     
 }
 
+public function showTransaksi(Request $request)
+{
+    $transaksi = Transaksi::find($request->id_transaksi); // Mengambil data transaksi berdasarkan ID
+
+// Hitung jumlah items (jumlah produk) berdasarkan data transaksi
+$jumlahItems = $transaksi->transaksiDetail->sum('jumlah_produk');
+
+// Tampilkan view dengan data transaksi dan jumlah items
+return view('transaksi.resi', [
+    'transaksi' => $transaksi,
+    'jumlahItems' => $jumlahItems
+]);
 }
+
+
+public function showTransactions()
+{
+    // Mengambil data transaksi dan menggunakan metode paginate() untuk mengatur paging
+    $dataTransaksi = Transaksi::orderBy('id_transaksi', 'ASC')->paginate(10);
+
+    return view('transaksi.index', compact('dataTransaksi'));
+}
+
+}
+

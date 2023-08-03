@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id_transaksi');
             $table->integer('user_id');
             $table->date('tanggal_transaksi');
-            $table->integer('no_meja');
+            $table->integer('no_meja')->nullable();
             $table->integer('total_harga');
             $table->integer('total_bayar');
             $table->integer('total_kembalian');

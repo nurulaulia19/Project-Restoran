@@ -41,12 +41,6 @@
 									{{-- @csrf --}}
 									@method('PUT')
                                     <div class="panel-body">
-                                        {{-- <div class="form-group d-flex mb-3">
-                                            <label class="col-sm-3 control-label" for="menu_id">Id Menu</label>
-                                            <div class="col-sm-9">
-                                                <input type="hidden" name="menu_id" id="menu_id" class="form-control" value="{{ $item->menu_id }}" disabled>
-                                            </div>
-                                        </div> --}}
                                         <div class="form-group d-flex mb-3">
                                             <label class="col-sm-3 control-label" for="menu_name">Nama Menu</label>
                                             <div class="col-sm-9">
@@ -555,7 +549,6 @@
             <!--===================================================-->
             <!--END MAIN NAVIGATION-->
 
-        </div>
 
 
         <!-- SCROLL PAGE BUTTON -->
@@ -564,7 +557,8 @@
             <i class="pci-chevron chevron-up"></i>
         </button>
         <!--===================================================-->
-    </div>
+
+        
     <!--===================================================-->
     <!-- END OF CONTAINER -->
 @endsection

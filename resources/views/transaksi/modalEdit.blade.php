@@ -23,20 +23,10 @@
                                 <div class="form-group">
                                     <label class="control-label">Nama Kasir</label>
                                     <input type="text" name="user_name" value="{{ auth()->user()->user_name }}" class="form-control" readonly>
-                                    <span id="user_nameiError" class="error-message"></span>
-                                </div>
-                                
+                                </div> 
                             </div>
                     </div>
                     <div class="row">
-                            
-                      
-                        {{-- <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">Nama Kasir</label>
-                                <input type="text" placeholder="Nama Kasir" name="user_id" id="user_id" class="form-control">
-                            </div>
-                        </div> --}}
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">No Meja</label>
@@ -51,23 +41,10 @@
                                     <option value="dine in" @if($dataTransaksi->ket_makanan == 'dine in') selected @endif>Dine In</option>
                                     <option value="take away" @if($dataTransaksi->ket_makanan == 'take away') selected @endif>Take Away</option>
                                 </select>
+                                <span id="ket_makananError" class="error-message"></span>
                             </div>
                         </div>
-                        
-                        {{-- <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="control-label">Status</label>
-                                <select class="form-control" name="ket_makanan" id="ket_makanan">
-                                    <option disabled selected>Pilih Status</option>
-                                    <option value="dine in">Dine In</option>
-                                    <option value="take away">Take Away</option>
-                                </select>
-                            </div>
-                        </div> --}}
                     </div>
-                    {{-- <div class="row">
-                        
-                    </div> --}}
                     <hr>
                     <div class="form-group d-flex mb-3">
                         <label class="col-sm-3 control-label" for="diskon_transaksi">Diskon</label>
@@ -80,7 +57,6 @@
                         <label class="col-sm-3 control-label" for="total_bayar">Total Harga</label>
                         <div class="col-sm-9">
                             <input type="text" placeholder="Total Harga" name="total_harga" id="total_harga_input" class="form-control" value="{{ number_format($totalSemuaHarga, 0, ',', '.') }}">
-                            <span id="total_harga_error" class="error-message"></span>
                         </div>
                     </div>
                     <div class="form-group d-flex mb-3">
@@ -133,6 +109,54 @@
             diskonInput.value = '0';
         }
     }
+</script>
+
+<script>
+    function validateForm(event) {
+        var tanggalTransaksi = document.getElementById("tanggal_transaksi").value;
+        var status = document.getElementById("ket_makanan").value;
+        var totalBayar = document.getElementById("total_bayar").value;
+        var totalKembalian = document.getElementById("total_kembalian").value;
+        var isFormValid = true;
+
+        if (tanggalTransaksi.trim() === "") {
+            document.getElementById("tanggal_transaksiError").textContent = "Silahkan isi tanggal transaksi!";
+            isFormValid = false;
+        } else {
+            document.getElementById("tanggal_transaksiError").textContent = "";
+        }
+
+        if (status.trim() === "") {
+            document.getElementById("ket_makananError").textContent = "Silahkan pilih status!";
+            isFormValid = false;
+        } else {
+            document.getElementById("ket_makananError").textContent = "";
+        }
+
+        if (totalBayar.trim() === "") {
+            document.getElementById("total_bayar").textContent = "Total Bayar tidak boleh kosong!";
+            isFormValid = false;
+        } else {
+            document.getElementById("total_bayar").textContent = "";
+        }
+
+        if (totalKembalian === "") {
+            document.getElementById("total_kembalian").textContent = "Total Kembalian tidak boleh kosong!";
+            isFormValid = false;
+        } else {
+            document.getElementById("total_kembalian").textContent = "";
+        }
+    if (userPhoto.trim() === "") {
+        document.getElementById("diskonError").textContent = "Silahkan pilih diskon!";
+        isFormValid = false;
+    } else {
+        document.getElementById("diskonError").textContent = "";
+    }
+
+    if (!isFormValid) {
+        event.preventDefault(); // Menghentikan pengiriman form jika ada error
+    }
+}
 </script>
 
 

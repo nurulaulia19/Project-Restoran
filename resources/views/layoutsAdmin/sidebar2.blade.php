@@ -98,49 +98,49 @@
 						<li class="list-header">Navigation</li>
 			
 						<!--Menu list item-->
-							<li class="{{ Request::is('role', 'user') ? 'active' : '' }}">
-								<a href="#">
-									<i class="demo-pli-home"></i>
-									<span class="menu-title">Master User</span>
-									<i class="arrow"></i>
-								</a>
+						<li class="{{ request()->is('admin/role*','admin/user*') ? 'active-sub' : '' }}">
+							<a href="#">
+								<i class="demo-pli-home"></i>
+								<span class="menu-title">Master User</span>
+								<i class="arrow"></i>
+							</a>
 
 								<!--Submenu-->
 								<ul class="collapse in">
-									<li><a href="{{ route('role') }}">Role</a></li>
-									<li><a href="{{ route('user') }}">User</a></li>
+									<li class="{{ request()->is('admin/role*') ? 'active-link' : '' }}"><a href="{{ route('role') }}">Role</a></li>
+									<li class="{{ request()->is('admin/user*') ? 'active-link' : '' }}"><a href="{{ route('user') }}">User</a></li>
 								</ul>
 							</li>
 
 							<!--Menu list item-->
-							<li class="{{ Request::is('menu') ? 'active' : '' }}">
+							<li class="{{ request()->is('admin/menu*') ? 'active-sub' : '' }}">
 								<a href="#">
-									<i class="demo-pli-split-vertical-2"></i>
+									<i class="demo-pli-home"></i>
 									<span class="menu-title">Master Menu</span>
 									<i class="arrow"></i>
 								</a>
-
+							
 								<!--Submenu-->
-								<ul class="collapse">
-									<li><a href="{{ route('menu') }}">Menu</a></li>
+								<ul class="collapse {{ request()->is('admin/menu*') ? 'in' : '' }}">
+									<li class="{{ request()->is('admin/menu') ? 'active-link' : '' }}"><a href="{{ route('menu') }}">Menu</a></li>
 								</ul>
 							</li>
 
-							<li class="{{ Request::is('transaksi', 'produk', 'kategori', 'aditional', 'toko') ? 'active' : '' }}">
+							<li class="{{ request()->is('admin/transaksi*','admin/produk*','admin/kategori*','admin/aditional*','admin/toko*') ? 'active-sub' : '' }}">
 								<a href="#">
-									<i class="demo-pli-split-vertical-2"></i>
+									<i class="demo-pli-home"></i>
 									<span class="menu-title">Restoran</span>
 									<i class="arrow"></i>
 								</a>
 
 								<!--Submenu-->
-								<ul class="collapse">
-									
-									<li><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
-									<li><a href="{{ route('produk.index') }}">Produk</a></li>
-									<li><a href="{{ route('kategori.index') }}">Kategori</a></li>
-									<li><a href="{{ route('aditional.index') }}">Aditional</a></li>
-									<li><a href="{{ route('toko.index') }}">Toko</a></li>
+
+								<ul class="collapse in">
+									<li class="{{ request()->is('admin/transaksi*') ? 'active-link' : '' }}"><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
+									<li class="{{ request()->is('admin/produk*') ? 'active-link' : '' }}"><a href="{{ route('produk.index') }}">Produk</a></li>
+									<li class="{{ request()->is('admin/kategori*') ? 'active-link' : '' }}"><a href="{{ route('kategori.index') }}">Kategori</a></li>
+									<li class="{{ request()->is('admin/aditional*') ? 'active-link' : '' }}"><a href="{{ route('aditional.index') }}">Aditional</a></li>
+									<li class="{{ request()->is('admin/toko*') ? 'active-link' : '' }}"><a href="{{ route('toko.index') }}">Toko</a></li>
 								</ul>
 							</li>
 
@@ -153,9 +153,33 @@
 	</div>
 </nav>
 
-<style>
-	/* CSS untuk menu aktif */
-	#mainnav-menu-wrap .list-group-item.active > a > .menu-title {
-		color: #25476A; /* Ubah warna teks menjadi merah (nyala) */
-	}
-</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	  const masterMenuCollapse = document.getElementById("masterMenuCollapse");
+	  const masterMenuLink = document.querySelector(".nav-item[data-toggle='collapse'] .nav-link");
+  
+	  // Cek apakah dropdown Master Menu harus ditampilkan saat halaman dimuat
+	  if (masterMenuLink.classList.contains("active")) {
+		masterMenuCollapse.classList.add("show");
+	  }
+  
+	  masterMenuLink.addEventListener("click", function(event) {
+		event.preventDefault();
+  
+		// Toggle collapse secara manual
+		masterMenuCollapse.classList.toggle("show");
+	  });
+  
+	  // Tambahkan event listener untuk menutup dropdown saat klik di area lain
+	  document.addEventListener("click", function(event) {
+		const target = event.target;
+  
+		// Cek apakah target adalah area di luar dropdown dan tidak ada elemen masterMenuLink yang diklik
+		if (!target.closest("#masterMenuCollapse") && !target.classList.contains("nav-link")) {
+		  masterMenuCollapse.classList.remove("show");
+		}
+	  });
+	});
+  </script>
