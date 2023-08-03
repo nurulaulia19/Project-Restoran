@@ -35,12 +35,6 @@
                                 <form method="POST" action="/menu/store">
                                     {{ csrf_field() }}
                                     <div class="panel-body">
-                                        {{-- <div class="form-group d-flex mb-3">
-                                            <label class="col-sm-3 control-label" for="menu_id">Id Menu</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" placeholder="Id Menu" name="menu_id" id="menu_id" class="form-control">
-                                            </div>
-                                        </div> --}}
                                         <div class="form-group d-flex mb-3">
                                             <label class="col-sm-3 control-label" for="menu_name">Nama Menu</label>
                                             <div class="col-sm-9">
@@ -57,20 +51,13 @@
                                             <label class="col-sm-3 control-label" for="menu_category">Kategori Menu</label>
 											<div class="col-sm-9">
 												<select class="form-control" name="menu_category" id="menu_category" onchange="showDiv('hidden_div', this)">
-													{{-- <select id="test" name="form_select" onchange="showDiv('hidden_div', this)">
-														<option value="0">No</option>
-														<option value="1">Yes</option>
-													 </select>
-													 <div id="hidden_div">This is a hidden div</div> --}}
+													
 													<option value="master menu">Master Menu</option>
 													<option value="sub menu">Sub Menu</option>
 													
 												</select>
 											</div>
 											
-                                            {{-- <div class="col-sm-9">
-                                                <input type="text" placeholder="Kategori Menu" name="menu_category" id="menu_category" class="form-control">
-                                            </div> --}}
                                         </div>
 										<div id="hidden_div">
 											<div class="form-group d-flex mb-3">
@@ -95,7 +82,7 @@
 
                                     </div>
                                     <div class="panel-footer text-right">
-                                        <a href="{{ route('menu') }}" class="btn btn-secondary">KEMBALI</a>
+                                        <a href="{{ route('menu.index') }}" class="btn btn-secondary">KEMBALI</a>
                                         <button type="submit" class="btn btn-primary">SIMPAN</button>
                                         {{-- <button class="btn btn-success" type="submit">Edit</button> --}}
                                     </div>

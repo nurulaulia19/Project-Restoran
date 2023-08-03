@@ -116,6 +116,7 @@
 					                            </tbody>
 					                        </table>
 					                    </div>
+                                        {{ $dataToko->links('pagination::bootstrap-4') }}
 					                    <hr class="new-section-xs">
 					                    {{-- <div class="pull-right">
 					                        <ul class="pagination text-nowrap mar-no">

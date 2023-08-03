@@ -14,7 +14,8 @@ class AditionalProdukController extends Controller
      */
     public function index()
     {
-        $dataAditional = AditionalProduk::with('produk')->get();
+        $dataAditional = AditionalProduk::with('produk')->orderBy('id_aditional', 'DESC')->paginate(10);
+        // $dataAditional = AditionalProduk::with('produk')->get();
         return view('aditional.index', compact('dataAditional'));
     }
 

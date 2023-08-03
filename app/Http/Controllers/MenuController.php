@@ -13,10 +13,10 @@ class MenuController extends Controller
     
      public function index() {
         $dataMenu = Data_Menu::leftJoin('data_menu AS menuSub', 'data_menu.menu_sub', '=', 'menuSub.menu_id')
-            ->select('menuSub.menu_name AS submenu_name', 'data_menu.*')
-            ->get();
+            ->select('menuSub.menu_name AS submenu_name', 'data_menu.*')->paginate(10);
+            
     
-        return view('menu', compact('dataMenu'));
+        return view('menu.index', compact('dataMenu'));
     }
 
     public function create(){
@@ -40,7 +40,7 @@ class MenuController extends Controller
             'updated_at' => now()
         ]);
         if($result){
-            return redirect()->route('menu')->with('success', 'Menu insert successfully');
+            return redirect()->route('menu.index')->with('success', 'Menu insert successfully');
         }else{
             return $this->create();
         }
@@ -82,7 +82,7 @@ class MenuController extends Controller
             'created_at' => now(),
             'updated_at' => now()
     ]);
-    return redirect()->route('menu')->with('success', 'Menu edited successfully');
+    return redirect()->route('menu.index')->with('success', 'Menu edited successfully');
 }
         
     //     $dataMenu = Data_Menu::where('menu_id', '=', $id)->first();
@@ -101,7 +101,7 @@ class MenuController extends Controller
     public function destroy($menu_id){
         $menu = Data_Menu::where('menu_id', $menu_id);
         $menu->delete();
-        return redirect()->route('menu')->with('success', 'Terdelet');
+        return redirect()->route('menu.index')->with('success', 'Terdelet');
     }
 
 

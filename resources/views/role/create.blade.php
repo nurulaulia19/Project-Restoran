@@ -527,7 +527,7 @@
                                            
                                         </div>
                                     <div class="panel-footer text-right">
-                                        <a href="{{ route('role') }}" class="btn btn-secondary">KEMBALI</a>
+                                        <a href="{{ route('role.index') }}" class="btn btn-secondary">KEMBALI</a>
                                         <button type="submit" class="btn btn-primary">SIMPAN</button>
                                     </div>
                                 </form>

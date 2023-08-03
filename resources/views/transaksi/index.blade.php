@@ -112,103 +112,14 @@
 									
 					                            </tbody>
 					                        </table>
+                                        
+                                            
 					                    </div>
-
-                                        {{-- paging --}}
-
-                                        {{-- {{ $dataTransaksi->links() }} --}}
-
-                                        {{-- <div class="paging-container">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination">
-                                                    <!-- Tombol previous -->
-                                                    <li class="page-item {{ $dataTransaksi->onFirstPage() ? 'disabled' : '' }}" id="btn-previous">
-                                                        <a class="page-link" href="{{ $dataTransaksi->previousPageUrl() }}" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <!-- Tombol-tombol halaman -->
-                                                    @foreach ($dataTransaksi as $page)
-                                                        <li class="page-item {{ $page->isActivePage() ? 'active' : '' }}">
-                                                            <a class="page-link" href="{{ $page->url }}">{{ $page->page }}</a>
-                                                        </li>
-                                                    @endforeach
-                                                    <!-- Tombol next -->
-                                                    <li class="page-item {{ $dataTransaksi->hasMorePages() ? '' : 'disabled' }}" id="btn-next">
-                                                        <a class="page-link" href="{{ $dataTransaksi->nextPageUrl() }}" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div> --}}
+                                        {{ $dataTransaksi->links('pagination::bootstrap-4') }}
                                         
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-
-                                        {{-- <div class="paging-container">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination">
-                                                    <!-- Tombol previous -->
-                                                    <li class="page-item disabled" id="btn-previous">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>
-                                                    </li>
-                                                    <!-- Tombol-tombol halaman -->
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <!-- Tombol next -->
-                                                    <li class="page-item" id="btn-next">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div> --}}
-                                        
-                                       
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-
-                                        {{-- akhir paging --}}
 
 					                    <hr class="new-section-xs">
-					                    {{-- <div class="pull-right">
-					                        <ul class="pagination text-nowrap mar-no">
-					                            <li class="page-pre disabled">
-					                                <a href="#">&lt;</a>
-					                            </li>
-					                            <li class="page-number active">
-					                                <span>1</span>
-					                            </li>
-					                            <li class="page-number">
-					                                <a href="#">2</a>
-					                            </li>
-					                            <li class="page-number">
-					                                <a href="#">3</a>
-					                            </li>
-					                            <li>
-					                                <span>...</span>
-					                            </li>
-					                            <li class="page-number">
-					                                <a href="#">9</a>
-					                            </li>
-					                            <li class="page-next">
-					                                <a href="#">&gt;</a>
-					                            </li>
-					                        </ul>
-					                    </div> --}}
+					                    
 					                </div>
 					                <!--===================================================-->
 					                <!--End Data Table-->

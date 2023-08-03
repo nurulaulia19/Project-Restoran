@@ -21,8 +21,9 @@ class DataUserController extends Controller
     public function index()
     {
         // $dataUser = DataUser::all();
-        $dataUser = DataUser::with('role')->get();
-        return view('user', compact('dataUser'));
+        $dataUser = DataUser::with('role')->orderBy('user_id', 'DESC')->paginate(10);
+        // $dataUser = DataUser::with('role')->get();
+        return view('user.index', compact('dataUser'));
     }
 
     /**
@@ -85,7 +86,7 @@ class DataUserController extends Controller
         $dataUser->user_token = $request->user_token;
         $dataUser->save();
     
-        return redirect()->route('user')->with('success', 'User inserted successfully');
+        return redirect()->route('user.index')->with('success', 'User inserted successfully');
 
        
     }
@@ -165,7 +166,7 @@ class DataUserController extends Controller
 
     $dataUser->save();
 
-    return redirect()->route('user')->with('success', 'User edited successfully');
+    return redirect()->route('user.index')->with('success', 'User edited successfully');
 }
 
 
@@ -176,6 +177,6 @@ class DataUserController extends Controller
     {
         $dataUser = DataUser::where('user_id', $user_id);
         $dataUser->delete();
-        return redirect()->route('user')->with('success', 'Terdelet');
+        return redirect()->route('user.index')->with('success', 'Terdelet');
     }
 }

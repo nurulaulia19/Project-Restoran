@@ -14,7 +14,8 @@ class DataTokoController extends Controller
      */
     public function index()
     {
-        $dataToko = DataToko::all();
+        $dataToko = DataToko::orderBy('id_toko', 'ASC')->paginate(10);
+        // $dataToko = DataToko::all();
         return view('toko.index', compact('dataToko'));
     }
 

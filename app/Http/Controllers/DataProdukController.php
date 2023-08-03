@@ -14,7 +14,8 @@ class DataProdukController extends Controller
      * Display a listing of the resource.
      */
     public function index() {
-        $dataProduk = DataProduk::with('kategori')->get();
+        $dataProduk = DataProduk::with('kategori')->orderBy('id_produk', 'DESC')->paginate(10);
+        // $dataProduk = DataProduk::with('kategori')->get();
         return view('produk.index', compact('dataProduk'));
     }
 

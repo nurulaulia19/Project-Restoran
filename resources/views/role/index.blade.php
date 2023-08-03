@@ -25,7 +25,7 @@
 					        <div class="col-xs-12">
 					            <div class="panel">
 					                <div class="panel-heading">
-					                    <h3 class="panel-title">Menu</h3>
+					                    <h3 class="panel-title">Role</h3>
 					                </div>
 					
 					                <!--Data Table-->
@@ -34,16 +34,11 @@
 					                    <div class="pad-btm form-inline">
 					                        <div class="row">
 					                            <div class="col-sm-6 table-toolbar-left">
-													<a href="{{ route('menu.create') }}" class="btn btn-purple">
+													<a href="{{ route('role.create') }}" class="btn btn-purple">
 														<i class="demo-pli-add icon-fw"></i>Add
 													</a>
 													
-					                                {{-- <button class="btn btn-purple"><i class="demo-pli-add icon-fw"></i>Add</button> --}}
-					                                {{-- <button class="btn btn-default"><i class="demo-pli-printer icon-lg"></i></button>
-					                                <div class="btn-group">
-					                                    <button class="btn btn-default"><i class="demo-pli-information icon-lg"></i></button>
-					                                    <button class="btn btn-default"><i class="demo-pli-trash icon-lg"></i></button>
-					                                </div> --}}
+					    
 					                            </div>
 					                            <div class="col-sm-6 table-toolbar-right">
 					                                <div class="form-group">
@@ -72,34 +67,45 @@
 					                            <thead>
 					                                <tr>
 					                                    <th>No</th>
-					                                    <th>Nama Menu</th>
-					                                    <th>Link Menu</th>
-					                                    <th>Category Menu</th>
-					                                    <th class="text-center">Sub Menu</th>
-														<th class="text-center">Posisi Menu</th>
+					                                    <th>Nama Role</th>
+														<th>Menu</th>
+					                                    {{-- <th>Aksi</th> --}}
+					                                    {{-- <th class="text-center">Sub Menu</th>
+														<th class="text-center">Posisi Menu</th> --}}
 					                                </tr>
 					                            </thead>
 					                            <tbody>
 													
-													@foreach ($dataMenu as $item)
+													@foreach ($roles as $item)
 					                                <tr>
 														<td>{{ $loop->iteration }}</td>
-					                                    <td>{{ $item->menu_name }}</td>
-					                                    <td>{{ $item->menu_link }}</td>
-					                                    <td>{{ $item->menu_category }}</td>
-					                                    <td class="text-center">{{ $item->submenu_name }}</td>
-					                                    <td class="text-center">{{ $item->menu_position }}</td>
-														<td class="table-action" style="justify-content:center; display:flex">
-															<a style="margin-right: 10px" href="{{ route( 'menu.edit', $item->menu_id) }}" class="btn btn-sm btn-warning">Edit</a>
-															<form method="POST" action="" id="delete-form-{{ $item->menu_id }}">
+					                                    <td>{{ $item->role_name }}</td>
+														<td> @foreach ($item->roleMenus as $roleMenu)
+															{{ $roleMenu->dataMenu->menu_name }}
+															@if (!$loop->last)
+																,
+															@endif
+															@endforeach
+															{{-- @if ($item->dataMenu)
+																@foreach ($item->roleMenus as $roleMenu)
+																{{ $roleMenu->dataMenu->menu_name }}
+																@if (!$loop->last)
+																	,
+																@endif
+																@endforeach
+															@else
+																Menu not assigned
+															@endif  --}}
+														
+														</td>
+														
+														<td class="table-action" style="justify-content:center; display:flex;">
+															<a style="margin-right: 10px" href="{{ route( 'role.edit', $item->role_id) }}" class="btn btn-sm btn-warning">Edit</a>
+															<form method="POST" action="" id="delete-form-{{ $item->role_id }}">
 																@csrf
                 												@method('DELETE')
-																<a href="/admin/menu/destroy/{{ $item->menu_id }}" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->menu_id }})">Hapus</a>
-																{{-- <a href="/menu/destroy/{{ $item->menu_id }}" class="btn btn-sm btn-danger">Hapus</a> --}}
-																
-															</form>
-															
-																										
+																<a href="/admin/role/destroy/{{ $item->role_id }}" class="btn btn-sm btn-danger" onclick="confirmDelete({{ $item->role_id }})">Hapus</a>
+															</form>											
 														</td>
 					                                </tr>
 													@endforeach
@@ -114,32 +120,9 @@
 					                            </tbody>
 					                        </table>
 					                    </div>
+                                        {{ $dataRole->links('pagination::bootstrap-4') }}
 					                    <hr class="new-section-xs">
-					                    {{-- <div class="pull-right">
-					                        <ul class="pagination text-nowrap mar-no">
-					                            <li class="page-pre disabled">
-					                                <a href="#">&lt;</a>
-					                            </li>
-					                            <li class="page-number active">
-					                                <span>1</span>
-					                            </li>
-					                            <li class="page-number">
-					                                <a href="#">2</a>
-					                            </li>
-					                            <li class="page-number">
-					                                <a href="#">3</a>
-					                            </li>
-					                            <li>
-					                                <span>...</span>
-					                            </li>
-					                            <li class="page-number">
-					                                <a href="#">9</a>
-					                            </li>
-					                            <li class="page-next">
-					                                <a href="#">&gt;</a>
-					                            </li>
-					                        </ul>
-					                    </div> --}}
+					                   
 					                </div>
 					                <!--===================================================-->
 					                <!--End Data Table-->
@@ -439,11 +422,11 @@
             
             <!--MAIN NAVIGATION-->
             <!--===================================================-->
-            
+           
             <!--===================================================-->
             <!--END MAIN NAVIGATION-->
 
-      
+        
 
 
         <!-- SCROLL PAGE BUTTON -->

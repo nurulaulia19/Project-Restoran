@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home.index');
     //     $get_user = User::where('email',auth()->user()->email)->first();
     //     if($get_user->is_activated == 1){
     //         return view('home');

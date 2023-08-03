@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                     <div class="panel-footer text-right">
-                                        <a href="{{ route('user') }}" class="btn btn-secondary">KEMBALI</a>
+                                        <a href="{{ route('user.index') }}" class="btn btn-secondary">KEMBALI</a>
                                         <button type="submit" onclick="validateForm(event)" class="btn btn-primary">SIMPAN</button>
                                     </div>
                                 </form>

@@ -24,7 +24,8 @@ class TransaksiController extends Controller
      */
     public function index() {
         
-        $dataTransaksi = Transaksi::with('user')->get();
+        $dataTransaksi = Transaksi::with('user')->orderBy('id_transaksi', 'DESC')->paginate(10);
+        // $dataTransaksi = Transaksi::with('user')->get();
         return view('transaksi.index', compact('dataTransaksi'));
     }
 
@@ -482,28 +483,28 @@ public function showReceipt(Request $request)
     
 }
 
-public function showTransaksi(Request $request)
-{
-    $transaksi = Transaksi::find($request->id_transaksi); // Mengambil data transaksi berdasarkan ID
+// public function showTransaksi(Request $request)
+// {
+//     $transaksi = Transaksi::find($request->id_transaksi); // Mengambil data transaksi berdasarkan ID
 
-// Hitung jumlah items (jumlah produk) berdasarkan data transaksi
-$jumlahItems = $transaksi->transaksiDetail->sum('jumlah_produk');
+// // Hitung jumlah items (jumlah produk) berdasarkan data transaksi
+// $jumlahItems = $transaksi->transaksiDetail->sum('jumlah_produk');
 
-// Tampilkan view dengan data transaksi dan jumlah items
-return view('transaksi.resi', [
-    'transaksi' => $transaksi,
-    'jumlahItems' => $jumlahItems
-]);
-}
+// // Tampilkan view dengan data transaksi dan jumlah items
+// return view('transaksi.resi', [
+//     'transaksi' => $transaksi,
+//     'jumlahItems' => $jumlahItems
+// ]);
+// }
 
 
-public function showTransactions()
-{
-    // Mengambil data transaksi dan menggunakan metode paginate() untuk mengatur paging
-    $dataTransaksi = Transaksi::orderBy('id_transaksi', 'ASC')->paginate(10);
+// public function showTransactions()
+// {
+//     // Mengambil data transaksi dan menggunakan metode paginate() untuk mengatur paging
+//     $dataTransaksi = Transaksi::orderBy('id_transaksi', 'ASC')->paginate(10);
 
-    return view('transaksi.index', compact('dataTransaksi'));
-}
+//     return view('transaksi.index', compact('dataTransaksi'));
+// }
 
 }
 

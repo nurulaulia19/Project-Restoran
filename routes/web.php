@@ -70,32 +70,28 @@ Route::get('logout', [LoginController::class, 'logout']);
 Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('Adminlogin');
 Route::get('/admin/register', [RegisterController::class, 'showRegisterForm'])->name('Adminregister');
 Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.home');
-// Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.home')->middleware('verified');
 Route::get('logout', [LoginController::class, 'showRegisterForm']);
 Route::get('/admin/user', [App\Http\Controllers\MenuController::class, 'user'])->name('user');
 Route::get('/admin/role', [App\Http\Controllers\MenuController::class, 'role'])->name('role');
 Route::get('/admin/user', function () {
     return view('user');
 });
-Route::get('/admin/role', function () {
-    return view('role');
-});
 
 Route::get('/admin/menu/create', [MenuController::class, 'create'])->name('menu.create');
 Route::post('/menu/store', [MenuController::class, 'store']);
-Route::get('/admin/menu', [MenuController::class,'index'])->name('menu');
+Route::get('/admin/menu', [MenuController::class,'index'])->name('menu.index');
 Route::get('/admin/menu/destroy/{id}', [MenuController::class,'destroy'])->name('menu.destroy');
 Route::get('/admin/menu/edit/{id}', [MenuController::class, 'edit'])->name('menu.edit');
 Route::put('/admin/menu/update/{id}', [MenuController::class, 'update'])->name('menu.update');
 Route::put('/admin/role/update/{id}', [RoleController::class, 'update'])->name('role.update');
 Route::get('/admin/role/create', [RoleController::class, 'create'])->name('role.create');
-Route::get('/admin/role', [RoleController::class,'index'])->name('role');
+Route::get('/admin/role', [RoleController::class,'index'])->name('role.index');
 Route::get('/admin/role/edit/{id}', [RoleController::class, 'edit'])->name('role.edit');
 Route::post('/role/store', [RoleController::class, 'store']);
 Route::get('/admin/role/destroy/{id}', [RoleController::class,'destroy'])->name('role.destroy');
 Route::put('/admin/user/update/{id}', [DataUserController::class, 'update'])->name('user.update');
 Route::get('/admin/user/create', [DataUserController::class, 'create'])->name('user.create');
-Route::get('/admin/user', [DataUserController::class,'index'])->name('user');
+Route::get('/admin/user', [DataUserController::class,'index'])->name('user.index');
 Route::get('/admin/user/edit/{id}', [DataUserController::class, 'edit'])->name('user.edit');
 Route::post('/user/store', [DataUserController::class, 'store']);
 Route::get('/admin/user/destroy/{id}', [DataUserController::class,'destroy'])->name('user.destroy');

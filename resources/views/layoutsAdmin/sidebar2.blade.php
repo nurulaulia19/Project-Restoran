@@ -107,8 +107,8 @@
 
 								<!--Submenu-->
 								<ul class="collapse in">
-									<li class="{{ request()->is('admin/role*') ? 'active-link' : '' }}"><a href="{{ route('role') }}">Role</a></li>
-									<li class="{{ request()->is('admin/user*') ? 'active-link' : '' }}"><a href="{{ route('user') }}">User</a></li>
+									<li class="{{ request()->is('admin/role*') ? 'active-link' : '' }}"><a href="{{ route('role.index') }}">Role</a></li>
+									<li class="{{ request()->is('admin/user*') ? 'active-link' : '' }}"><a href="{{ route('user.index') }}">User</a></li>
 								</ul>
 							</li>
 
@@ -122,7 +122,7 @@
 							
 								<!--Submenu-->
 								<ul class="collapse {{ request()->is('admin/menu*') ? 'in' : '' }}">
-									<li class="{{ request()->is('admin/menu') ? 'active-link' : '' }}"><a href="{{ route('menu') }}">Menu</a></li>
+									<li class="{{ request()->is('admin/menu') ? 'active-link' : '' }}"><a href="{{ route('menu.index') }}">Menu</a></li>
 								</ul>
 							</li>
 

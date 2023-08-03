@@ -12,7 +12,8 @@ class KategoriController extends Controller
      * Display a listing of the resource.
      */
     public function index() {
-        $dataKategori = Kategori::all();
+        $dataKategori = Kategori::orderBy('id_kategori', 'DESC')->paginate(10);
+        // $dataKategori = Kategori::all();
         return view('kategori.index', compact('dataKategori'));
     }
 

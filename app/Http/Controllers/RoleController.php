@@ -14,9 +14,10 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $dataRole = Role::orderBy('role_id', 'DESC')->paginate(10);
         $roles = Role::with('roleMenus')->get();
-        $dataRole = Role::all();
-        return view('role', compact('dataRole', 'roles'));
+        // $dataRole = Role::all();
+        return view('role.index', compact('dataRole', 'roles'));
     }
 
     /**
@@ -44,7 +45,7 @@ class RoleController extends Controller
         ]);
     }
 
-    return redirect()->route('role')->with('error', 'Failed to insert role');
+    return redirect()->route('role.index')->with('error', 'Failed to insert role');
 }
     
     /**
@@ -98,7 +99,7 @@ class RoleController extends Controller
         ]);
     }
 
-    return redirect()->route('role')->with('success', 'Menu edited successfully');
+    return redirect()->route('role.index')->with('success', 'Menu edited successfully');
 
 }
 
@@ -115,6 +116,6 @@ class RoleController extends Controller
         $menu->delete();
         $dataRoleMenu = RoleMenu::where('role_id', $role_id);
         $dataRoleMenu->delete();
-        return redirect()->route('role')->with('success', 'Terdelet');
+        return redirect()->route('role.index')->with('success', 'Terdelet');
     }
 }
