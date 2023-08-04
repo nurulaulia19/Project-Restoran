@@ -42,7 +42,7 @@
             padding: 10px;
             margin-bottom: 20px;
             position: absolute;
-            top: 30%; /* Posisikan di tengah secara vertikal */
+            top: 33%; /* Posisikan di tengah secara vertikal */
             left: 50%; /* Posisikan di tengah secara horizontal */
             transform: translate(-50%, -50%); /* Geser agar tepat berada di atas tengah */
         }

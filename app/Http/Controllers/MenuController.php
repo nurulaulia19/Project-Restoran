@@ -29,6 +29,14 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'menu_name' => 'required',
+            'menu_link' => 'required',
+            'menu_category' => 'required',
+            'menu_position' => 'required|integer',
+            'menu_sub' => 'nullable',
+        ]);
+        
         $result = Data_Menu::insert([
             'menu_id' => $request->menu_id,
             'menu_name' => $request->menu_name,

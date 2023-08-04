@@ -111,53 +111,7 @@
     }
 </script>
 
-<script>
-    function validateForm(event) {
-        var tanggalTransaksi = document.getElementById("tanggal_transaksi").value;
-        var status = document.getElementById("ket_makanan").value;
-        var totalBayar = document.getElementById("total_bayar").value;
-        var totalKembalian = document.getElementById("total_kembalian").value;
-        var isFormValid = true;
 
-        if (tanggalTransaksi.trim() === "") {
-            document.getElementById("tanggal_transaksiError").textContent = "Silahkan isi tanggal transaksi!";
-            isFormValid = false;
-        } else {
-            document.getElementById("tanggal_transaksiError").textContent = "";
-        }
-
-        if (status.trim() === "") {
-            document.getElementById("ket_makananError").textContent = "Silahkan pilih status!";
-            isFormValid = false;
-        } else {
-            document.getElementById("ket_makananError").textContent = "";
-        }
-
-        if (totalBayar.trim() === "") {
-            document.getElementById("total_bayar").textContent = "Total Bayar tidak boleh kosong!";
-            isFormValid = false;
-        } else {
-            document.getElementById("total_bayar").textContent = "";
-        }
-
-        if (totalKembalian === "") {
-            document.getElementById("total_kembalian").textContent = "Total Kembalian tidak boleh kosong!";
-            isFormValid = false;
-        } else {
-            document.getElementById("total_kembalian").textContent = "";
-        }
-    if (userPhoto.trim() === "") {
-        document.getElementById("diskonError").textContent = "Silahkan pilih diskon!";
-        isFormValid = false;
-    } else {
-        document.getElementById("diskonError").textContent = "";
-    }
-
-    if (!isFormValid) {
-        event.preventDefault(); // Menghentikan pengiriman form jika ada error
-    }
-}
-</script>
 
 
 

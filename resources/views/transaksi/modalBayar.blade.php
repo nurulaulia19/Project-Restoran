@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('transaksi.storeTransaksi') }}" id="transaksiForm">
+                <form method="POST" action="{{ route('transaksi.storeTransaksi') }}">
                     {{ csrf_field() }}
                     <div class="panel-body">
                         <div class="row">
@@ -40,36 +40,34 @@
                             <div class="form-group">
                                 <label class="control-label">No Meja</label>
                                 <input type="text" placeholder="No Meja" name="no_meja" id="no_meja" class="form-control">
-                                <span id="no_meja_error" class="error-message"></span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                              <label class="control-label">Status</label>
-                              <select class="form-control" name="ket_makanan" id="ket_makanan">
-                                <option disabled selected>Pilih Status</option>
-                                <option value="dine in">Dine In</option>
-                                <option value="take away">Take Away</option>
-                              </select>
+                                <label class="control-label">Status</label>
+                                <select class="form-control" name="ket_makanan" id="ket_makanan">
+                                    <option value="dine in">Dine In</option>
+                                    <option value="take away">Take Away</option>
+                                </select>
                             </div>
-                            <div id="status_error" style="color: red; display: none;">Kolom status harus diisi.</div>
-                            {{-- @error('ket_makanan')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror --}}
-                            {{-- <span id="status_warning" style="color: red;"></span> --}}
                         </div>
                     </div>
+                    {{-- <div class="row">
+                        
+                    </div> --}}
                     <hr>
                     <div class="form-group d-flex mb-3">
                         <label class="col-sm-3 control-label" for="diskon_transaksi">Diskon</label>
                         <div class="col-sm-9">
                             <input type="text" placeholder="Diskon" name="diskon_transaksi" id="diskon_transaksi" class="form-control" onblur="setDefaultDiskon()">
+                            <span id="diskon_transaksi_error" class="error-message"></span>
                         </div>
                     </div>
                     <div class="form-group d-flex mb-3">
                         <label class="col-sm-3 control-label" for="total_bayar">Total Harga</label>
                         <div class="col-sm-9">
                             <input type="text" placeholder="Total Harga" name="total_harga" id="total_harga_input" class="form-control" value="{{ number_format($totalSemuaHarga, 0, ',', '.') }}">
+                            <span id="total_harga_error" class="error-message"></span>
                         </div>
                     </div>
                     <div class="form-group d-flex mb-3">
@@ -124,18 +122,6 @@
     }
 </script>
 
-<script>
-    document.getElementById('transaksiForm').addEventListener('submit', function (event) {
-        var ketMakananInput = document.getElementById('ket_makanan');
-        var statusErrorDiv = document.getElementById('status_error');
 
-        if (ketMakananInput.value === "") {
-            statusErrorDiv.style.display = 'block';
-            event.preventDefault();
-        } else {
-            statusErrorDiv.style.display = 'none';
-        }
-    });
-</script>
 
 

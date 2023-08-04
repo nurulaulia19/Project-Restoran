@@ -424,11 +424,11 @@ public function filterProducts(Request $request, $id_transaksi)
 
         $request->validate([
             'tanggal_transaksi' => 'required|date',
-            'no_meja' => 'required',
+            'no_meja' => 'nullable',
             'total_harga' => 'required|numeric',
             'total_bayar' => 'required|numeric',
             'total_kembalian' => 'required|numeric',
-            'ket_makanan' => 'nullable',
+            'ket_makanan' => 'required',
             'diskon_transaksi' => 'nullable|numeric',
         ]);
         DB::table('transaksi')->where('id_transaksi', $request->id_transaksi)->update([

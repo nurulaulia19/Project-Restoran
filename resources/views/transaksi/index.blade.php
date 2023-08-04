@@ -39,7 +39,7 @@
 													</a>
 													
 					                            </div>
-					                            <div class="col-sm-6 table-toolbar-right">
+					                            {{-- <div class="col-sm-6 table-toolbar-right">
 					                                <div class="form-group">
 					                                    <input type="text" autocomplete="off" class="form-control" placeholder="Search" id="demo-input-search2">
 					                                </div>
@@ -58,7 +58,7 @@
 					                                        </ul>
 					                                    </div>
 					                                </div>
-					                            </div>
+					                            </div> --}}
 					                        </div>
 					                    </div>
 					                    <div class="table-responsive">
