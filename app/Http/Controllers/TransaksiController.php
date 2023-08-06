@@ -18,8 +18,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\TransaksiDetailAditional;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Support\Collection;
 use PDF;
 use Illuminate\Support\Facades\Response;
+use App\Exports\TransaksiExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class TransaksiController extends Controller
 {
@@ -544,6 +548,43 @@ public function laporanTransaksi(Request $request) {
     return view('laporan.laporanTransaksi', compact('dataTransaksi','totalBayar','totalKembalian'));
 }
 
+
+// public function exportToPDF(Request $request)
+// {
+//     // Ambil data dari request
+//     $tanggalAwal = $request->input('tanggal_awal');
+//     $tanggalAkhir = $request->input('tanggal_akhir');
+//     $ketMakanan = $request->input('ket_makanan');
+
+//     // Lakukan query data sesuai filter
+//     $transaksis = Transaksi::whereBetween('tanggal_transaksi', [$tanggalAwal, $tanggalAkhir])
+//                            ->where('ket_makanan', $ketMakanan)
+//                            ->get();
+
+//     // ... Logika untuk export data ke PDF menggunakan library atau plugin yang sesuai
+
+//     // Misalnya menggunakan DOMPDF
+//     // return PDF::loadView('pdf.export', compact('transaksis'))->stream('export.pdf');
+
+//     // Sesuaikan kode di atas dengan library atau plugin yang Anda gunakan untuk ekspor PDF
+// }
+
+// public function exportToExcel(Request $request)
+// {
+//     // Ambil data dari request
+//     $tanggalAwal = $request->input('tanggal_awal');
+//     $tanggalAkhir = $request->input('tanggal_akhir');
+//     $ketMakanan = $request->input('ket_makanan');
+
+//     // Lakukan query data sesuai filter
+//     $transaksis = Transaksi::whereBetween('tanggal_transaksi', [$tanggalAwal, $tanggalAkhir])
+//                            ->where('ket_makanan', $ketMakanan)
+//                            ->get();
+
+//     // Export data ke Excel menggunakan library maatwebsite/excel
+//     return Excel::download(new TransaksiExport($transaksis), 'export.xlsx');
+// }
+
 public function exportToPDF(Request $request)
 {
     $paperSize = $request->input('paper_size', 'A4');
@@ -562,7 +603,7 @@ public function exportToPDF(Request $request)
     $totalBayar = $query->sum('total_bayar');
     $totalKembalian = $query->sum('total_kembalian');
 
-    $dataTransaksi = $query->paginate(10); // Use paginate to get paginated data
+    $dataTransaksi = $query->get(); // Get data without pagination
 
     $pdfOptions = new Options();
     $pdfOptions->set('defaultFont', 'Arial');
@@ -571,7 +612,10 @@ public function exportToPDF(Request $request)
 
     $pdf = new Dompdf($pdfOptions);
 
-    $pdf->loadHtml(view('laporan.laporanTransaksi', compact('dataTransaksi', 'totalBayar', 'totalKembalian'))->render());
+    // Render the view with data and get the HTML content
+    $htmlContent = View::make('laporan.eksportTransaksi', compact('dataTransaksi', 'totalBayar', 'totalKembalian'))->render();
+
+    $pdf->loadHtml($htmlContent);
 
     $pdf->setPaper($paperSize, 'portrait'); // Atur ukuran kertas secara dinamis
 
@@ -581,60 +625,66 @@ public function exportToPDF(Request $request)
 }
 
 public function exportToExcel(Request $request)
-    {
-        // Filter data sesuai dengan request jika ada filter yang diterapkan pada laporan
-        $query = Transaksi::query();
+{
+    $query = Transaksi::with('user')->orderBy('id_transaksi', 'DESC');
 
-        // Filter berdasarkan status (ket_makanan) jika ada di request
-        if ($request->has('ket_makanan')) {
-            $query->where('ket_makanan', $request->ket_makanan);
-        }
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
+    $status = $request->input('ket_makanan');
 
-        // Filter berdasarkan tanggal transaksi jika ada di request
-        if ($request->has('start_date') && $request->has('end_date')) {
-            $query->whereBetween('tanggal_transaksi', [$request->start_date, $request->end_date]);
-        }
+    if ($startDate && $endDate) {
+        $query->whereBetween('tanggal_transaksi', [$startDate, $endDate]);
+    }
 
-        // Ambil data transaksi yang sudah difilter
-        $dataTransaksi = $query->get();
+    if ($status) {
+        $query->where('ket_makanan', $status);
+    }
 
-        // Set nama file dan headers untuk file CSV
-        $fileName = 'laporan-transaksi.csv';
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename=' . $fileName,
+    $dataTransaksi = $query->get();
+
+    // Calculate the total of 'total_bayar' and 'total_kembalian'
+    $totalBayar = $dataTransaksi->sum('total_bayar');
+    $totalKembalian = $dataTransaksi->sum('total_kembalian');
+
+    // Modify the data to exclude the 'id_transaksi' column and add the sequential number
+    $dataWithNumber = [];
+    $counter = 1;
+
+    foreach ($dataTransaksi as $item) {
+        $rowData = [
+            $counter++, // Increment the counter and add the number as the first column
+            $item->user->user_name ?? 'Unknown',
+            $item->tanggal_transaksi,
+            $item->no_meja,
+            $item->ket_makanan,
+            $item->diskon_transaksi . '%',
+            $item->total_harga,
+            $item->total_bayar,
+            $item->total_kembalian,
         ];
 
-        // Format data untuk dijadikan baris dalam file CSV
-        $data = [];
-        $data[] = ['No', 'Tanggal', 'Nama Kasir', 'No Meja', 'Status', 'Diskon', 'Total Harga', 'Total Bayar', 'Total Kembalian'];
-
-        foreach ($dataTransaksi as $item) {
-            $rowData = [
-                $item->id_transaksi,
-                $item->tanggal_transaksi,
-                $item->user->user_name,
-                $item->no_meja,
-                $item->ket_makanan,
-                $item->diskon_transaksi . '%',
-                number_format($item->total_harga, 0, ',', '.'),
-                number_format($item->total_bayar, 0, ',', '.'),
-                number_format($item->total_kembalian, 0, ',', '.'),
-            ];
-
-            $data[] = $rowData;
-        }
-
-        // Buat file CSV dengan data yang sudah diolah
-        $file = fopen('php://output', 'w');
-        foreach ($data as $row) {
-            fputcsv($file, $row);
-        }
-        fclose($file);
-
-        // Return response dengan file CSV yang akan diunduh oleh pengguna
-        return Response::make('', 200, $headers);
+        $dataWithNumber[] = $rowData;
     }
+
+    // Add a row for displaying the total
+    $dataWithNumber[] = [
+        'Total', // Empty cell for the number column
+        '', // Label for the total row
+        '', // Empty cells for the other columns that don't need to display the total
+        '', // Empty cell
+        '', // Empty cell
+        '', // Empty cell
+        '', // Empty cell
+        $totalBayar, // Total of 'total_bayar'
+        $totalKembalian, // Total of 'total_kembalian'
+    ];
+
+    // Convert the array data to a Laravel Collection
+    $dataCollection = new Collection($dataWithNumber);
+
+    // Export data to Excel using the TransaksiExport class
+    return Excel::download(new TransaksiExport($dataCollection), 'laporan-transaksi.xlsx');
+}
 
 }
 

@@ -62,6 +62,7 @@
                                                                     <option value="take away"{{ request('ket_makanan') === 'take away' ? ' selected' : '' }}>Take Away</option>
                                                                 </select>
                                                             </div>
+                                                            
                                                         </div>
                                                         <div class="col-md-2 d-flex align-items-end">
                                                             <button type="submit" class="btn btn-primary">Filter</button>

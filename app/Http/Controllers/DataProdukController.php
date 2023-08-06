@@ -138,33 +138,47 @@ class DataProdukController extends Controller
     }
 
     public function laporanProduk(Request $request) {
-        // $dataProduk = DataProduk::with('kategori')->orderBy('id_produk', 'DESC')->paginate(10);
-        // return view('laporan.laporanProduk', compact('dataProduk'));
-
-       
-        
         $query = DataProduk::with('kategori', 'transaksiDetail.transaksi')
-        ->orderBy('id_produk', 'DESC');
+            ->orderBy('id_produk', 'DESC');
     
-    $startDate = $request->input('start_date');
-    $endDate = $request->input('end_date');
-    $status = $request->input('ket_makanan');
+        // Ambil data tanggal dan status dari request
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $status = $request->input('ket_makanan');
     
-    // Apply filters if provided
-    if ($startDate && $endDate) {
-        $query->whereHas('transaksiDetail.transaksi', function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('tanggal_transaksi', [$startDate, $endDate]);
-        });
+        // Simpan data tanggal dan status ke dalam session jika diberikan dalam request
+        if ($startDate && $endDate) {
+            session(['start_date' => $startDate]);
+            session(['end_date' => $endDate]);
+        } else {
+            // Hapus data tanggal dari session jika tidak diberikan dalam request
+            session()->forget('start_date');
+            session()->forget('end_date');
+        }
+    
+        if ($status) {
+            // Simpan data status ke dalam session jika diberikan dalam request
+            session(['status' => $status]);
+        } else {
+            // Hapus data status dari session jika tidak diberikan dalam request
+            session()->forget('status');
+        }
+    
+        // Terapkan filter jika ada data tanggal dan status dalam session
+        if (session()->has('start_date') && session()->has('end_date')) {
+            $query->whereHas('transaksiDetail.transaksi', function ($query) {
+                $query->whereBetween('tanggal_transaksi', [session('start_date'), session('end_date')]);
+            });
+        }
+    
+        if (session()->has('status')) {
+            $query->whereHas('transaksiDetail.transaksi', function ($query) {
+                $query->where('ket_makanan', session('status'));
+            });
+        }
+    
+        $dataProduk = $query->paginate(10);
+    
+        return view('laporan.laporanProduk', compact('dataProduk'));
     }
-    
-    if ($status) {
-        $query->whereHas('transaksiDetail.transaksi', function ($query) use ($status) {
-            $query->where('ket_makanan', $status);
-        });
-    }
-    
-    $dataProduk = $query->paginate(10);
-    
-    return view('laporan.laporanProduk', compact('dataProduk'));
-}
 }

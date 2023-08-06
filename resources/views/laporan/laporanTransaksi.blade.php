@@ -65,8 +65,9 @@
                                                             </div>
                                                             <div class="col-md-2 d-flex align-items-end">
                                                                 <button type="submit" class="btn btn-primary" style="margin-right: 10px">Filter</button>
-                                                                <a href="{{ route('export.pdf') }}" class="btn btn-primary">Export to PDF</a>
-                                                                <a href="{{ route('export.excel') }}" class="btn btn-success">Export to Excel</a>
+                                                                <a href="{{ route('export.pdf', ['start_date' => request('start_date'), 'end_date' => request('end_date'), 'ket_makanan' => request('ket_makanan')]) }}" class="btn btn-danger"  style="margin-right: 10px;">Export to PDF</a>
+                                                                
+                                                                <a href="{{ route('export.excel', ['start_date' => request('start_date'), 'end_date' => request('end_date'), 'ket_makanan' => request('ket_makanan')]) }}" class="btn btn-success">Export to Excel</a>
 
                                                                 {{-- <div class="form-group">
                                                                     <label for="export_type">Eksport ke:</label>
@@ -158,6 +159,8 @@
                                             </nav>
                                             
 					                    </div>
+
+                                        
                                         {{-- {{ $dataTransaksi->links('pagination::bootstrap-4') }} --}}
                                         {{-- {{ $dataTransaksi->appends(['start_date' => session('start_date'), 'end_date' => session('end_date'), 'ket_makanan' => session('status')])->links('pagination::bootstrap-4') }} --}}
                                         
