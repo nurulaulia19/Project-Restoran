@@ -46,4 +46,6 @@ class Transaksi extends Model
     {
         return $this->belongsTo(DataToko::class, 'id_toko', 'id_toko');
     }
+
+    
 }

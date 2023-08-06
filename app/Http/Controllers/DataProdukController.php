@@ -136,4 +136,35 @@ class DataProdukController extends Controller
         $dataProduk->delete();
         return redirect()->route('produk.index')->with('success', 'Terdelet');
     }
+
+    public function laporanProduk(Request $request) {
+        // $dataProduk = DataProduk::with('kategori')->orderBy('id_produk', 'DESC')->paginate(10);
+        // return view('laporan.laporanProduk', compact('dataProduk'));
+
+       
+        
+        $query = DataProduk::with('kategori', 'transaksiDetail.transaksi')
+        ->orderBy('id_produk', 'DESC');
+    
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
+    $status = $request->input('ket_makanan');
+    
+    // Apply filters if provided
+    if ($startDate && $endDate) {
+        $query->whereHas('transaksiDetail.transaksi', function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('tanggal_transaksi', [$startDate, $endDate]);
+        });
+    }
+    
+    if ($status) {
+        $query->whereHas('transaksiDetail.transaksi', function ($query) use ($status) {
+            $query->where('ket_makanan', $status);
+        });
+    }
+    
+    $dataProduk = $query->paginate(10);
+    
+    return view('laporan.laporanProduk', compact('dataProduk'));
+}
 }

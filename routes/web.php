@@ -163,3 +163,15 @@ Route::get('/admin/transaksidetail/edit/{id}', [TransaksiDetailController::class
 Route::get('/transactions', [TransaksiController::class, 'showTransactions']);
 
 
+Route::get('/admin/laporan/transaksi', [TransaksiController::class,'laporanTransaksi'])->name('laporan.laporanTransaksi');
+Route::get('/admin/laporan/produk', [DataProdukController::class,'laporanProduk'])->name('laporan.laporanProduk');
+
+Route::get('/export/pdf', [TransaksiController::class, 'exportToPDF'])->name('export.pdf');
+Route::get('/export/excel', [TransaksiController::class, 'exportToExcel'])->name('export.excel');
+
+// Route::post('/admin/laporan/eksport', [TransaksiController::class, 'eksport'])->name('laporan.eksport');
+
+// Route::get('/transaksi/export/{type}', [TransaksiController::class, 'export'])->name('transaksi.export');
+// Route::get('/transaksi/eksport-pdf', [TransaksiController::class, 'eksportPDF'])->name('transaksi.eksport.pdf');
+// Route::get('/transaksi/eksport-excel', [TransaksiController::class, 'eksportExcel'])->name('transaksi.eksport.excel');
+// Route::post('/laporan/transaksi/eksport', [TransaksiController::class,'eksportTransaksi'])->name('laporan.eksport');

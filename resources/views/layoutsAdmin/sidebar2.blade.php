@@ -27,17 +27,29 @@
 					<div id="mainnav-profile" class="mainnav-profile">
 						<div class="profile-wrap text-center">
 							<div class="pad-btm">
-								<img class="img-circle img-md" src="{{ asset('assets/img/profile-photos/1.png') }}" alt="Profile Picture">
+								@auth
+									@if(Auth::user()->user_photo)
+										<img style="width: 50px; height: 50px; margin-bottom: 5px;" src="{{ asset('storage/photos/'.basename(Auth::user()->user_photo)) }}" alt="User Photo">
+									@else
+										<!-- Jika user tidak memiliki foto profil, tampilkan foto default atau placeholder -->
+										<img style="width: 50px; height: 50px; margin-bottom: 5px;" src="{{ asset('assets/img/profile-photos/1.png') }}" alt="User Photo">
+									@endif
+								@endauth
+								{{-- <img class="img-circle img-md" src="{{ asset('assets/img/profile-photos/1.png') }}" alt="Profile Picture"> --}}
 							</div>
 							<a href="#profile-nav" class="box-block" data-toggle="collapse" aria-expanded="false">
-								<span class="pull-right dropdown-toggle">
+								{{-- <span class="pull-right dropdown-toggle">
 									<i class="dropdown-caret"></i>
-								</span>
-								<p class="mnp-name">Aaron Chavez</p>
-								<span class="mnp-desc">aaron.cha@themeon.net</span>
+								</span> --}}
+								@auth
+									<p class="mnp-name">{{ Auth::user()->user_name }}</p>
+									<span class="mnp-desc">{{ Auth::user()->user_email }}</span>
+								@endauth
+								{{-- <p class="mnp-name">Aaron Chavez</p>
+								<span class="mnp-desc">aaron.cha@themeon.net</span> --}}
 							</a>
 						</div>
-						<div id="profile-nav" class="collapse list-group bg-trans">
+						{{-- <div id="profile-nav" class="collapse list-group bg-trans">
 							<a href="#" class="list-group-item">
 								<i class="demo-pli-male icon-lg icon-fw"></i> View Profile
 							</a>
@@ -50,7 +62,7 @@
 							<a href="#" class="list-group-item">
 								<i class="demo-pli-unlock icon-lg icon-fw"></i> Logout
 							</a>
-						</div>
+						</div> --}}
 					</div>
 
 
@@ -110,7 +122,7 @@
 									<li class="{{ request()->is('admin/role*') ? 'active-link' : '' }}"><a href="{{ route('role.index') }}">Role</a></li>
 									<li class="{{ request()->is('admin/user*') ? 'active-link' : '' }}"><a href="{{ route('user.index') }}">User</a></li>
 								</ul>
-							</li>
+						</li>
 
 							<!--Menu list item-->
 							<li class="{{ request()->is('admin/menu*') ? 'active-sub' : '' }}">
@@ -144,6 +156,19 @@
 								</ul>
 							</li>
 
+							<li class="{{ request()->is('admin/laporan/produk*','admin/laporan/transaksi*') ? 'active-sub' : '' }}">
+								<a href="#">
+									<i class="demo-pli-home"></i>
+									<span class="menu-title">Laporan</span>
+									<i class="arrow"></i>
+								</a>
+	
+									<!--Submenu-->
+									<ul class="collapse in">
+										<li class="{{ request()->is('admin/laporan/produk*') ? 'active-link' : '' }}"><a href="{{ route('laporan.laporanProduk') }}">Produk</a></li>
+										<li class="{{ request()->is('admin/laporan/transaksi*') ? 'active-link' : '' }}"><a href="{{ route('laporan.laporanTransaksi') }}">Transaksi</a></li>
+									</ul>
+							</li>
 				</div>
 			</div>
 		</div>
