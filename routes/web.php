@@ -169,6 +169,14 @@ Route::get('/admin/laporan/produk', [DataProdukController::class,'laporanProduk'
 Route::get('/export/pdf', [TransaksiController::class, 'exportToPDF'])->name('export.pdf');
 Route::get('/export/excel', [TransaksiController::class, 'exportToExcel'])->name('export.excel');
 
+Route::get('/export/produk/pdf', [DataProdukController::class, 'exportToPDF'])->name('exportproduk.pdf');
+Route::get('/export/produk/excel', [DataProdukController::class, 'exportToExcel'])->name('exportproduk.excel');
+
+Route::get('/laporan/eksportProduk', function () {
+    return view('/laporan/eksportProduk');
+});
+
+
 // Route::post('/admin/laporan/eksport', [TransaksiController::class, 'eksport'])->name('laporan.eksport');
 
 // Route::get('/transaksi/export/{type}', [TransaksiController::class, 'export'])->name('transaksi.export');

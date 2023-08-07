@@ -29,7 +29,6 @@ class TransaksiDetail extends Model
         return $this->belongsTo(DataProduk::class, 'id_produk', 'id_produk');
     }
 
-    
 
     public function transaksiDetailAditional()
     {

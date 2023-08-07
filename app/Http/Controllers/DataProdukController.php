@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Validator;
-use App\Models\DataProduk;
+use PDF;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Models\Kategori;
+use App\Models\DataProduk;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Exports\ProdukExport;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class DataProdukController extends Controller
 {
@@ -141,7 +149,6 @@ class DataProdukController extends Controller
         $query = DataProduk::with('kategori', 'transaksiDetail.transaksi')
             ->orderBy('id_produk', 'DESC');
     
-        // Ambil data tanggal dan status dari request
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $status = $request->input('ket_makanan');
@@ -151,29 +158,48 @@ class DataProdukController extends Controller
             session(['start_date' => $startDate]);
             session(['end_date' => $endDate]);
         } else {
-            // Hapus data tanggal dari session jika tidak diberikan dalam request
             session()->forget('start_date');
             session()->forget('end_date');
         }
     
-        if ($status) {
-            // Simpan data status ke dalam session jika diberikan dalam request
+        
+        // Cek apakah status ada dalam request sebelum menyimpan dalam session
+        if ($request->has('ket_makanan')) {
             session(['status' => $status]);
         } else {
-            // Hapus data status dari session jika tidak diberikan dalam request
             session()->forget('status');
         }
     
-        // Terapkan filter jika ada data tanggal dan status dalam session
-        if (session()->has('start_date') && session()->has('end_date')) {
-            $query->whereHas('transaksiDetail.transaksi', function ($query) {
-                $query->whereBetween('tanggal_transaksi', [session('start_date'), session('end_date')]);
-            });
-        }
+        // // Simpan nilai status dari session ke dalam variabel
+        // $filteredStatus = session('status');
     
-        if (session()->has('status')) {
-            $query->whereHas('transaksiDetail.transaksi', function ($query) {
-                $query->where('ket_makanan', session('status'));
+        // // Terapkan filter jika ada data tanggal dan status dalam session
+        // if (session()->has('start_date') && session()->has('end_date')) {
+        //     $query->whereHas('transaksiDetail.transaksi', function ($query) {
+        //         $query->whereBetween('tanggal_transaksi', [session('start_date'), session('end_date')]);
+        //             $query->where('ket_makanan', session('status'));
+                
+                    
+        //     });
+        // }
+            
+        // // }
+
+        $filteredStatus = session('status');
+
+        // Terapkan filter jika ada data tanggal dalam session
+        if (session()->has('start_date') && session()->has('end_date')) {
+            $query->whereHas('transaksiDetail.transaksi', function ($query) use ($filteredStatus) {
+                $query->whereBetween('tanggal_transaksi', [session('start_date'), session('end_date')]);
+
+                if ($filteredStatus === null) {
+                    $query->where(function ($query) {
+                        $query->orWhere('ket_makanan', 'dine in')
+                            ->orWhere('ket_makanan', 'take away');
+                    });
+                } else {
+                    $query->where('ket_makanan', session('status'));
+                }
             });
         }
     
@@ -181,4 +207,187 @@ class DataProdukController extends Controller
     
         return view('laporan.laporanProduk', compact('dataProduk'));
     }
+ 
+
+    public function exportToPDF(Request $request)
+    {
+        $paperSize = $request->input('paper_size', 'A4');
+    
+        $query = DataProduk::query(); // Create a query builder to apply filters
+    
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $status = $request->input('ket_makanan');
+
+        // Simpan data tanggal dan status ke dalam session jika diberikan dalam request
+        if ($startDate && $endDate) {
+            session(['start_date' => $startDate]);
+            session(['end_date' => $endDate]);
+        } else {
+            session()->forget('start_date');
+            session()->forget('end_date');
+        }
+
+
+        // Cek apakah status ada dalam request sebelum menyimpan dalam session
+        if ($request->has('ket_makanan')) {
+            session(['status' => $status]);
+        } else {
+            session()->forget('status');
+        }
+
+        $filteredStatus = session('status');
+
+        // Terapkan filter jika ada data tanggal dalam session
+        if (session()->has('start_date') && session()->has('end_date')) {
+            $query->whereHas('transaksiDetail.transaksi', function ($query) use ($filteredStatus) {
+                $query->whereBetween('tanggal_transaksi', [session('start_date'), session('end_date')]);
+
+                if ($filteredStatus === null) {
+                    $query->where(function ($query) {
+                        $query->orWhere('ket_makanan', 'dine in')
+                            ->orWhere('ket_makanan', 'take away');
+                    });
+                } else {
+                    $query->where('ket_makanan', session('status'));
+                }
+            });
+        }
+        
+            $dataProduk = $query->get();
+    
+            $grandTotalJumlahProduk = 0;
+            $dataProduk = $query->get();
+            
+            foreach ($dataProduk as $item) {
+                $totalJumlahProduk = 0; // Inisialisasi total jumlah produk untuk setiap produk
+                foreach ($item->transaksiDetail as $transaksiDetail) {
+                    if ($transaksiDetail->transaksi->tanggal_transaksi >= $startDate && $transaksiDetail->transaksi->tanggal_transaksi <= $endDate) {
+                        if (!$status || ($status && $transaksiDetail->transaksi->ket_makanan == $status)) {
+                            $totalJumlahProduk += $transaksiDetail->jumlah_produk;
+                        }
+                    }
+                }
+            
+                // Tambahkan total jumlah produk ke grand total
+                $grandTotalJumlahProduk += $totalJumlahProduk;
+            }
+
+            
+            
+            $pdfOptions = new Options();
+            $pdfOptions->set('defaultFont', 'Arial');
+            // Set ukuran kertas sesuai dengan parameter yang diambil dari request
+            $pdfOptions->set('size', $paperSize);
+            
+            $pdf = new Dompdf($pdfOptions);
+            
+            // Render the view with data and get the HTML content
+            $htmlContent = View::make('laporan.eksportProduk', compact('dataProduk', 'grandTotalJumlahProduk'))->render();
+            
+            $pdf->loadHtml($htmlContent);
+            
+            $pdf->setPaper($paperSize, 'portrait'); // Atur ukuran kertas secara dinamis
+            
+            $pdf->render();
+            
+            
+            return $pdf->stream('laporan-produk.pdf');
+    }
+    
+
+
+public function exportToExcel(Request $request)
+{
+    
+    $query = DataProduk::with('kategori', 'transaksiDetail.transaksi')
+    ->orderBy('id_produk', 'DESC');
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $status = $request->input('ket_makanan');
+
+        // Simpan data tanggal dan status ke dalam session jika diberikan dalam request
+        if ($startDate && $endDate) {
+            session(['start_date' => $startDate]);
+            session(['end_date' => $endDate]);
+        } else {
+            session()->forget('start_date');
+            session()->forget('end_date');
+        }
+
+
+        // Cek apakah status ada dalam request sebelum menyimpan dalam session
+        if ($request->has('ket_makanan')) {
+            session(['status' => $status]);
+        } else {
+            session()->forget('status');
+        }
+
+        $filteredStatus = session('status');
+
+        // Terapkan filter jika ada data tanggal dalam session
+        if (session()->has('start_date') && session()->has('end_date')) {
+            $query->whereHas('transaksiDetail.transaksi', function ($query) use ($filteredStatus) {
+                $query->whereBetween('tanggal_transaksi', [session('start_date'), session('end_date')]);
+
+                if ($filteredStatus === null) {
+                    $query->where(function ($query) {
+                        $query->orWhere('ket_makanan', 'dine in')
+                            ->orWhere('ket_makanan', 'take away');
+                    });
+                } else {
+                    $query->where('ket_makanan', session('status'));
+                }
+            });
+        }
+
+
+            $dataProduk = $query->get();
+
+    // Modify the data to exclude the 'id_transaksi' column and add the sequential number
+    $dataWithNumber = [];
+    $counter = 1;
+    $grandTotalJumlahProduk = 0;
+
+    foreach ($dataProduk as $item) {
+        $totalJumlahProduk = 0; // Inisialisasi total jumlah produk untuk setiap produk
+        foreach ($item->transaksiDetail as $transaksiDetail) {
+            if ($transaksiDetail->transaksi->tanggal_transaksi >= $startDate && $transaksiDetail->transaksi->tanggal_transaksi <= $endDate) {
+                if (!$status || ($status && $transaksiDetail->transaksi->ket_makanan == $status)) {
+                    $totalJumlahProduk += $transaksiDetail->jumlah_produk;
+                }
+            }
+        }
+
+        $rowData = [
+            $counter++, // Increment the counter and add the number as the first column
+            $item->kategori->nama_kategori,
+            $item->nama_produk,
+            $totalJumlahProduk, // Total jumlah produk
+            
+        ];
+
+        $dataWithNumber[] = $rowData;
+        $grandTotalJumlahProduk += $totalJumlahProduk;
+    }
+
+    $dataWithNumber[] = [
+        'Grand Total', // Empty cell for the number column
+        '', // Label for the total row
+        '', 
+        $grandTotalJumlahProduk,
+    ];
+
+    // Convert the array data to a Laravel Collection
+    $dataCollection = new Collection($dataWithNumber);
+
+    // Export data to Excel using the ProdukExport class
+    // return Excel::download(new ProdukExport($dataCollection), 'laporan-produk.xlsx');
+    return Excel::download(new ProdukExport($dataProduk), 'laporan-produk.xlsx');
+    // return Excel::download(new TransaksiExport($dataTransaksi, $totalBayar, $totalKembalian), 'laporan-transaksi.xlsx');
+
+}
+
+    
 }

@@ -683,7 +683,7 @@ public function exportToExcel(Request $request)
     $dataCollection = new Collection($dataWithNumber);
 
     // Export data to Excel using the TransaksiExport class
-    return Excel::download(new TransaksiExport($dataCollection), 'laporan-transaksi.xlsx');
+    return Excel::download(new TransaksiExport($dataTransaksi, $totalBayar, $totalKembalian), 'laporan-transaksi.xlsx');
 }
 
 }

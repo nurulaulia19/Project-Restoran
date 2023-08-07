@@ -57,18 +57,24 @@
                                                             <div class="form-group">
                                                                 <label class="control-label">Status: </label>
                                                                 <select class="form-control" name="ket_makanan" id="ket_makanan">
-                                                                    <option value=""{{ request('ket_makanan') === '' ? ' selected' : '' }}>Semua</option>
+                                                                    <option value="">Semua</option>
                                                                     <option value="dine in"{{ request('ket_makanan') === 'dine in' ? ' selected' : '' }}>Dine In</option>
                                                                     <option value="take away"{{ request('ket_makanan') === 'take away' ? ' selected' : '' }}>Take Away</option>
                                                                 </select>
                                                             </div>
-                                                            
                                                         </div>
                                                         <div class="col-md-2 d-flex align-items-end">
-                                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                                            {{-- <input type="hidden" name="status" value="{{ session('status') ?? '' }}"> --}}
+                                                            <button type="submit" class="btn btn-primary" style="margin-right: 10px">Filter</button>
+                                                            <a href="{{ route('exportproduk.pdf', ['start_date' => request('start_date'), 'end_date' => request('end_date'), 'ket_makanan' => request('ket_makanan')]) }}" class="btn btn-danger"  style="margin-right: 10px;">Export to PDF</a>
+                                                            {{-- <button onclick="printReceipt({{ $item->id_transaksi }})" style="margin-left: 10px; font-size:13px" class="btn btn-sm btn-success"><i class="demo-pli-printer"></i></button> --}}
+                                                            <a href="{{ route('exportproduk.excel', ['start_date' => request('start_date'), 'end_date' => request('end_date'), 'ket_makanan' => request('ket_makanan')]) }}" class="btn btn-success">Export to Excel</a>
+                                                            {{-- Add the link to export to Excel --}}
+                                                            {{-- <a href="{{ route('export.excel') }}" class="btn btn-success">Export to Excel</a> --}}
                                                         </div>
                                                     </div>
                                                 </form>
+                                                
 					                            {{-- <div class="col-sm-6 table-toolbar-right">
 					                                <div class="form-group">
 					                                    <input type="text" autocomplete="off" class="form-control" placeholder="Search" id="demo-input-search2">
@@ -92,53 +98,61 @@
 					                        </div>
 					                    </div>
 					                    <div class="table-responsive">
-					                        <table class="table table-striped">
-					                            <thead>
-					                                <tr>
-					                                    <th>No</th>
-					                                    <th>Kategori</th>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Kategori</th>
                                                         <th>Nama Produk</th>
-                                                        {{-- <th>Status</th> --}}
-					                                </tr>
-					                            </thead>
-					                            <tbody>
-													
-													@foreach ($dataProduk as $item)
-					                                <tr>
-					                                    <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
-					                                    <td style="vertical-align: middle;">
-                                                            @if ($item->kategori)
-                                                                {{ $item->kategori->nama_kategori }}
-                                                            @else
-                                                                Kategori not assigned
-                                                            @endif 
-                                                            
-                                                        </td>
-                                                        <td style="vertical-align: middle;">{{ $item->nama_produk }}</td>
-                                                        {{-- @foreach ($item->transaksiDetail as $transaksiDetail)
-                                                            <td style="vertical-align: middle;">{{ $transaksiDetail->transaksi->ket_makanan }}</td>
-                                                        @endforeach --}}
-                                                        {{-- <td style="vertical-align: middle;">{{ number_format($item->harga_produk, 0, ',', '.') }}</td> --}}
-                                                       
-					                                </tr>
-													@endforeach
-													<script>
-														function confirmDelete(menuId) {
-															if (confirm('Are you sure you want to delete this item?')) {
-																document.getElementById('delete-form-' + menuId).submit();
-															}
-														}
-													</script>
-									
-					                            </tbody>
-					                        </table>
-
+                                                        <th>Terjual</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @php
+                                                    $grandTotalJumlahProduk = 0; // Inisialisasi grand total jumlah produk
+                                                    @endphp
+                                                    @foreach ($dataProduk as $item)
+                                                        @php
+                                                        $filteredStatus = session('status');
+                                                        $totalJumlahProduk = 0; // Inisialisasi total jumlah produk
+                                                        @endphp
+                                                        <tr>
+                                                            <td style="vertical-align: middle;">{{ $loop->iteration }}</td>
+                                                            <td style="vertical-align: middle;">
+                                                                @if ($item->kategori)
+                                                                    {{ $item->kategori->nama_kategori }}
+                                                                @else
+                                                                    Kategori not assigned
+                                                                @endif
+                                                            </td>
+                                                            <td style="vertical-align: middle;">{{ $item->nama_produk }}</td>
+                                                            @foreach ($item->transaksiDetail as $transaksiDetail)
+                                                                @if ($transaksiDetail->transaksi->tanggal_transaksi >= session('start_date') && $transaksiDetail->transaksi->tanggal_transaksi <= session('end_date'))
+                                                                    @if (!$filteredStatus || ($filteredStatus && $transaksiDetail->transaksi->ket_makanan == $filteredStatus))
+                                                                        @php
+                                                                        $totalJumlahProduk += $transaksiDetail->jumlah_produk;
+                                                                        $grandTotalJumlahProduk += $transaksiDetail->jumlah_produk;
+                                                                        @endphp
+                                                                    @endif
+                                                                @endif
+                                                            @endforeach
+                                                            <td style="vertical-align: middle;">{{ $totalJumlahProduk }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                    <tr>
+                                                        <td colspan="3" style="text-align: left;">Grand Total</td>
+                                                        <td>{{ $grandTotalJumlahProduk }}</td>
+                                                    </tr>
+                                                    </tbody>
+                                            </table>
+                                        
                                             <nav aria-label="Page navigation">
                                                 <ul class="pagination justify-content-center">
                                                     {{ $dataProduk->appends(['ket_makanan' => request('ket_makanan'), 'start_date' => request('start_date'), 'end_date' => request('end_date')])->links('pagination::bootstrap-4') }}
                                                 </ul>
                                             </nav>
-					                    </div>
+                                        </div>
+                                        
 
                                         {{-- {{ $dataProduk->links('pagination::bootstrap-4') }} --}}
 					                    <hr class="new-section-xs">
