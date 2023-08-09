@@ -295,7 +295,7 @@
                             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right panel-default">
                                 <ul class="head-list">
                                     <li>
-                                        <a href="#"><i class="demo-pli-male icon-lg icon-fw"></i> Profile</a>
+                                        <a href="{{ route('profil.admin') }}"><i class="demo-pli-male icon-lg icon-fw"></i> Profile</a>
                                     </li>
                                     <li>
                                         <a href="#"><span class="badge badge-danger pull-right">9</span><i class="demo-pli-mail icon-lg icon-fw"></i> Messages</a>

@@ -41,19 +41,19 @@
         @endphp
 
         <h5 class="mb-3" style="text-align: center">
-            Dalam Rentang Tanggal
-            @if(request('start_date') && request('end_date'))
-                dari {{ request('start_date') }} hingga {{ request('end_date') }}
+            @if(isset($startDate) && isset($endDate))
+                Dalam rentang tanggal dari {{ $startDate }} hingga {{ $endDate }} dan 
             @endif
-            dan status pemesanan
-            @if(isset($ketMakanan))
-                @if($ketMakanan == '')
-                    Semua
-                @else
-                    {{ $ketMakanan }}
-                @endif
-            @endif
+            status pemesanan
+            @php
+                $statusPemesanan = isset($ketMakanan) ? $ketMakanan : 'semua';
+                if (!in_array($statusPemesanan, ['dine in', 'take away'])) {
+                    $statusPemesanan = 'semua';
+                }
+            @endphp
+            {{ $statusPemesanan }}
         </h5>
+
 
         <table class="table table-bordered table-striped">
             <thead>

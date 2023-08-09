@@ -17,8 +17,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TransaksiDetailAditional;
 use App\Http\Controllers\TransaksiDetailController;
 use App\Http\Controllers\AditionalProdukController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\DataTokoController;
 use App\Http\Controllers\PrintController;
+use App\Http\Controllers\ProfilController;
 use App\Models\TransaksiDetail;
 
 /*
@@ -176,6 +178,9 @@ Route::get('/laporan/eksportProduk', function () {
     return view('/laporan/eksportProduk');
 });
 
+// Route::get('/chart', [ChartController::class, 'index']);
+
+Route::get('/profil/admin', [ProfilController::class, 'index'])->name('profil.admin');
 
 // Route::post('/admin/laporan/eksport', [TransaksiController::class, 'eksport'])->name('laporan.eksport');
 

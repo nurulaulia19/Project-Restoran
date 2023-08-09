@@ -44,14 +44,18 @@
         @endphp
 
         <h5 class="mb-3" style="text-align: center">
-            Dalam tentang tanggal
             @if(isset($startDate) && isset($endDate))
-                dari {{ $startDate }} hingga {{ $endDate }}
+                Dalam rentang tanggal dari {{ $startDate }} hingga {{ $endDate }} dan 
             @endif
-            dan status pemesanan
-            @if(isset($ketMakanan))
-               {{ $ketMakanan }}
-            @endif
+
+            status pemesanan
+            @php
+                $statusPemesanan = isset($ketMakanan) ? $ketMakanan : 'semua';
+                if (!in_array($statusPemesanan, ['dine in', 'take away'])) {
+                    $statusPemesanan = 'semua';
+                }
+            @endphp
+            {{ $statusPemesanan }}
         </h5>
 
         <table class="table table-bordered">
@@ -78,9 +82,27 @@
                     <td style="vertical-align: middle; text-align: center;">{{ $item->no_meja }}</td>
                     <td style="vertical-align: middle;">{{ $item->ket_makanan }}</td>
                     <td style="vertical-align: middle; text-align: center;">{{ $item->diskon_transaksi }} %</td>
-                    <td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_harga, 0, ',', '.') }}</td>
-                    <td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_bayar, 0, ',', '.') }}</td>
-                    <td style="vertical-align: middle; text-align: center;">{{ number_format($item->total_kembalian, 0, ',', '.') }}</td>
+                    <td style="vertical-align: middle; text-align: center;">
+                        @if(app('request')->route()->getName() !== 'export.excel')
+                            {{ number_format($item->total_harga, 0, ',', '.') }}
+                        @else
+                            {!! $item->total_harga !!}
+                        @endif
+                    </td>
+                    <td style="vertical-align: middle; text-align: center;">
+                        @if(app('request')->route()->getName() !== 'export.excel')
+                            {{ number_format($item->total_bayar, 0, ',', '.') }}
+                        @else
+                            {!! $item->total_bayar !!}
+                        @endif
+                    </td>
+                    <td style="vertical-align: middle; text-align: center;">
+                        @if(app('request')->route()->getName() !== 'export.excel')
+                            {{ number_format($item->total_kembalian, 0, ',', '.') }}
+                        @else
+                            {!! $item->total_kembalian !!}
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
                 
@@ -88,8 +110,22 @@
             <tfoot>
                 <tr>
                     <td colspan="7" style="font-size: 13px;">Grand Total</td>
-                    <td style="text-align: center; font-size: 13px;">{{ number_format($totalBayar, 0, ',', '.') }}</td>
-                    <td style="text-align: center; font-size: 13px;">{{ number_format($totalKembalian, 0, ',', '.') }}</td>
+                    <td style="text-align: center; font-size: 13px;">
+                        @if(app('request')->route()->getName() !== 'export.excel')
+                            {{ number_format($totalBayar, 0, ',', '.') }}
+                        @else
+                            {!! $totalBayar !!}
+                        @endif
+                        {{-- {{ number_format($totalBayar, 0, ',', '.') }} --}}
+                    </td>
+                    <td style="text-align: center; font-size: 13px;">
+                        @if(app('request')->route()->getName() !== 'export.excel')
+                            {{ number_format($totalKembalian, 0, ',', '.') }}
+                        @else
+                            {!! $totalKembalian !!}
+                        @endif
+                        {{-- {{ number_format($totalKembalian, 0, ',', '.') }} --}}
+                    </td>
                 </tr>
             </tfoot>
             

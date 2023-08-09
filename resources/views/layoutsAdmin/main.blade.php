@@ -37,7 +37,6 @@
     <!--=================================================-->
 
 
-
     <!--Pace - Page Load Progress Par [OPTIONAL]-->
     <link href="{{ asset('assets/plugins/pace/pace.min.css') }}" rel="stylesheet">
     <script src="{{ asset('assets/plugins/pace/pace.min.js') }}"></script>
@@ -45,6 +44,10 @@
 
     <!--Demo [ DEMONSTRATION ]-->
     <link href="{{ asset('assets/css/demo/nifty-demo.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('assets/plugins/morris-js/morris.min.css') }}" rel="stylesheet">
+
+ 
 
     @yield('style')
 
@@ -63,6 +66,15 @@
       </div>
          <!--JAVASCRIPT-->
     <!--=================================================-->
+
+    <script src="{{ asset('assets/plugins/morris-js/morris.min.js') }}"></script>
+  
+    <script src="{{ asset('assets/plugins/morris-js/raphael-js/raphael.min.js') }}"></script>
+    
+  
+  
+    <!--Morris.js Sample [ SAMPLE ]-->
+    <script src="{{ asset('assets/js/demo/morris-js.js') }}"></script>
 
     <!--jQuery [ REQUIRED ]-->
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>

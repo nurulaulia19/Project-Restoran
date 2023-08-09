@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Verifytoken;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Models\Transaksi;
+use App\Models\DataProduk;
+use App\Models\Kategori;
+use App\Models\AditionalProduk;
 
 class HomeController extends Controller
 {
@@ -25,7 +31,46 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home.index');
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
+    
+        // Membuat array data tanggal untuk seluruh bulan
+        $labels = [];
+        $currentDate = $startDate->copy();
+        while ($currentDate <= $endDate) {
+            $labels[] = $currentDate->format('d M Y');
+            $currentDate->addDay();
+        }
+    
+        // Mengambil data transaksi dari database
+        $transaksiData = Transaksi::select(
+            DB::raw('DATE(tanggal_transaksi) as tanggal'),
+            DB::raw('COUNT(id_transaksi) as total')
+        )
+        ->whereBetween('tanggal_transaksi', [$startDate, $endDate])
+        ->groupBy('tanggal')
+        ->orderBy('tanggal')
+        ->get();
+    
+        // Membuat array data total transaksi berdasarkan tanggal
+        $totals = [];
+        foreach ($labels as $label) {
+            $tanggal = Carbon::createFromFormat('d M Y', $label)->format('Y-m-d');
+            $transaksi = $transaksiData->firstWhere('tanggal', $tanggal);
+            $totals[] = $transaksi ? $transaksi->total : 0;
+        }
+
+       
+    
+        $jumlahTransaksi = Transaksi::count();
+        $jumlahProduk = DataProduk::count();
+        $jumlahKategori = Kategori::count();
+        $jumlahAditional = AditionalProduk::count();
+        $totalHargaProduk = Transaksi::sum('total_harga');
+    
+        return view('home.index', compact('labels', 'totals', 'jumlahTransaksi', 'jumlahProduk', 'jumlahKategori', 'jumlahAditional','totalHargaProduk'));
+        // return view('home.index');
+
     //     $get_user = User::where('email',auth()->user()->email)->first();
     //     if($get_user->is_activated == 1){
     //         return view('home');

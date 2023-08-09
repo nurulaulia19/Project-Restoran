@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class ProdukExport implements FromView, ShouldAutoSize, WithStyles
 {
@@ -48,6 +49,12 @@ class ProdukExport implements FromView, ShouldAutoSize, WithStyles
             ]);
         }
     }
+
+    $sheet->mergeCells('A1:D1');
+        $sheet->mergeCells('A2:D2');
+
+        // Center-align the merged cells content
+        $sheet->getStyle('A1:D2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 }
 
 
