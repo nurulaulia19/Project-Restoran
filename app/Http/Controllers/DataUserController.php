@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Support\Facades\Validator;
 use App\Models\DataUser;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 
 
@@ -137,13 +139,6 @@ class DataUserController extends Controller
         return redirect()->back()->withErrors($validator)->withInput();
     }
 
-    // $user = User::find($user_id);
-    
-    // if (!$user) {
-    // }
-    // if ($request->filled('user_password')) {
-    //     $user->password = bcrypt($request->input('user_password'));
-    // }
 
     $hashedPassword = Hash::make($request->user_password);
 
@@ -179,4 +174,114 @@ class DataUserController extends Controller
         $dataUser->delete();
         return redirect()->route('user.index')->with('success', 'Terdelet');
     }
+
+
+    public function editProfil()
+    {
+        $dataRole = Role::all();
+        $dataUser = Auth::user();
+        Log::info($dataUser); // Add this line to log the daat$dataUser data
+        return view('profil.edit', compact('dataUser','dataRole'));
+    }
+
+
+        public function updateProfil(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            // 'user_password' => [
+            //     'nullable',
+            //     'string',
+            //     'min:6',
+            //     'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\#?!@$%^&*-]).{6,}$/',
+            // ],
+            'user_photo' => 'file|mimes:jpeg,jpg,png',
+            // Tambahkan aturan validasi lainnya sesuai kebutuhan
+        ]);
+
+        // if ($request->filled('user_password')) {
+        //     $validator->sometimes('user_password', 'required', function ($input) {
+        //         return $input->user_password !== null;
+        //     });
+        // }
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = Auth::user(); // Mengambil data admin yang sedang login
+
+        $userData = [
+            'user_name' => $request->user_name,
+            'user_email' => $request->user_email,
+            'user_gender' => $request->user_gender,
+            'role_id' => $request->role_id,
+            'user_token' => $request->user_token,
+        ];
+
+        // if ($request->filled('user_password')) {
+        //     $userData['user_password'] = Hash::make($request->user_password);
+        // }
+
+        if ($request->hasFile('user_photo')) {
+            $file = $request->file('user_photo');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = Str::random(40) . '.' . $extension;
+            $file->storeAs('public/photos', $fileName);
+            $userData['user_photo'] = $fileName;
+        }
+
+        DB::table('data_user')
+            ->where('user_id', $user->user_id)
+            ->update($userData);
+
+        return redirect()->route('profil.edit')->with('success', 'User profile updated successfully');
+    }
+
+    public function editPassword()
+    {
+        $dataUser = Auth::user();
+        Log::info($dataUser); // Add this line to log the daat$dataUser data
+        return view('password.edit', compact('dataUser'));
+    }
+
+
+    public function updatePassword(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'current_password' => 'required',
+        'new_password' => [
+            'required',
+            'string',
+            'min:6',
+            'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\#?!@$%^&*-]).{6,}$/',
+            'confirmed',
+        ],
+    ], [
+        'new_password.regex' => 'The password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $user = Auth::user(); // Mengambil data admin yang sedang login
+
+    // Memeriksa apakah current password sesuai dengan yang ada di database
+    if (!Hash::check($request->current_password, $user->user_password)) {
+        return redirect()->back()->withErrors(['current_password' => 'Incorrect current password']);
+    }
+
+    // Jika semua validasi berhasil, update password baru
+    DB::table('data_user')
+        ->where('user_id', $user->user_id)
+        ->update([
+            'user_password' => Hash::make($request->new_password),
+        ]);
+
+    return redirect()->route('password.edit')->with('success', 'Password updated successfully');
+}
+    
+
+
+
 }

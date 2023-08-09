@@ -68,7 +68,11 @@ class DataProdukController extends Controller
         $dataProduk->nama_produk = $request->nama_produk;
         $dataProduk->harga_produk = $request->harga_produk;
         $dataProduk->gambar_produk = $fileName;
-        $dataProduk->diskon_produk = $request->diskon_produk;
+        if ($request->has('diskon_produk')) {
+            $dataProduk->diskon_produk = $request->diskon_produk;
+        } else {
+            $dataProduk->diskon_produk = 0;
+        }
         $dataProduk->save();
     
         return redirect()->route('produk.index')->with('success', 'Produk inserted successfully');

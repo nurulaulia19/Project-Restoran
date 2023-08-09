@@ -549,42 +549,6 @@ public function laporanTransaksi(Request $request) {
 }
 
 
-// public function exportToPDF(Request $request)
-// {
-//     // Ambil data dari request
-//     $tanggalAwal = $request->input('tanggal_awal');
-//     $tanggalAkhir = $request->input('tanggal_akhir');
-//     $ketMakanan = $request->input('ket_makanan');
-
-//     // Lakukan query data sesuai filter
-//     $transaksis = Transaksi::whereBetween('tanggal_transaksi', [$tanggalAwal, $tanggalAkhir])
-//                            ->where('ket_makanan', $ketMakanan)
-//                            ->get();
-
-//     // ... Logika untuk export data ke PDF menggunakan library atau plugin yang sesuai
-
-//     // Misalnya menggunakan DOMPDF
-//     // return PDF::loadView('pdf.export', compact('transaksis'))->stream('export.pdf');
-
-//     // Sesuaikan kode di atas dengan library atau plugin yang Anda gunakan untuk ekspor PDF
-// }
-
-// public function exportToExcel(Request $request)
-// {
-//     // Ambil data dari request
-//     $tanggalAwal = $request->input('tanggal_awal');
-//     $tanggalAkhir = $request->input('tanggal_akhir');
-//     $ketMakanan = $request->input('ket_makanan');
-
-//     // Lakukan query data sesuai filter
-//     $transaksis = Transaksi::whereBetween('tanggal_transaksi', [$tanggalAwal, $tanggalAkhir])
-//                            ->where('ket_makanan', $ketMakanan)
-//                            ->get();
-
-//     // Export data ke Excel menggunakan library maatwebsite/excel
-//     return Excel::download(new TransaksiExport($transaksis), 'export.xlsx');
-// }
-
 public function exportToPDF(Request $request)
 {
     $paperSize = $request->input('paper_size', 'A4');

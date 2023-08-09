@@ -84,21 +84,21 @@
                     <td style="vertical-align: middle; text-align: center;">{{ $item->diskon_transaksi }} %</td>
                     <td style="vertical-align: middle; text-align: center;">
                         @if(app('request')->route()->getName() !== 'export.excel')
-                            {{ number_format($item->total_harga, 0, ',', '.') }}
+                            {{ number_format($item->total_harga, 2, ',', '.') }}
                         @else
                             {!! $item->total_harga !!}
                         @endif
                     </td>
                     <td style="vertical-align: middle; text-align: center;">
                         @if(app('request')->route()->getName() !== 'export.excel')
-                            {{ number_format($item->total_bayar, 0, ',', '.') }}
+                            {{ number_format($item->total_bayar, 2, ',', '.') }}
                         @else
                             {!! $item->total_bayar !!}
                         @endif
                     </td>
                     <td style="vertical-align: middle; text-align: center;">
                         @if(app('request')->route()->getName() !== 'export.excel')
-                            {{ number_format($item->total_kembalian, 0, ',', '.') }}
+                            {{ number_format($item->total_kembalian, 2, ',', '.') }}
                         @else
                             {!! $item->total_kembalian !!}
                         @endif
@@ -112,7 +112,7 @@
                     <td colspan="7" style="font-size: 13px;">Grand Total</td>
                     <td style="text-align: center; font-size: 13px;">
                         @if(app('request')->route()->getName() !== 'export.excel')
-                            {{ number_format($totalBayar, 0, ',', '.') }}
+                            {{ number_format($totalBayar, 2, ',', '.') }}
                         @else
                             {!! $totalBayar !!}
                         @endif
@@ -120,7 +120,7 @@
                     </td>
                     <td style="text-align: center; font-size: 13px;">
                         @if(app('request')->route()->getName() !== 'export.excel')
-                            {{ number_format($totalKembalian, 0, ',', '.') }}
+                            {{ number_format($totalKembalian, 2, ',', '.') }}
                         @else
                             {!! $totalKembalian !!}
                         @endif

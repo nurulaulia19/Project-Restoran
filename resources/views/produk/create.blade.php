@@ -17,7 +17,7 @@
                 <div id="page-head">         
 					<div class="pad-all text-center">
 						<h3>Welcome back to the Dashboard.</h3>
-						<p>Scroll down to see quick links and overviews of your Server, To do list, Order status or get some Help using Nifty.</p>
+						<p>This is your experience to manage the Resto Application.</p>
 					</div>
                     </div>  
                 <!--Page content-->
@@ -79,13 +79,6 @@
                                                 <span id="diskonError" class="error-message"></span>
                                             </div>
                                         </div>
-                                        {{-- <div class="form-group d-flex mb-3">
-                                            <label class="col-sm-3 control-label" for="diskon_produk">Diskon</label>
-                                            <div class="col-sm-9">
-                                                <input type="number" name="diskon_produk" id="diskon_produk" class="form-control @error('diskon_produk') is-invalid @enderror" value="0" min="0" step="1">
-                                                <span id="diskonError" class="error-message"></span>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                     <div class="panel-footer text-right">
                                         <a href="{{ route('produk.index') }}" class="btn btn-secondary">KEMBALI</a>
@@ -355,9 +348,6 @@
                                             Show my device icon
                                         </li>
                                     </ul>
-
-
-
                                     <hr>
 
                                     <p class="pad-hor text-main text-sm text-uppercase text-bold mar-no">Task Progress</p>

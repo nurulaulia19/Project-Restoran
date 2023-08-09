@@ -19,9 +19,9 @@
                 <div id="page-head">         
 					<div class="pad-all text-center">
 						<h3>Welcome back to the Dashboard.</h3>
-						<p>Scroll down to see quick links and overviews of your Server, To do list, Order status or get some Help using Nifty.</p>
+						<p>This is your experience to manage the Resto Application.</p>
 					</div>
-                    </div>  
+                </div>  
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
@@ -529,7 +529,7 @@
 
 @section('script')
 
-<script>
+{{-- <script>
     // Function to calculate and update total harga based on diskon
     function updateTotalHarga() {
         const diskonInput = document.getElementById('diskon_transaksi');
@@ -592,6 +592,54 @@
         }).format(number);
     }
 
+</script> --}}
+
+<script>
+    // Function to calculate and update total harga based on diskon
+    function updateTotalHarga() {
+        const diskonInput = document.getElementById('diskon_transaksi');
+        const totalHargaInput = document.getElementById('total_harga_input');
+        const totalBayarInput = document.getElementById('total_bayar_input');
+        const totalKembalianInput = document.getElementById('total_kembalian_input');
+
+        const totalSemuaHarga = {{ $totalSemuaHarga }};
+        const diskonValue = diskonInput.value.trim() === '' ? 0 : parseFloat(diskonInput.value);
+        const totalBayarValue = parseFloat(totalBayarInput.value.trim());
+
+        if (isNaN(diskonValue) || diskonValue < 0 || diskonValue > 100) {
+            document.getElementById('diskon_transaksi_error').textContent = 'Diskon harus berada antara 0 dan 100.';
+            totalHargaInput.value = '';
+        } else {
+            document.getElementById('diskon_transaksi_error').textContent = '';
+            const totalHargaSetelahDiskon = totalSemuaHarga * (1 - diskonValue / 100);
+            totalHargaInput.value = formatNumber(totalHargaSetelahDiskon);
+
+            if (!isNaN(totalBayarValue) && totalBayarValue >= totalHargaSetelahDiskon) {
+                const totalKembalian = totalBayarValue - totalHargaSetelahDiskon;
+                totalKembalianInput.value = formatNumber(totalKembalian);
+            } else {
+                totalKembalianInput.value = '';
+            }
+        }
+    }
+    
+    // Add event listeners to diskon_transaksi and total_bayar inputs for real-time updates
+    const diskonInput = document.getElementById('diskon_transaksi');
+    diskonInput.addEventListener('input', updateTotalHarga);
+
+    const totalBayarInput = document.getElementById('total_bayar_input');
+    totalBayarInput.addEventListener('input', updateTotalHarga);
+
+    // Function to format number with thousand separators
+    function formatNumber(number) {
+        return new Intl.NumberFormat('id-ID', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(number);
+    }
+
+    // Initial update when the page loads
+    updateTotalHarga();
 </script>
 
 <script>

@@ -15,9 +15,9 @@
                 <div id="page-head">         
 					<div class="pad-all text-center">
 						<h3>Welcome back to the Dashboard.</h3>
-						<p>Scroll down to see quick links and overviews of your Server, To do list, Order status or get some Help using Nifty.</p>
+						<p>This is your experience to manage the Resto Application.</p>
 					</div>
-                    </div>  
+                </div>  
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
@@ -94,7 +94,7 @@
 					                    </div>
 					                </div>
 					                <div class="media-body">
-					                    <p class="text-2x mar-no text-semibold">{{ number_format($totalHargaProduk, 0, ',', '.') }}</p>
+					                    <p class="text-2x mar-no text-semibold">{{ number_format($totalHargaProduk, 2, ',', '.') }}</p>
 					                    <p class="mar-no">Jumlah Penjualan</p>
 					                </div>
 					            </div>

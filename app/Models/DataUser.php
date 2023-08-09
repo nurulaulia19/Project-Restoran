@@ -34,4 +34,9 @@ class DataUser extends Authenticatable
     {
         return $this->hasMany(Transaksi::class, 'user_id', 'user_id');
     }
+
+    public function updateProfile(array $data)
+    {
+        return $this->update($data);
+    }
 }

@@ -68,7 +68,7 @@
 
 					<!--Shortcut buttons-->
 					<!--================================-->
-					<div id="mainnav-shortcut" class="hidden">
+					{{-- <div id="mainnav-shortcut" class="hidden">
 						<ul class="list-unstyled shortcut-wrap">
 							<li class="col-xs-3" data-content="My Profile">
 								<a class="shortcut-grid" href="#">
@@ -99,7 +99,7 @@
 								</a>
 							</li>
 						</ul>
-					</div>
+					</div> --}}
 					<!--================================-->
 					<!--End shortcut buttons-->
 
@@ -110,15 +110,28 @@
 						<li class="list-header">Navigation</li>
 			
 						<!--Menu list item-->
-						<li class="{{ request()->is('admin/role*','admin/user*') ? 'active-sub' : '' }}">
+						<li class="{{ request()->is('admin/home*') ? 'active-sub' : '' }}">
 							<a href="#">
 								<i class="demo-pli-home"></i>
+								<span class="menu-title">Home</span>
+								<i class="arrow"></i>
+							</a>
+
+								<!--Submenu-->
+								<ul class="collapse {{ request()->is('admin/home*') ? 'in' : '' }}">
+									<li class="{{ request()->is('admin/home*') ? 'active-link' : '' }}"><a href="{{ route('admin.home') }}">Home</a></li>
+								</ul>
+						</li>
+
+						<li class="{{ request()->is('admin/role*','admin/user*') ? 'active-sub' : '' }}">
+							<a href="#">
+								<i class="fas fa-user"></i>
 								<span class="menu-title">Master User</span>
 								<i class="arrow"></i>
 							</a>
 
 								<!--Submenu-->
-								<ul class="collapse in">
+								<ul class="collapse {{ request()->is('admin/role*', 'admin/user*') ? 'in' : '' }}">
 									<li class="{{ request()->is('admin/role*') ? 'active-link' : '' }}"><a href="{{ route('role.index') }}">Role</a></li>
 									<li class="{{ request()->is('admin/user*') ? 'active-link' : '' }}"><a href="{{ route('user.index') }}">User</a></li>
 								</ul>
@@ -127,7 +140,7 @@
 							<!--Menu list item-->
 							<li class="{{ request()->is('admin/menu*') ? 'active-sub' : '' }}">
 								<a href="#">
-									<i class="demo-pli-home"></i>
+									<i class="demo-pli-folder"></i>
 									<span class="menu-title">Master Menu</span>
 									<i class="arrow"></i>
 								</a>
@@ -140,14 +153,14 @@
 
 							<li class="{{ request()->is('admin/transaksi*','admin/produk*','admin/kategori*','admin/aditional*','admin/toko*') ? 'active-sub' : '' }}">
 								<a href="#">
-									<i class="demo-pli-home"></i>
+									<i class="fas fa-utensils"></i>
 									<span class="menu-title">Restoran</span>
 									<i class="arrow"></i>
 								</a>
 
 								<!--Submenu-->
 
-								<ul class="collapse in">
+								<ul class="collapse {{ request()->is('admin/transaksi*', 'admin/produk*', 'admin/kategori*', 'admin/aditional*', 'admin/toko*') ? 'in' : '' }}">
 									<li class="{{ request()->is('admin/transaksi*') ? 'active-link' : '' }}"><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
 									<li class="{{ request()->is('admin/produk*') ? 'active-link' : '' }}"><a href="{{ route('produk.index') }}">Produk</a></li>
 									<li class="{{ request()->is('admin/kategori*') ? 'active-link' : '' }}"><a href="{{ route('kategori.index') }}">Kategori</a></li>
@@ -158,13 +171,13 @@
 
 							<li class="{{ request()->is('admin/laporan/produk*','admin/laporan/transaksi*') ? 'active-sub' : '' }}">
 								<a href="#">
-									<i class="demo-pli-home"></i>
+									<i class="fas fa-file"></i>
 									<span class="menu-title">Laporan</span>
 									<i class="arrow"></i>
 								</a>
 	
 									<!--Submenu-->
-									<ul class="collapse in">
+									<ul class="collapse {{ request()->is('admin/laporan/produk*', 'admin/laporan/transaksi*') ? 'in' : '' }}">
 										<li class="{{ request()->is('admin/laporan/produk*') ? 'active-link' : '' }}"><a href="{{ route('laporan.laporanProduk') }}">Produk</a></li>
 										<li class="{{ request()->is('admin/laporan/transaksi*') ? 'active-link' : '' }}"><a href="{{ route('laporan.laporanTransaksi') }}">Transaksi</a></li>
 									</ul>

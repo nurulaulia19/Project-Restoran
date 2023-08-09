@@ -180,7 +180,20 @@ Route::get('/laporan/eksportProduk', function () {
 
 // Route::get('/chart', [ChartController::class, 'index']);
 
-Route::get('/profil/admin', [ProfilController::class, 'index'])->name('profil.admin');
+// Route::get('/profil/admin', [ProfilController::class, 'index'])->name('profil.admin');
+
+// Route::get('/profil/admin', [DataUserController::class, 'indexProfil'])->name('profil.admin');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profil/edit', [DataUserController::class, 'editProfil'])->name('profil.edit');
+    Route::put('/profil/update', [DataUserController::class, 'updateProfil'])->name('profil.update');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/password/edit', [DataUserController::class, 'editPassword'])->name('password.edit');
+    Route::put('/password/update', [DataUserController::class, 'updatePassword'])->name('password.update');
+});
+
 
 // Route::post('/admin/laporan/eksport', [TransaksiController::class, 'eksport'])->name('laporan.eksport');
 

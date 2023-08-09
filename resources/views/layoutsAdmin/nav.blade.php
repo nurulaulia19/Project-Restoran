@@ -36,7 +36,7 @@
 
                         <!--Search-->
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                        <li>
+                        {{-- <li>
                             <div class="custom-search-form">
                                 <label class="btn btn-trans" for="search-input" data-toggle="collapse" data-target="#nav-searchbox">
                                     <i class="demo-pli-magnifi-glass"></i>
@@ -47,7 +47,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </li>
+                        </li> --}}
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         <!--End Search-->
 
@@ -58,9 +58,9 @@
                         <!--Mega dropdown-->
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         <li class="mega-dropdown">
-                            <a href="#" class="mega-dropdown-toggle">
+                            {{-- <a href="#" class="mega-dropdown-toggle">
                                 <i class="demo-pli-layout-grid"></i>
-                            </a>
+                            </a> --}}
                             <div class="dropdown-menu mega-dropdown-menu">
                                 <div class="row">
                                     <div class="col-sm-4 col-md-3">
@@ -74,7 +74,8 @@
 									        <li><a href="#">Sreen Lock</a></li>
 									        <li><a href="#">Maintenance</a></li>
 									        <li><a href="#">Invoice</a></li>
-									        <li><a href="#" class="disabled">Disabled</a></li>                                        </ul>
+									        <li><a href="#" class="disabled">Disabled</a></li>                                        
+                                        </ul>
 
                                     </div>
                                     <div class="col-sm-4 col-md-3">
@@ -175,10 +176,10 @@
                         <!--Notification dropdown-->
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         <li class="dropdown">
-                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                            {{-- <a href="#" data-toggle="dropdown" class="dropdown-toggle">
                                 <i class="demo-pli-bell"></i>
                                 <span class="badge badge-header badge-danger"></span>
-                            </a>
+                            </a> --}}
 
 
                             <!--Notification dropdown menu-->
@@ -295,9 +296,12 @@
                             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right panel-default">
                                 <ul class="head-list">
                                     <li>
-                                        <a href="{{ route('profil.admin') }}"><i class="demo-pli-male icon-lg icon-fw"></i> Profile</a>
+                                        <a href="{{ route('profil.edit') }}"><i class="demo-pli-male icon-lg icon-fw"></i>Edit Profile</a>
                                     </li>
                                     <li>
+                                        <a href="{{ route('password.edit') }}"><i class="fas fa-lock icon-lg icon-fw"></i>Edit Password</a>
+                                    </li>
+                                    {{-- <li>
                                         <a href="#"><span class="badge badge-danger pull-right">9</span><i class="demo-pli-mail icon-lg icon-fw"></i> Messages</a>
                                     </li>
                                     <li>
@@ -305,7 +309,7 @@
                                     </li>
                                     <li>
                                         <a href="#"><i class="demo-pli-computer-secure icon-lg icon-fw"></i> Lock screen</a>
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <a href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
@@ -321,11 +325,11 @@
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         <!--End user dropdown-->
 
-                        <li>
+                        {{-- <li>
                             <a href="#" class="aside-toggle">
                                 <i class="demo-pli-dot-vertical"></i>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
                 <!--================================-->

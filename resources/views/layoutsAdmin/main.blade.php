@@ -43,11 +43,13 @@
 
 
     <!--Demo [ DEMONSTRATION ]-->
+
+    {{-- ini aku hapuuus --}}
     <link href="{{ asset('assets/css/demo/nifty-demo.min.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('assets/plugins/morris-js/morris.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('assets/plugins/morris-js/morris.min.css') }}" rel="stylesheet"> --}}
 
- 
+    
 
     @yield('style')
 
@@ -89,7 +91,8 @@
 
 	<script src="{{url('assets/js/components/bootstrap.js')}}"></script>
     <!--Demo script [ DEMONSTRATION ]-->
-    <script src="{{ asset('assets/js/demo/nifty-demo.min.js') }}"></script>
+    {{-- ini aku komen --}}
+    {{-- <script src="{{ asset('assets/js/demo/nifty-demo.min.js') }}"></script> --}}
     
     <!--Flot Chart [ OPTIONAL ]-->
     <script src="{{ asset('assets/plugins/flot-charts/jquery.flot.min.js') }}"></script>
