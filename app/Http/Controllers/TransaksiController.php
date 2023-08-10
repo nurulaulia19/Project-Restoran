@@ -380,7 +380,7 @@ public function filterProducts(Request $request, $id_transaksi)
                 'diskon_produk' => $produk->diskon_produk
             ]);
         } else {
-            return back()->with('success', 'Menu edited successfully');
+            return back()->with('success', 'Transaksi Detail edited successfully');
 
 
         }
@@ -412,10 +412,9 @@ public function filterProducts(Request $request, $id_transaksi)
             }
         }
     }
-        return back()->with('success', 'Menu edited successfully');
+        return back()->with('success', 'Transaksi edited successfully');
 
 
-        // return back()->with('success', 'Menu edited successfully');
 
 
     }
@@ -453,7 +452,7 @@ public function filterProducts(Request $request, $id_transaksi)
             
     ]);
 
-    return redirect()->route('transaksi.index')->with('success', 'Menu edited successfully');
+    return redirect()->route('transaksi.index')->with('success', 'Transaksi edited successfully');
     }
 
     /**

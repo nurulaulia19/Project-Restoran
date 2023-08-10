@@ -61,10 +61,11 @@
         <div class="boxed">
           @yield('content')   
           @include('layoutsAdmin.sidebar2')
-        </div>
+        
         <footer id="footer">
           @include('layoutsAdmin.footer')
         </footer>
+      </div>
       </div>
          <!--JAVASCRIPT-->
     <!--=================================================-->
@@ -337,8 +338,9 @@ function updateOverallTotal() {
   overallTotalElement.textContent = formatNumber(totalSemuaHarga);
 
   // Update the value of the input field with the latest overall total harga
+  const totalHargaDiskon = document.getElementById('total_harga_setelah_diskon');
   const totalHargaInput = document.getElementById('total_harga_input');
-  totalHargaInput.value = formatNumber(totalSemuaHarga);
+  totalHargaInput.value = formatNumber(totalSemuaHarga - int(totalHargaDiskon));
 }
 
 // Rest of the JavaScript code (updateTotalPrice and formatNumber functions)
@@ -363,7 +365,7 @@ jumlahProdukInputs.forEach((input) => {
 });
 
 // Calculate the initial overall total harga
-updateOverallTotal();
+// updateOverallTotal();
 </script>
 
 

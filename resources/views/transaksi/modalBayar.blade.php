@@ -66,6 +66,7 @@
                     <div class="form-group d-flex mb-3">
                         <label class="col-sm-3 control-label" for="total_bayar">Total Harga</label>
                         <div class="col-sm-9">
+                            <input type="hidden" id="total_harga_setelah_diskon" value="{{ $totalHargaDiskon}}">
                             <input type="text" placeholder="Total Harga" name="total_harga" id="total_harga_input" class="form-control" value="{{ number_format($totalSemuaHarga, 0, ',', '.') }}">
                             <span id="total_harga_error" class="error-message"></span>
                         </div>

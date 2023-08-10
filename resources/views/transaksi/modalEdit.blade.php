@@ -53,10 +53,14 @@
                             <span id="diskon_transaksi_error" class="error-message"></span>
                         </div>
                     </div>
+                    
+                   
                     <div class="form-group d-flex mb-3">
                         <label class="col-sm-3 control-label" for="total_bayar">Total Harga</label>
                         <div class="col-sm-9">
-                            <input type="text" placeholder="Total Harga" name="total_harga" id="total_harga_input" class="form-control" value="{{ number_format($totalSemuaHarga, 0, ',', '.') }}">
+                            
+                            <input type="hidden" id="total_harga_setelah_diskon" value="{{ $totalHargaDiskon}}">
+                            <input type="text" placeholder="Total Harga" name="total_harga" id="total_harga_input" class="form-control" value="{{ number_format($totalSemuaHarga - $totalHargaDiskon , 0, ',', '.') }}">
                         </div>
                     </div>
                     <div class="form-group d-flex mb-3">

@@ -1,6 +1,6 @@
 <!-- FOOTER -->
         <!--===================================================-->
-        <footer id="footer" style="background-color:">
+        <footer id="footer">
 
             <!-- Visible when footer positions are fixed -->
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->

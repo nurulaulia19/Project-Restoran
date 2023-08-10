@@ -109,6 +109,7 @@
                                                     </thead>
                                                     <tbody>
                                                         @php
+                                                        $totalHargaDiskon=0;
                                                         $totalSemuaHarga = 0; // Variabel untuk menyimpan total harga dari semua totalHargaSetelahDiskon
                                                         @endphp
                                                         @foreach ($dataTransaksiDetail as $item)
@@ -616,81 +617,8 @@
 </script>
 
 
-{{-- dari bapa --}}
-{{-- <script>
-    // Function to calculate and update total harga based on diskon
-    function updateTotalHarga() {
-        const diskonInput = document.getElementById('diskon_transaksi');
-        const totalHargaInput = document.getElementById('total_harga_input');
-
-        const totalSemuaHarga = {{ $totalSemuaHarga }};
-        const diskonValue = diskonInput.value.trim() === '' ? 0 : parseFloat(diskonInput.value);
-
-        if (isNaN(diskonValue) || diskonValue < 0 || diskonValue > 100) {
-            document.getElementById('diskon_transaksi_error').textContent = 'Diskon harus berada antara 0 dan 100.';
-            totalHargaInput.value = '';
-        } else {
-            document.getElementById('diskon_transaksi_error').textContent = '';
-            const totalHargaSetelahDiskon = totalSemuaHarga * (1 - diskonValue / 100);
-            totalHargaInput.value = formatNumber(totalHargaSetelahDiskon);
-        }
-
-        const totalBayarInput = document.getElementById('total_bayar_input');
-        const totalKembalianInput = document.getElementById('total_kembalian_input');
-
-        // const totalSemuaHarga = parseFloat(document.getElementById('total_harga_input').value.replace(/\./g, '').replace(',', '.'));
-        const totalBayarValue = parseFloat(totalBayarInput.value.trim());
-
-        if (isNaN(totalBayarValue) || totalBayarValue < 0) {
-            document.getElementById('total_bayar_error').textContent = 'Total Bayar harus angka positif.';
-            totalKembalianInput.value = '';
-        } else {
-            document.getElementById('total_bayar_error').textContent = '';
-            const totalKembalian = totalBayarValue - totalSemuaHarga;
-            totalKembalianInput.value = formatNumber(totalKembalian);
-        }
-    }
-    
-
-    // Add event listener to diskon_transaksi input for real-time updates
-    const diskonInput = document.getElementById('diskon_transaksi');
-    diskonInput.addEventListener('input', updateTotalHarga);
-
-    const totalBayarInput = document.getElementById('total_bayar_input');
-    totalBayarInput.addEventListener('input', updateTotalHarga);
-
-    // Function to format number with thousand separators
-    function formatNumber(number) {
-        return new Intl.NumberFormat('id-ID', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        }).format(number);
-    }
-</script> --}}
-
 {{-- awas yaa --}}
 <script>
-    // Function to calculate and update total kembalian based on total bayar
-    // function updateTotalKembalian() {
-    //     const totalBayarInput = document.getElementById('total_bayar_input');
-    //     const totalKembalianInput = document.getElementById('total_kembalian_input');
-
-    //     const totalSemuaHarga = parseFloat(document.getElementById('total_harga_input').value.replace(/\./g, '').replace(',', '.'));
-    //     const totalBayarValue = parseFloat(totalBayarInput.value.trim());
-
-    //     if (isNaN(totalBayarValue) || totalBayarValue < 0) {
-    //         document.getElementById('total_bayar_error').textContent = 'Total Bayar harus angka positif.';
-    //         totalKembalianInput.value = '';
-    //     } else {
-    //         document.getElementById('total_bayar_error').textContent = '';
-    //         const totalKembalian = totalBayarValue - totalSemuaHarga;
-    //         totalKembalianInput.value = formatNumber(totalKembalian);
-    //     }
-    // }
-
-    // Add event listener to total_bayar input for real-time updates
-    // const totalBayarInput = document.getElementById('total_bayar_input');
-    // totalBayarInput.addEventListener('input', updateTotalKembalian);
 
     // Function to format number with thousand separators
     function formatNumber(number) {
@@ -831,11 +759,6 @@
         form.submit();
     }
 </script>
-
-
-
-
-
 
 @endsection
 
