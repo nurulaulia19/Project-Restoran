@@ -9,6 +9,7 @@ class Data_Menu extends Model
 {
     use HasFactory;
     public $table = "data_menu";
+    protected $primaryKey = 'menu_id';
     protected $fillable = [
             'menu_id',
             'menu_name',

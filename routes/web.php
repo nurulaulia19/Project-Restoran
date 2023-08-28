@@ -79,9 +79,13 @@ Route::get('/admin/user', function () {
     return view('user');
 });
 
+
 Route::get('/admin/menu/create', [MenuController::class, 'create'])->name('menu.create');
 Route::post('/menu/store', [MenuController::class, 'store']);
+// Route::get('/admin/menu', [MenuController::class,'index'])->name('menu.index');
+// Route::get('/admin/menu', [MenuController::class,'index'])->name('menu.index');
 Route::get('/admin/menu', [MenuController::class,'index'])->name('menu.index');
+
 Route::get('/admin/menu/destroy/{id}', [MenuController::class,'destroy'])->name('menu.destroy');
 Route::get('/admin/menu/edit/{id}', [MenuController::class, 'edit'])->name('menu.edit');
 Route::put('/admin/menu/update/{id}', [MenuController::class, 'update'])->name('menu.update');

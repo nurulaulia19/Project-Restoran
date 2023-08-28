@@ -109,15 +109,14 @@
 						<!--Category name-->
 						<li class="list-header">Navigation</li>
 			
-						<!--Menu list item-->
-						<li class="{{ request()->is('admin/home*') ? 'active-sub' : '' }}">
+						
+						{{-- <li class="{{ request()->is('admin/home*') ? 'active-sub' : '' }}">
 							<a href="#">
 								<i class="demo-pli-home"></i>
 								<span class="menu-title">Home</span>
 								<i class="arrow"></i>
 							</a>
 
-								<!--Submenu-->
 								<ul class="collapse {{ request()->is('admin/home*') ? 'in' : '' }}">
 									<li class="{{ request()->is('admin/home*') ? 'active-link' : '' }}"><a href="{{ route('admin.home') }}">Home</a></li>
 								</ul>
@@ -130,14 +129,14 @@
 								<i class="arrow"></i>
 							</a>
 
-								<!--Submenu-->
+								
 								<ul class="collapse {{ request()->is('admin/role*', 'admin/user*') ? 'in' : '' }}">
 									<li class="{{ request()->is('admin/role*') ? 'active-link' : '' }}"><a href="{{ route('role.index') }}">Role</a></li>
 									<li class="{{ request()->is('admin/user*') ? 'active-link' : '' }}"><a href="{{ route('user.index') }}">User</a></li>
 								</ul>
 						</li>
 
-							<!--Menu list item-->
+						
 							<li class="{{ request()->is('admin/menu*') ? 'active-sub' : '' }}">
 								<a href="#">
 									<i class="demo-pli-folder"></i>
@@ -145,7 +144,7 @@
 									<i class="arrow"></i>
 								</a>
 							
-								<!--Submenu-->
+								
 								<ul class="collapse {{ request()->is('admin/menu*') ? 'in' : '' }}">
 									<li class="{{ request()->is('admin/menu') ? 'active-link' : '' }}"><a href="{{ route('menu.index') }}">Menu</a></li>
 								</ul>
@@ -158,7 +157,7 @@
 									<i class="arrow"></i>
 								</a>
 
-								<!--Submenu-->
+								
 
 								<ul class="collapse {{ request()->is('admin/transaksi*', 'admin/produk*', 'admin/kategori*', 'admin/aditional*', 'admin/toko*') ? 'in' : '' }}">
 									<li class="{{ request()->is('admin/transaksi*') ? 'active-link' : '' }}"><a href="{{ route('transaksi.index') }}">Transaksi</a></li>
@@ -176,12 +175,67 @@
 									<i class="arrow"></i>
 								</a>
 	
-									<!--Submenu-->
+									
 									<ul class="collapse {{ request()->is('admin/laporan/produk*', 'admin/laporan/transaksi*') ? 'in' : '' }}">
 										<li class="{{ request()->is('admin/laporan/produk*') ? 'active-link' : '' }}"><a href="{{ route('laporan.laporanProduk') }}">Produk</a></li>
 										<li class="{{ request()->is('admin/laporan/transaksi*') ? 'active-link' : '' }}"><a href="{{ route('laporan.laporanTransaksi') }}">Transaksi</a></li>
 									</ul>
+							</li> --}}
+
+							@php
+								$iconsByMenuName = [
+									'Home' => 'fas fa-home',
+									'Master User' => 'fas fa-user',
+									'Master Menu' => 'fas fa-folder',
+									'Restoran' => 'fas fa-utensils',
+									'Laporan' => 'fas fa-file',
+									
+
+									// Tambahkan asosiasi lain di sini sesuai dengan nama dan ikon yang sesuai
+								];
+
+							@endphp
+
+							@foreach ($menuItemsWithSubmenus as $menuItem)
+							@php
+								$isSubMenuActive = false;
+
+								foreach ($menuItem['subMenus'] as $subMenu) {
+									if (request()->is($subMenu->menu_link) || request()->routeIs($subMenu->menu_link)) {
+										$isSubMenuActive = true;
+										break;
+									}
+								}
+							@endphp
+
+							<li class="{{ $isSubMenuActive ? 'active-sub' : '' }}">
+								<a href="#">
+									@if (isset($iconsByMenuName[$menuItem['mainMenu']->menu_name]))
+										<i class="{{ $iconsByMenuName[$menuItem['mainMenu']->menu_name] }}"></i>
+									@else
+										<i class="fas fa-home"></i> <!-- Ini adalah contoh ikon default -->
+									@endif
+									<span class="menu-title">{{ $menuItem['mainMenu']->menu_name }}</span>
+									<i class="arrow"></i>
+								</a>
+								@if ($menuItem['subMenus']->count() > 0)
+									<ul class="collapse {{ $isSubMenuActive ? 'in' : '' }}">
+										@foreach ($menuItem['subMenus'] as $subMenu)
+											<li class="{{ request()->is($subMenu->menu_link) || request()->routeIs($subMenu->menu_link) ? 'active-link' : '' }}">
+												<a href="{{ route($subMenu->menu_link) }}">
+													{{ $subMenu->menu_name }}
+												</a>
+												{{-- <a href="{{ route($subMenu->menu_link, ['menu_id' => $subMenu->menu_id]) }}">
+													{{ $subMenu->menu_name }}
+												</a> --}}
+												
+											</li>
+										@endforeach
+									</ul>
+								@endif
 							</li>
+							@endforeach
+						</ul>
 				</div>
 			</div>
 		</div>

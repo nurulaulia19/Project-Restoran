@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 // namespace App\Http\Controllers\DataProduk;
 use Illuminate\Support\Facades\View;
 use App\Models\DataUser;
+use App\Models\Data_Menu;
+use App\Models\RoleMenu;
 use App\Models\Kategori;
 use App\Models\Transaksi;
 use App\Models\DataProduk;
@@ -34,7 +36,33 @@ class TransaksiController extends Controller
         
         $dataTransaksi = Transaksi::with('user')->orderBy('id_transaksi', 'DESC')->paginate(10);
         // $dataTransaksi = Transaksi::with('user')->get();
-        return view('transaksi.index', compact('dataTransaksi'));
+
+        $user_id = auth()->user()->user_id; // Use 'user_id' instead of 'id'
+
+        $user = DataUser::find($user_id);
+        $role_id = $user->role_id;
+
+        $menu_ids = RoleMenu::where('role_id', $role_id)->pluck('menu_id');
+
+        $mainMenus = Data_Menu::where('menu_category', 'master menu')
+            ->whereIn('menu_id', $menu_ids)
+            ->get();
+
+        $menuItemsWithSubmenus = [];
+
+        foreach ($mainMenus as $mainMenu) {
+            $subMenus = Data_Menu::where('menu_sub', $mainMenu->menu_id)
+                ->where('menu_category', 'sub menu')
+                ->whereIn('menu_id', $menu_ids)
+                ->orderBy('menu_position')
+                ->get();
+
+            $menuItemsWithSubmenus[] = [
+                'mainMenu' => $mainMenu,
+                'subMenus' => $subMenus,
+            ];
+        }
+        return view('transaksi.index', compact('dataTransaksi','menuItemsWithSubmenus'));
     }
 
     /**
@@ -74,7 +102,33 @@ class TransaksiController extends Controller
     // }
         
         // $dataTransaksiDetail = TransaksiDetail::with('produk')->get();
-        return view('transaksi.create', compact('dataTransaksi','dataUser','dataProduk','dataAditional','dataTransaksiDetail','dataKategori','selectedKategoriId'));
+
+        $user_id = auth()->user()->user_id; // Use 'user_id' instead of 'id'
+
+        $user = DataUser::find($user_id);
+        $role_id = $user->role_id;
+
+        $menu_ids = RoleMenu::where('role_id', $role_id)->pluck('menu_id');
+
+        $mainMenus = Data_Menu::where('menu_category', 'master menu')
+            ->whereIn('menu_id', $menu_ids)
+            ->get();
+
+        $menuItemsWithSubmenus = [];
+
+        foreach ($mainMenus as $mainMenu) {
+            $subMenus = Data_Menu::where('menu_sub', $mainMenu->menu_id)
+                ->where('menu_category', 'sub menu')
+                ->whereIn('menu_id', $menu_ids)
+                ->orderBy('menu_position')
+                ->get();
+
+            $menuItemsWithSubmenus[] = [
+                'mainMenu' => $mainMenu,
+                'subMenus' => $subMenus,
+            ];
+        }
+        return view('transaksi.create', compact('dataTransaksi','dataUser','dataProduk','dataAditional','dataTransaksiDetail','dataKategori','selectedKategoriId','menuItemsWithSubmenus'));
     }
 
     /**
@@ -217,8 +271,34 @@ public function searchProducts(Request $request)
         ->get();
     $dataUser = DataUser::all();
 
+
+    $user_id = auth()->user()->user_id; // Use 'user_id' instead of 'id'
+
+        $user = DataUser::find($user_id);
+        $role_id = $user->role_id;
+
+        $menu_ids = RoleMenu::where('role_id', $role_id)->pluck('menu_id');
+
+        $mainMenus = Data_Menu::where('menu_category', 'master menu')
+            ->whereIn('menu_id', $menu_ids)
+            ->get();
+
+        $menuItemsWithSubmenus = [];
+
+        foreach ($mainMenus as $mainMenu) {
+            $subMenus = Data_Menu::where('menu_sub', $mainMenu->menu_id)
+                ->where('menu_category', 'sub menu')
+                ->whereIn('menu_id', $menu_ids)
+                ->orderBy('menu_position')
+                ->get();
+
+            $menuItemsWithSubmenus[] = [
+                'mainMenu' => $mainMenu,
+                'subMenus' => $subMenus,
+            ];
+        }
     
-    return view('transaksi.create', compact('dataProduk', 'dataKategori', 'dataAditional', 'dataTransaksiDetail', 'dataUser', 'selectedKategoriId'));
+    return view('transaksi.create', compact('dataProduk', 'dataKategori', 'dataAditional', 'dataTransaksiDetail', 'dataUser', 'selectedKategoriId','menuItemsWithSubmenus'));
 }
 
 public function search(Request $request, $id_transaksi)
@@ -247,7 +327,33 @@ public function search(Request $request, $id_transaksi)
         $dataTransaksi = Transaksi::find($request->id_transaksi);
        
 
-        return view('transaksi.update', compact('dataProduk', 'dataKategori', 'dataAditional', 'dataTransaksiDetail', 'dataUser', 'selectedKategoriId','dataTransaksi'));
+        $user_id = auth()->user()->user_id; // Use 'user_id' instead of 'id'
+
+        $user = DataUser::find($user_id);
+        $role_id = $user->role_id;
+
+        $menu_ids = RoleMenu::where('role_id', $role_id)->pluck('menu_id');
+
+        $mainMenus = Data_Menu::where('menu_category', 'master menu')
+            ->whereIn('menu_id', $menu_ids)
+            ->get();
+
+        $menuItemsWithSubmenus = [];
+
+        foreach ($mainMenus as $mainMenu) {
+            $subMenus = Data_Menu::where('menu_sub', $mainMenu->menu_id)
+                ->where('menu_category', 'sub menu')
+                ->whereIn('menu_id', $menu_ids)
+                ->orderBy('menu_position')
+                ->get();
+
+            $menuItemsWithSubmenus[] = [
+                'mainMenu' => $mainMenu,
+                'subMenus' => $subMenus,
+            ];
+        }
+
+        return view('transaksi.update', compact('dataProduk', 'dataKategori', 'dataAditional', 'dataTransaksiDetail', 'dataUser', 'selectedKategoriId','dataTransaksi','menuItemsWithSubmenus'));
     }
 
 
@@ -292,7 +398,32 @@ public function filterProducts(Request $request, $id_transaksi)
     $dataTransaksi = Transaksi::find($request->id_transaksi);
 
 
-    return view('transaksi.update', compact('dataProduk', 'dataKategori', 'dataAditional', 'dataTransaksiDetail', 'dataUser', 'selectedKategoriId','dataTransaksi'));
+    $user_id = auth()->user()->user_id; // Use 'user_id' instead of 'id'
+
+        $user = DataUser::find($user_id);
+        $role_id = $user->role_id;
+
+        $menu_ids = RoleMenu::where('role_id', $role_id)->pluck('menu_id');
+
+        $mainMenus = Data_Menu::where('menu_category', 'master menu')
+            ->whereIn('menu_id', $menu_ids)
+            ->get();
+
+        $menuItemsWithSubmenus = [];
+
+        foreach ($mainMenus as $mainMenu) {
+            $subMenus = Data_Menu::where('menu_sub', $mainMenu->menu_id)
+                ->where('menu_category', 'sub menu')
+                ->whereIn('menu_id', $menu_ids)
+                ->orderBy('menu_position')
+                ->get();
+
+            $menuItemsWithSubmenus[] = [
+                'mainMenu' => $mainMenu,
+                'subMenus' => $subMenus,
+            ];
+        }
+    return view('transaksi.update', compact('dataProduk', 'dataKategori', 'dataAditional', 'dataTransaksiDetail', 'dataUser', 'selectedKategoriId','dataTransaksi','menuItemsWithSubmenus'));
 }
 
 
@@ -331,10 +462,36 @@ public function filterProducts(Request $request, $id_transaksi)
         $dataTransaksiDetail = TransaksiDetail::where('id_transaksi', NULL)->with('transaksiDetailAditional', 'AditionalProduk', 'transaksi')->get();
 
 
-            // $dataProduk = DataProduk::all();
-            $dataTransaksiDetail = TransaksiDetail::where('id_transaksi', $id_transaksi)->get(); // Add a semicolon at the end of this line
-            $dataTransaksi = Transaksi::where('id_transaksi', $id_transaksi)->first();
-            return view('transaksi.update', compact('dataTransaksiDetail','dataProduk','dataTransaksi','dataKategori','selectedKategoriId'));
+        // $dataProduk = DataProduk::all();
+        $dataTransaksiDetail = TransaksiDetail::where('id_transaksi', $id_transaksi)->get(); // Add a semicolon at the end of this line
+        $dataTransaksi = Transaksi::where('id_transaksi', $id_transaksi)->first();
+
+
+        $user_id = auth()->user()->user_id; // Use 'user_id' instead of 'id'
+        $user = DataUser::find($user_id);
+        $role_id = $user->role_id;
+
+        $menu_ids = RoleMenu::where('role_id', $role_id)->pluck('menu_id');
+
+        $mainMenus = Data_Menu::where('menu_category', 'master menu')
+            ->whereIn('menu_id', $menu_ids)
+            ->get();
+
+        $menuItemsWithSubmenus = [];
+
+        foreach ($mainMenus as $mainMenu) {
+            $subMenus = Data_Menu::where('menu_sub', $mainMenu->menu_id)
+                ->where('menu_category', 'sub menu')
+                ->whereIn('menu_id', $menu_ids)
+                ->orderBy('menu_position')
+                ->get();
+
+            $menuItemsWithSubmenus[] = [
+                'mainMenu' => $mainMenu,
+                'subMenus' => $subMenus,
+            ];
+        }
+            return view('transaksi.update', compact('dataTransaksiDetail','dataProduk','dataTransaksi','dataKategori','selectedKategoriId','menuItemsWithSubmenus'));
         }
 
 
@@ -544,7 +701,43 @@ public function laporanTransaksi(Request $request) {
 
     $dataTransaksi = $query->paginate(10);
 
-    return view('laporan.laporanTransaksi', compact('dataTransaksi','totalBayar','totalKembalian'));
+
+    
+    $user_id = auth()->user()->user_id;
+    $user = DataUser::findOrFail($user_id);
+    $menu_ids = $user->role->roleMenus->pluck('menu_id');
+    
+    $menu_route_name = request()->route()->getName(); // Nama route dari URL yang diminta
+    
+    // Ambil menu berdasarkan menu_link yang sesuai dengan nama route
+    $requested_menu = Data_Menu::where('menu_link', $menu_route_name)->first();
+    // dd($requested_menu);
+    
+    // Periksa izin akses berdasarkan menu_id dan user_id
+    if (!$requested_menu || !$menu_ids->contains($requested_menu->menu_id)) {
+        return redirect()->back()->with('error', 'You do not have permission to access this menu.');
+    }
+
+        $mainMenus = Data_Menu::where('menu_category', 'master menu')
+            ->whereIn('menu_id', $menu_ids)
+            ->get();
+
+        $menuItemsWithSubmenus = [];
+
+        foreach ($mainMenus as $mainMenu) {
+            $subMenus = Data_Menu::where('menu_sub', $mainMenu->menu_id)
+                ->where('menu_category', 'sub menu')
+                ->whereIn('menu_id', $menu_ids)
+                ->orderBy('menu_position')
+                ->get();
+
+            $menuItemsWithSubmenus[] = [
+                'mainMenu' => $mainMenu,
+                'subMenus' => $subMenus,
+            ];
+        }
+
+    return view('laporan.laporanTransaksi', compact('dataTransaksi','totalBayar','totalKembalian','menuItemsWithSubmenus','menu_ids'));
 }
 
 

@@ -72,6 +72,11 @@
                                             <button type="submit" onclick="validateForm(event)" class="btn btn-primary">SIMPAN</button>
                                         </div>
                                     </div>
+                                    @if(session('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
                                     @if(session('success'))
                                     <div class="alert alert-info">
                                         {{ session('success') }}
