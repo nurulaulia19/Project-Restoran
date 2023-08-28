@@ -34,10 +34,10 @@
                                     </span>
                                 @enderror
 		                </div>
-		                <div class="checkbox pad-btm text-left">
-		                    {{-- <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
-		                    <label for="demo-form-checkbox">Remember me</label> --}}
-		                </div>
+		                {{-- <div class="checkbox pad-btm text-left">
+		                    <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
+		                    <label for="demo-form-checkbox">Remember me</label>
+		                </div> --}}
 		                <button class="btn btn-primary btn-lg btn-block" type="submit">Sign In</button>
 		            </form>
 		        </div>
