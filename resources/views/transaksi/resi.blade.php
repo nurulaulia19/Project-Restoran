@@ -135,7 +135,7 @@
         <div class="resi-container">
             <div class="resi-header">
                 @foreach($dataToko as $toko)
-                    <img style="width: 50px; height: 50px; margin-bottom: 0px;" src="{{ asset('storage/photos/'.basename($toko->logo)) }}" alt="Logo Toko">
+                    <img style="width: 55px; height: 35px; margin-bottom: 0px; margin-top:10px" src="{{ asset('storage/photos/'.basename($toko->logo)) }}" alt="Logo Toko">
                 @endforeach
             </div>
             <div class="resi-header-toko">
