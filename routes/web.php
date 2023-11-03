@@ -34,13 +34,16 @@ use App\Models\TransaksiDetail;
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// yang bener
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('Adminlogin'); // Menggunakan nama rute 'login'.
 });
 
-// Route::get('/admin/dashboard', function () {
-//     return view('dashboard');
-// });
+
 Route::get('/admin/dashboard2', function () {
     return view('admin/dashboard2');
 });
