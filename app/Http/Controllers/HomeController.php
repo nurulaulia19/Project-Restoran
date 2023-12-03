@@ -63,13 +63,14 @@ class HomeController extends Controller
             $totals[] = $transaksi ? $transaksi->total : 0;
         }
 
-       
+        $today = now();
+        $month = $today->month;
     
-        $jumlahTransaksi = Transaksi::count();
+        $jumlahTransaksi = Transaksi::whereMonth('created_at', $month)->count();
         $jumlahProduk = DataProduk::count();
         $jumlahKategori = Kategori::count();
         $jumlahAditional = AditionalProduk::count();
-        $totalHargaProduk = Transaksi::sum('total_harga');
+        $totalHargaProduk = Transaksi::whereMonth('created_at', $month)->sum('total_harga');
 
 
         $user_id = auth()->user()->user_id;
