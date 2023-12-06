@@ -102,7 +102,7 @@ class RoleController extends Controller
         ]);
     }
 
-    return redirect()->route('role.index')->with('error', 'Failed to insert role');
+    return redirect()->route('role.index')->with('success', 'Role insert successfully');
 }
     
     /**
